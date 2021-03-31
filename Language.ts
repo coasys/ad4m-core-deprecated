@@ -120,7 +120,7 @@ export interface LinksAdapter {
     updateLink(oldLinkExpression: Expression, newLinkExpression: Expression);
     removeLink(link: Expression);
 
-    getLinks(query: LinkQuery): Promise<Expression[]>;
+    getLinks(query: LinkQuery, from?: Date, until?: Date): Promise<Expression[]>;
 
     // Get push notified by added links
     addCallback(callback: NewLinksObserver);
