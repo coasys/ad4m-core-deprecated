@@ -30,7 +30,6 @@ export default class SharedPerspective {
     linkLanguages: LanguageRef[]
     allowedExpressionLanguages: Address[]
     requiredExpressionLanguages: Address[]
-    sharedExpressionLanguages: LanguageRef[]
 
     constructor(name: string, description: string, type: SharingType) {
         this.name = name
