@@ -19,5 +19,8 @@
   "dependencies": {
     "@types/jest": "^26.0.15",
     "@types/mocha": "^8.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
   }
 }
