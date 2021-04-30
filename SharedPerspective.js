@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.sharingTypeFromString = exports.SharingType = void 0;
 var SharingType;
 (function (SharingType) {
@@ -22,12 +22,12 @@ function sharingTypeFromString(str) {
         case 'holochainChannel':
             return SharingType.HolochainChannel;
         default:
-            throw new Error(`Not a SharingType string: ${str}`);
+            throw new Error("Not a SharingType string: " + str);
     }
 }
 exports.sharingTypeFromString = sharingTypeFromString;
-class SharedPerspective {
-    constructor(name, description, type) {
+var SharedPerspective = /** @class */ (function () {
+    function SharedPerspective(name, description, type) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -35,5 +35,6 @@ class SharedPerspective {
         this.allowedExpressionLanguages = [];
         this.requiredExpressionLanguages = [];
     }
-}
-exports.default = SharedPerspective;
+    return SharedPerspective;
+}());
+exports["default"] = SharedPerspective;

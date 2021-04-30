@@ -1,6 +1,9 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 // Unique Language ID with option type
-class LanguageRef {
-}
-exports.default = LanguageRef;
+var LanguageRef = /** @class */ (function () {
+    function LanguageRef() {
+    }
+    return LanguageRef;
+}());
+exports["default"] = LanguageRef;

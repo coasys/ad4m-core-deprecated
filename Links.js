@@ -1,16 +1,17 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.hashLinkExpression = exports.isLink = exports.linkEqual = exports.LinkQuery = void 0;
-class Link {
-    constructor(obj) {
+var Link = /** @class */ (function () {
+    function Link(obj) {
         this.source = obj.source ? obj.source : '';
         this.target = obj.target ? obj.target : '';
         this.predicate = obj.predicate ? obj.predicate : '';
     }
-}
-exports.default = Link;
-class LinkQuery {
-    constructor(obj) {
+    return Link;
+}());
+exports["default"] = Link;
+var LinkQuery = /** @class */ (function () {
+    function LinkQuery(obj) {
         if (obj) {
             // @ts-ignore
             this.source = obj.source;
@@ -20,7 +21,7 @@ class LinkQuery {
             this.target = obj.target;
         }
     }
-    isMatch(l) {
+    LinkQuery.prototype.isMatch = function (l) {
         if (this.source)
             if (this.source !== l.source)
                 return false;
@@ -31,8 +32,9 @@ class LinkQuery {
             if (this.target !== l.target)
                 return false;
         return true;
-    }
-}
+    };
+    return LinkQuery;
+}());
 exports.LinkQuery = LinkQuery;
 function linkEqual(l1, l2) {
     return l1.author.did == l2.author.did &&
@@ -50,9 +52,9 @@ function isLink(l) {
 }
 exports.isLink = isLink;
 function hashLinkExpression(link) {
-    const mash = JSON.stringify(link.data, Object.keys(link.data).sort()) +
+    var mash = JSON.stringify(link.data, Object.keys(link.data).sort()) +
         JSON.stringify(link.author) + link.timestamp;
-    let hash = 0, i, chr;
+    var hash = 0, i, chr;
     for (i = 0; i < mash.length; i++) {
         chr = mash.charCodeAt(i);
         hash = ((hash << 5) - hash) + chr;

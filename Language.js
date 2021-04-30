@@ -1,12 +1,21 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.TelepresenceRpcCall = exports.OnlineAgent = exports.InteractionCall = void 0;
-class InteractionCall {
-}
+var InteractionCall = /** @class */ (function () {
+    function InteractionCall() {
+    }
+    return InteractionCall;
+}());
 exports.InteractionCall = InteractionCall;
-class OnlineAgent {
-}
+var OnlineAgent = /** @class */ (function () {
+    function OnlineAgent() {
+    }
+    return OnlineAgent;
+}());
 exports.OnlineAgent = OnlineAgent;
-class TelepresenceRpcCall {
-}
+var TelepresenceRpcCall = /** @class */ (function () {
+    function TelepresenceRpcCall() {
+    }
+    return TelepresenceRpcCall;
+}());
 exports.TelepresenceRpcCall = TelepresenceRpcCall;

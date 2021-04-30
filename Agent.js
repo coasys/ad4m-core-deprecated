@@ -1,8 +1,9 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Agent {
-    constructor(did) {
+exports.__esModule = true;
+var Agent = /** @class */ (function () {
+    function Agent(did) {
         this.did = did;
     }
-}
-exports.default = Agent;
+    return Agent;
+}());
+exports["default"] = Agent;

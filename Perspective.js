@@ -1,5 +1,8 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Perspective {
-}
-exports.default = Perspective;
+exports.__esModule = true;
+var Perspective = /** @class */ (function () {
+    function Perspective() {
+    }
+    return Perspective;
+}());
+exports["default"] = Perspective;
