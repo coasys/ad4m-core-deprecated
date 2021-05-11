@@ -18,7 +18,7 @@ export class LinkQuery {
     target?: string;
     predicate?: string;
     from?: Date;
-    to?: Date;
+    until?: Date;
 
     constructor(obj: object) {
         if(obj) {
@@ -34,9 +34,9 @@ export class LinkQuery {
                 this.from = obj.from;
             };
             // @ts-ignore
-            if (obj.to) {
+            if (obj.until) {
                 // @ts-ignore
-                this.to = obj.to;
+                this.until = obj.until;
             }
         }
     }
