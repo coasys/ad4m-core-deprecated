@@ -56,6 +56,6 @@ The latter means creating RDF/semantic web style triplets that associate express
 
 There are 3 ways to use AD4M right now:
 
-1. Directly use [Perspect3ve](https://github.com/lucksus/perspectivism) with its general purpose UI to manually create, link and share graphs of expressions of arbitrary type
-2. Only use Perspectivism's [core engine](https://github.com/lucksus/perspectivism/tree/master/src/core) without UI and connect your own UI via Perspectivism's [AD4M GraphQL interface](https://github.com/lucksus/perspectivism/blob/master/src/core/graphQL-interface/GraphQL.ts) but run the exact same code for driving Agents, Languages and Perspectives
+1. Directly use [Perspect3ve](https://github.com/perspect3vism/perspect3ve) with its general purpose UI to manually create, link and share graphs of expressions of arbitrary type
+2. Just use the [AD4M executor](https://github.com/perspect3vism/ad4m-executor) which is the core engine and AD4M runtime used in Perspect3ve and connect your own UI via its [AD4M GraphQL interface](https://github.com/perspect3vism/ad4m-executor/blob/main/src/core/graphQL-interface/GraphQL.ts) but run the exact same code for driving Agents, Languages and Perspectives
 3. Just understand the paradigm shift to a complete agent-centric meta-ontology that AD4M represents und apply it to your otherwise unrelated code base. Making your code interoperable with other AD4M implementations will be possible just by wrapping Languages
