@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-exports.ExpressionProof = exports.isExpression = void 0;
 var Agent_1 = require("./Agent");
 var Expression = /** @class */ (function () {
     function Expression() {

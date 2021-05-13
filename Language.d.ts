@@ -53,7 +53,7 @@ export interface LinksAdapter {
     addLink(linkExpression: Expression): any;
     updateLink(oldLinkExpression: Expression, newLinkExpression: Expression): any;
     removeLink(link: Expression): any;
-    getLinks(query: LinkQuery, from?: Date, until?: Date): Promise<Expression[]>;
+    getLinks(query: LinkQuery): Promise<Expression[]>;
     addCallback(callback: NewLinksObserver): any;
 }
 export interface DirectMessageAdapter {

@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-exports.parseExprURL = exports.exprRef2String = void 0;
 var LanguageRef_1 = require("./LanguageRef");
 // Expression address + unique Language ID = global expression URL
 var ExpressionRef = /** @class */ (function () {

@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-exports.sharingTypeFromString = exports.SharingType = void 0;
 var SharingType;
 (function (SharingType) {
     SharingType["Broadcast"] = "broadcast";
