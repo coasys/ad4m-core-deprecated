@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+exports.hashLinkExpression = exports.isLink = exports.linkEqual = exports.LinkQuery = void 0;
 var Link = /** @class */ (function () {
     function Link(obj) {
         this.source = obj.source ? obj.source : '';
