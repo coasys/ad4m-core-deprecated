@@ -19,6 +19,17 @@ var LinkQuery = /** @class */ (function () {
             this.predicate = obj.predicate;
             // @ts-ignore
             this.target = obj.target;
+            // @ts-ignore
+            if (obj.fromDate) {
+                // @ts-ignore
+                this.fromDate = obj.fromDate;
+            }
+            ;
+            // @ts-ignore
+            if (obj.untilDate) {
+                // @ts-ignore
+                this.untilDate = obj.untilDate;
+            }
         }
     }
     LinkQuery.prototype.isMatch = function (l) {

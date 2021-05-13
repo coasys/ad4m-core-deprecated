@@ -17,6 +17,8 @@ export class LinkQuery {
     source?: string;
     target?: string;
     predicate?: string;
+    fromDate?: Date;
+    untilDate?: Date;
 
     constructor(obj: object) {
         if(obj) {
@@ -26,6 +28,16 @@ export class LinkQuery {
             this.predicate = obj.predicate
             // @ts-ignore
             this.target = obj.target
+            // @ts-ignore
+            if(obj.fromDate) {
+                // @ts-ignore
+                this.fromDate = obj.fromDate;
+            };
+            // @ts-ignore
+            if (obj.untilDate) {
+                // @ts-ignore
+                this.untilDate = obj.untilDate;
+            }
         }
     }
 
