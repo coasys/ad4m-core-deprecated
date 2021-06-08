@@ -27,6 +27,7 @@
   },
   "homepage": "https://ad4m.dev",
   "dependencies": {
+    "@holochain/conductor-api": "0.0.4",
     "@types/jest": "^26.0.15",
     "@types/mocha": "^8.0.3"
   },

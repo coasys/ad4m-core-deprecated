@@ -21,3 +21,4 @@ __exportStar(require("./Links"), exports);
 __exportStar(require("./Perspective"), exports);
 __exportStar(require("./SharedPerspective"), exports);
 __exportStar(require("./SignaturesService"), exports);
+__exportStar(require("./LanguageContext"), exports);

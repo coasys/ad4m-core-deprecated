@@ -9,3 +9,4 @@ export * from "./Links";
 export * from "./Perspective";
 export * from "./SharedPerspective";
 export * from "./SignaturesService";
+export * from "./LanguageContext";
