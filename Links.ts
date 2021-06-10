@@ -59,7 +59,7 @@ export class LinkQuery {
 }
 
 export function linkEqual(l1: Expression, l2: Expression): boolean {
-    return l1.author.did == l2.author.did &&
+    return l1.author == l2.author &&
         l1.timestamp == l2.timestamp &&
         // @ts-ignore
         l1.data.source == l2.data.source &&
