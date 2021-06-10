@@ -1,16 +1,10 @@
 import Agent from './Agent'
-
+import DID from './DID'
 export default class Expression {
-    author: Agent;
+    author: DID;
     timestamp: string;
     data: object;
     proof: ExpressionProof;
-
-    constructor() {
-        this.author = new Agent("anonymous")
-        this.timestamp = "never"
-        this.data = {}
-    }
 }
 
 export function isExpression(e: any): boolean {
