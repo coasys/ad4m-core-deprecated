@@ -1,5 +1,6 @@
 import type Address from './Address';
 import type Agent from './Agent';
+import DID from './DID';
 import type Expression from './Expression';
 import type { LinkQuery } from './Links';
 export default interface Language {
@@ -13,7 +14,7 @@ export default interface Language {
     readonly linksAdapter?: LinksAdapter;
     readonly expressionUI?: ExpressionUI;
     readonly settingsUI?: SettingsUI;
-    interactions(a: Agent, expression: Address): Interaction[];
+    interactions(expression: Address): Interaction[];
 }
 export interface ExpressionUI {
     icon(): string;
@@ -40,7 +41,7 @@ export interface LanguageAdapter {
     getLanguageSource(address: Address): Promise<string>;
 }
 export interface GetByAuthorAdapter {
-    getByAuthor(author: Agent, count: number, page: number): Promise<void | Expression[]>;
+    getByAuthor(author: DID, count: number, page: number): Promise<void | Expression[]>;
 }
 export interface GetAllAdapter {
     getAll(filter: any, count: number, page: number): Promise<void | Expression[]>;
@@ -49,7 +50,7 @@ export declare type NewLinksObserver = (added: Expression[], removed: Expression
 export interface LinksAdapter {
     writable(): boolean;
     public(): boolean;
-    others(): Promise<Agent[]>;
+    others(): Promise<DID[]>;
     addLink(linkExpression: Expression): any;
     updateLink(oldLinkExpression: Expression, newLinkExpression: Expression): any;
     removeLink(link: Expression): any;
@@ -57,8 +58,8 @@ export interface LinksAdapter {
     addCallback(callback: NewLinksObserver): any;
 }
 export interface DirectMessageAdapter {
-    sendPrivate(to: Agent, content: object): any;
-    inbox(filterFrom: void | Agent[]): Promise<Expression[]>;
+    sendPrivate(to: DID, content: object): any;
+    inbox(filterFrom: void | DID[]): Promise<Expression[]>;
 }
 export interface Interaction {
     readonly label: string;
@@ -71,7 +72,7 @@ export declare class InteractionCall {
     parameters: object;
 }
 export declare class OnlineAgent {
-    did: string;
+    did: DID;
     status: string;
 }
 export declare class TelepresenceRpcCall {

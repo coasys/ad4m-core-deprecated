@@ -1,4 +1,3 @@
-import Agent from './Agent'
 import DID from './DID'
 export default class Expression {
     author: DID;
