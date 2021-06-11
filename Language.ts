@@ -4,6 +4,7 @@ import DID from './DID';
 import type Expression from './Expression'
 import type ExpressionRef from './ExpressionRef';
 import type { LinkQuery}  from './Links'
+import Perspective, { PerspectiveDiffExpression } from './Perspective';
 
 export default interface Language {
     readonly name: string;
@@ -117,9 +118,8 @@ export interface LinksAdapter {
     public(): boolean;
     others(): Promise<DID[]>;
 
-    addLink(linkExpression: Expression);
-    updateLink(oldLinkExpression: Expression, newLinkExpression: Expression);
-    removeLink(link: Expression);
+    mutate(diff: PerspectiveDiffExpression)
+    render(): Promise<Perspective>
 
     getLinks(query: LinkQuery): Promise<Expression[]>;
 

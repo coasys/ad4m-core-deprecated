@@ -1,10 +1,13 @@
 import DID from './DID'
-export default class Expression {
+export class ExpressionGeneric<Type> {
     author: DID;
     timestamp: string;
-    data: object;
+    data: Type;
     proof: ExpressionProof;
 }
+
+type Expression = ExpressionGeneric<object>;
+export default Expression
 
 export function isExpression(e: any): boolean {
     return e && e.author && e.timestamp && e.data
