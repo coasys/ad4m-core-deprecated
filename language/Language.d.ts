@@ -1,7 +1,7 @@
-import type Address from './Address';
-import type Agent from './Agent';
-import type Expression from './Expression';
-import type { LinkQuery } from './Links';
+import type Address from '../address/Address';
+import type Agent from '../agent/Agent';
+import type Expression from '../expression/Expression';
+import type { LinkQuery } from '../Links';
 export default interface Language {
     readonly name: string;
     readonly expressionAdapter?: ExpressionAdapter;

@@ -1,5 +1,5 @@
-import type AgentService from "./AgentService";
-import type SignaturesService from "./SignaturesService";
+import type AgentService from "../agent/AgentService";
+import type SignaturesService from "../signatures/SignaturesService";
 import type { AppSignalCb } from '@holochain/conductor-api'
 
 export default interface LanguageContext {

@@ -1,6 +1,6 @@
 /// <reference types="node" />
-import type AgentService from "./AgentService";
-import type SignaturesService from "./SignaturesService";
+import type AgentService from "../agent/AgentService";
+import type SignaturesService from "../SignaturesService";
 import type { AppSignalCb } from '@holochain/conductor-api';
 export default interface LanguageContext {
     agent: AgentService;

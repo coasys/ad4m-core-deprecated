@@ -1,5 +1,5 @@
-import type Address from './Address';
-import LanguageRef from './LanguageRef'
+import type Address from '../address/Address';
+import LanguageRef from '../language/LanguageRef';
 
 // Expression address + unique Language ID = global expression URL
 export default class ExpressionRef {

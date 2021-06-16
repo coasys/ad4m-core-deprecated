@@ -1,5 +1,5 @@
-import type Address from "./Address";
-import type LanguageRef from "./LanguageRef";
+import type Address from "../address/Address";
+import type LanguageRef from "../language/LanguageRef";
 export declare enum SharingType {
     Broadcast = "broadcast",
     Permissionless = "permissionless",

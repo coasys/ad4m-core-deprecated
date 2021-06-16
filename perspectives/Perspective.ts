@@ -1,4 +1,5 @@
-import type Agent from "./Agent";
+import type Agent from "../agent/Agent";
+
 export default class Perspective {
     name: string;
     uuid: string;

@@ -1,5 +1,4 @@
-import type Expression from './Expression';
-import type ExpressionRef from './ExpressionRef'
+import type Expression from '../expression/Expression';
 
 export default class Link {
     source: string;

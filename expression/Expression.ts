@@ -1,4 +1,4 @@
-import Agent from './Agent'
+import Agent from '../agent/Agent'
 
 export default class Expression {
     author: Agent;

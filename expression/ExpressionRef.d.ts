@@ -1,5 +1,5 @@
-import type Address from './Address';
-import LanguageRef from './LanguageRef';
+import type Address from '../address/Address';
+import LanguageRef from '../language/LanguageRef';
 export default class ExpressionRef {
     language: LanguageRef;
     expression: Address;

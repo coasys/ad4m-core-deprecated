@@ -29,7 +29,10 @@
   "dependencies": {
     "@holochain/conductor-api": "0.0.4",
     "@types/jest": "^26.0.15",
-    "@types/mocha": "^8.0.3"
+    "@types/mocha": "^8.0.3",
+    "class-validator": "^0.13.1",
+    "graphql": "^15.5.0",
+    "type-graphql": "^1.1.1"
   },
   "devDependencies": {
     "typescript": "^4.2.4"
