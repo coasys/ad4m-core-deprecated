@@ -1,16 +1,37 @@
 import { Field, ObjectType } from "type-graphql";
-import { Agent } from "../agent/AgentGraphQL";
+import { ExpressionGeneric } from "../expression/ExpressionGraphQL";
 
 @ObjectType()
 export class Link {
     @Field()
-    code: string;
+    source: string;
+
+    @Field()
+    target: string;
+
+    @Field({nullable: true})
+    predicate?: string;
 }
 
 @ObjectType()
+export class LinkExpression extends ExpressionGeneric<Link>() {};
+
+@ObjectType()
 export class LinkQuery {
-    @Field()
-    code: string;
+    @Field({nullable: true})
+    source?: string;
+
+    @Field({nullable: true})
+    target?: string;
+    
+    @Field({nullable: true})
+    predicate?: string;
+    
+    @Field({nullable: true})
+    fromDate?: Date;
+    
+    @Field({nullable: true})
+    untilDate?: Date;
 }
 
 
@@ -42,16 +63,4 @@ export class RemoveLinkInput {
     
     @Field()
     link: string;
-}
-
-@ObjectType()
-export class LinkExpression {
-    @Field()
-    author: Agent;
-    
-    @Field()
-    timestamp: string;
-    
-    @Field()
-    data: Link;
 }

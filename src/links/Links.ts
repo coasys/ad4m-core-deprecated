@@ -1,7 +1,6 @@
 import type Expression from '../expression/Expression';
 import type { ExpressionGeneric } from '../expression/Expression';
 
-
 export default class Link {
     source: string;
     target: string;

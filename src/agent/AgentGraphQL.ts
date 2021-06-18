@@ -1,13 +1,11 @@
 import { Field, ObjectType } from "type-graphql";
+import Perspective from "../perspectives/Perspective";
 
 @ObjectType()
 export class Agent {
     @Field()
     did: string;
 
-    @Field({nullable: true})
-    name: string;
-
-    @Field({nullable: true})
-    email: string;
+    @Field()
+    perspective: Perspective
 }

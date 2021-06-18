@@ -1,5 +1,4 @@
 import { Field, ObjectType } from "type-graphql";
-import { Agent } from "../agent/AgentGraphQL";
 
 @ObjectType()
 export class ExpressionProof {
@@ -16,17 +15,23 @@ export class ExpressionProof {
     invalid?: boolean;
 }
 
-@ObjectType()
-export class Expression {
-    @Field()
-    author: Agent;
-
-    @Field()
-    timestamp: string;
-
-    @Field()
-    data: object;
-
-    @Field()
-    proof: ExpressionProof;
+export function ExpressionGeneric<Type>() {
+    @ObjectType({ isAbstract: true })
+    abstract class ExpressionClass {
+        @Field()
+        author: string;
+    
+        @Field()
+        timestamp: string;
+    
+        @Field()
+        data: Type;
+    
+        @Field()
+        proof: ExpressionProof;
+    }
+    return ExpressionClass;
 }
+
+@ObjectType()
+export default class Expression extends ExpressionGeneric<object>() {};
