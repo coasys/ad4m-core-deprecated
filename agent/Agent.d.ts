@@ -1,6 +1,6 @@
+import ExpressionRef from "./ExpressionRef";
 export default class Agent {
     did: string;
-    name: string | void;
-    email: string | void;
+    perspectives: Map<string, ExpressionRef[]>;
     constructor(did: string);
 }

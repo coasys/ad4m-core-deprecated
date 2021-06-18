@@ -1,4 +1,6 @@
 import type Expression from '../expression/Expression';
+import type { ExpressionGeneric } from '../expression/Expression';
+
 
 export default class Link {
     source: string;
@@ -11,6 +13,8 @@ export default class Link {
         this.predicate = obj.predicate ? obj.predicate : ''
     }
 }
+
+export type LinkExpression = ExpressionGeneric<Link>;
 
 export class LinkQuery {
     source?: string;
