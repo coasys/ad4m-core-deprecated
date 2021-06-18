@@ -1,5 +1,5 @@
-import { ExpressionGeneric } from "./expression/Expression";
-import MutablePerspective, { MutablePerspectiveExpression } from "./MutablePerspective";
+import { ExpressionGeneric } from "../expression/Expression";
+import MutablePerspective, { MutablePerspectiveExpression } from "../perspectives/MutablePerspective";
 
 export default class Neighbourhood extends MutablePerspective {
     content: MutablePerspective
