@@ -33,34 +33,3 @@ export class LinkQuery {
     @Field({nullable: true})
     untilDate?: Date;
 }
-
-
-@ObjectType()
-export class AddLinkInput {
-    @Field()
-    perspectiveUUID: string;
-    
-    @Field()
-    link: string;
-}
-
-@ObjectType()
-export class UpdateLinkInput {
-    @Field()
-    perspectiveUUID: string;
-    
-    @Field()
-    oldLink: string;
-    
-    @Field()
-    newLink: string;
-}
-
-@ObjectType()
-export class RemoveLinkInput {
-    @Field()
-    perspectiveUUID: string;
-    
-    @Field()
-    link: string;
-}
