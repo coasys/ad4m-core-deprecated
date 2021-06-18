@@ -2,6 +2,7 @@ import type Address from '../address/Address'
 import type Agent from '../agent/Agent'
 import type Expression from '../expression/Expression'
 import type { LinkQuery}  from '../links/Links'
+import DID from '../DID';
 
 export default interface Language {
     readonly name: string;
@@ -29,8 +30,8 @@ export default interface Language {
     readonly expressionUI?: ExpressionUI;
     readonly settingsUI?: SettingsUI;
 
-    // All available interactions agent 'a' could execute on given expression
-    interactions(a: Agent, expression: Address): Interaction[];
+    // All available interactions this agent could execute on given expression
+    interactions(expression: Address): Interaction[];
 }
 
 export interface ExpressionUI {
@@ -95,7 +96,7 @@ export interface LanguageAdapter {
 // authored by a given agent
 export interface GetByAuthorAdapter {
     /// Get expressions authored by a given Agent/Identity
-    getByAuthor(author: Agent, count: number, page: number): Promise<void | Expression[]>;
+    getByAuthor(author: DID, count: number, page: number): Promise<void | Expression[]>;
 }
 
 // Implement this if your Language supports retrievel of all Expressions
@@ -113,7 +114,7 @@ export type NewLinksObserver = (added: Expression[], removed: Expression[])=>voi
 export interface LinksAdapter {
     writable(): boolean;
     public(): boolean;
-    others(): Promise<Agent[]>;
+    others(): Promise<DID[]>;
 
     addLink(linkExpression: Expression);
     updateLink(oldLinkExpression: Expression, newLinkExpression: Expression);
@@ -129,9 +130,9 @@ export interface LinksAdapter {
 // between Agents
 export interface DirectMessageAdapter {
     /// Send an expression to someone privately p2p
-    sendPrivate(to: Agent, content: object);
+    sendPrivate(to: DID, content: object);
     /// Get private expressions sent to you
-    inbox(filterFrom: void | Agent[]): Promise<Expression[]>;
+    inbox(filterFrom: void | DID[]): Promise<Expression[]>;
 }
 
 export interface Interaction {
@@ -147,7 +148,7 @@ export class InteractionCall {
 }
 
 export class OnlineAgent {
-    did: string
+    did: DID
     status: string
 }
 

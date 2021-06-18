@@ -1,10 +1,9 @@
-import Agent from './Agent';
+import DID from './DID';
 export default class Expression {
-    author: Agent;
+    author: DID;
     timestamp: string;
     data: object;
     proof: ExpressionProof;
-    constructor();
 }
 export declare function isExpression(e: any): boolean;
 export declare class ExpressionProof {

@@ -1,8 +1,8 @@
-import type Agent from "../agent/Agent";
+import DID from "../DID";
 export default class Perspective {
     name: string;
     uuid: string;
-    author: Agent;
+    author: DID;
     timestamp: string;
     linksSharingLanguage: string;
 }
