@@ -1,25 +1,16 @@
-import { Agent } from "../agent/AgentGraphQL";
 export declare class Link {
-    code: string;
+    source: string;
+    target: string;
+    predicate?: string;
+}
+declare const LinkExpression_base: any;
+export declare class LinkExpression extends LinkExpression_base {
 }
 export declare class LinkQuery {
-    code: string;
+    source?: string;
+    target?: string;
+    predicate?: string;
+    fromDate?: Date;
+    untilDate?: Date;
 }
-export declare class AddLinkInput {
-    perspectiveUUID: string;
-    link: string;
-}
-export declare class UpdateLinkInput {
-    perspectiveUUID: string;
-    oldLink: string;
-    newLink: string;
-}
-export declare class RemoveLinkInput {
-    perspectiveUUID: string;
-    link: string;
-}
-export declare class LinkExpression {
-    author: Agent;
-    timestamp: string;
-    data: Link;
-}
+export {};

@@ -15,7 +15,8 @@ export class ExpressionProof {
     invalid?: boolean;
 }
 
-export function ExpressionGeneric<Type>() {
+//Note having any as return type here fixes compilation errors but I think we loose the ExpressionClass type in resulting .d.ts gql files
+export function ExpressionGeneric<Type>(): any {
     @ObjectType({ isAbstract: true })
     abstract class ExpressionClass {
         @Field()

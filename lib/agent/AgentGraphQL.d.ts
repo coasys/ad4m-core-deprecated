@@ -1,5 +1,5 @@
+import Perspective from "../perspectives/Perspective";
 export declare class Agent {
     did: string;
-    name: string;
-    email: string;
+    perspective: Perspective;
 }
