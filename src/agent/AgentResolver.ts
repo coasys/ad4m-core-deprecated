@@ -1,21 +1,58 @@
 import { Arg, Field, Mutation, Query, Resolver } from "type-graphql";
+import LanguageRef from "../language/LanguageRef";
 import Perspective from "../perspectives/Perspective";
 import Agent from "./Agent";
+import AgentStatus from "./AgentStatus"
 
 @Resolver()
 export default class AgentResolver {
-    @Query()
-    getThisAgent(): Agent {
+    @Query(returns => Agent)
+    agent(): Agent {
         return new Agent("", new Perspective)
     }
 
-    @Query()
-    getAgentByDID(did: string): Agent {
+    @Query(returns => AgentStatus)
+    agentStatus(): AgentStatus {
+        return new AgentStatus()
+    }
+
+    @Mutation(returns => AgentStatus)
+    agentInitialize(
+        @Arg('did') did: string,
+        @Arg('didDocument') didDocument: string,
+        @Arg('keystore') keystore: string,
+        @Arg('passphrase') passphrase: string
+    ): AgentStatus {
+        return new AgentStatus()
+    }
+
+    @Mutation(returns => AgentStatus)
+    agentLock(
+        @Arg('passphrase') passphrase: string
+    ): AgentStatus {
+        return new AgentStatus()
+    }
+
+    @Mutation(returns => AgentStatus)
+    agentUnlock(
+        @Arg('passphrase') passphrase: string
+    ): AgentStatus {
+        return new AgentStatus()
+    }
+
+
+    @Query(returns => Agent)
+    agentByDID(@Arg('did') did: string): Agent {
         return new Agent("", new Perspective)
     }
 
-    //@Mutation()
-    //updateAgentPerspective(@Arg('perspective') perspective: Perspective) {
+    @Mutation(returns => Agent)
+    agentUpdatePerspective(@Arg('perspective') perspective: String): Agent {
+        return new Agent("", new Perspective)
+    }
 
-//    }
+    @Mutation(returns => Agent)
+    agentUpdateInboxLanguage(@Arg('inboxLanguageAddress') inboxLanguageAddress: string): Agent {
+        return new Agent("", new Perspective)
+    }
 }
