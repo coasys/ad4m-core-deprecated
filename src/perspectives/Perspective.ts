@@ -7,7 +7,7 @@ import { LinkExpression } from "../links/Links";
 // associations between expressions, a.k.a. Links, that is a graph
 // over the objective Expressions of any subset of Languages.
 @ObjectType()
-export default class Perspective {
+export class Perspective {
     @Field()
     links: LinkExpression[]
 }

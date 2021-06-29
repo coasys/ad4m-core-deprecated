@@ -4,7 +4,7 @@ import DID from '../DID';
 import type { Expression } from '../expression/Expression'
 import type ExpressionRef from '../expression/ExpressionRef';
 import type { LinkQuery}  from '../links/Links'
-import Perspective, { PerspectiveDiffExpression } from '../perspectives/Perspective';
+import { PerspectiveDiffExpression, Perspective } from '../perspectives/Perspective';
 
 export default interface Language {
     readonly name: string;

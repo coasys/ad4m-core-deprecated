@@ -1,4 +1,4 @@
-import { Perspective } from "../perspectives/PerspectiveGraphQL";
+import { Perspective } from "../perspectives/Perspective";
 import Agent from "./Agent";
 export default class AgentResolver {
     getThisAgent(): Agent;

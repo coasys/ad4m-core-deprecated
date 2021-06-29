@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import { Perspective } from "../perspectives/PerspectiveGraphQL";
+import { Perspective } from "../perspectives/Perspective";
 
 // An Agent (as seen from other Agents)
 // 
