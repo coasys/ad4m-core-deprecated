@@ -1,7 +1,7 @@
 import { Field, ObjectType, InputType } from "type-graphql";
 
 @ObjectType()
-export class PerspectiveHandle {
+export default class PerspectiveHandle {
     @Field()
     uuid: String
     @Field()
