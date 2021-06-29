@@ -1,7 +1,7 @@
 import type Address from '../address/Address';
 import type Agent from '../agent/Agent';
 import DID from '../DID';
-import type Expression from '../expression/Expression';
+import type { Expression } from '../expression/Expression';
 import type { LinkQuery } from '../links/Links';
 import Perspective, { PerspectiveDiffExpression } from '../perspectives/Perspective';
 export default interface Language {

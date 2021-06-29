@@ -1,9 +1,15 @@
-import type Expression from '../expression/Expression';
-import type { ExpressionGeneric } from '../expression/Expression';
+import { Field, ObjectType } from "type-graphql";
+import { ExpressionGeneric, Expression } from '../expression/Expression';
 
+@ObjectType()
 export default class Link {
+    @Field()
     source: string;
+    
+    @Field()
     target: string;
+    
+    @Field({nullable: true})
     predicate?: string;
 
     constructor(obj) {
@@ -13,13 +19,24 @@ export default class Link {
     }
 }
 
-export type LinkExpression = ExpressionGeneric<Link>;
+@ObjectType()
+export class LinkExpression extends ExpressionGeneric<Link>() {};
 
+@ObjectType()
 export class LinkQuery {
+    @Field({nullable: true})
     source?: string;
+
+    @Field({nullable: true})
     target?: string;
+
+    @Field({nullable: true})
     predicate?: string;
+
+    @Field({nullable: true})
     fromDate?: Date;
+
+    @Field({nullable: true})
     untilDate?: Date;
 
     constructor(obj: object) {

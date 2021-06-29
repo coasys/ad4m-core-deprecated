@@ -1,10 +1,18 @@
+import { Field, ObjectType } from "type-graphql";
 import { ExpressionGeneric } from "../expression/Expression";
-import MutablePerspective, { MutablePerspectiveExpression } from "../perspectives/MutablePerspective";
+import MutablePerspective from "../perspectives/MutablePerspective";
 
+@ObjectType()
 export default class Neighbourhood extends MutablePerspective {
+    @Field()
     content: MutablePerspective
+    
+    @Field()
     meta: MutablePerspective
+    
+    @Field()
     fixtures: object
 }
 
-export type NeighbourhoodExpression = ExpressionGeneric<Neighbourhood>;
+@ObjectType()
+export class NeighbourhoodExpression extends ExpressionGeneric<Neighbourhood>() {};

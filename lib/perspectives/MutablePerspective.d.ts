@@ -1,7 +1,8 @@
-import { ExpressionGeneric } from "../expression/Expression";
 import LanguageRef from "../language/LanguageRef";
-import { MutatedPerspective } from "./Perspective";
 export default class MutablePerspective {
     linkLanguage: LanguageRef;
 }
-export declare type MutablePerspectiveExpression = ExpressionGeneric<MutatedPerspective>;
+declare const NeighbourhoodExpression_base: any;
+export declare class NeighbourhoodExpression extends NeighbourhoodExpression_base {
+}
+export {};
