@@ -1,6 +1,6 @@
 import ExpressionRef from "../expression/ExpressionRef";
 import { LinkExpression } from "../links/Links";
-export declare class Perspective {
+export default class Perspective {
     links: LinkExpression[];
 }
 declare const PerspectiveExpression_base: any;

@@ -20,7 +20,7 @@ export default class Link {
 }
 
 @ObjectType()
-export class LinkExpression extends ExpressionGeneric<Link>() {};
+export class LinkExpression extends ExpressionGeneric(Link) {};
 
 @ObjectType()
 export class LinkQuery {

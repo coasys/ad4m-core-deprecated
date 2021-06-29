@@ -9,24 +9,24 @@ import { LinkExpression } from "../links/Links";
 @ObjectType()
 @InputType()
 export default class Perspective {
-    @Field(type => Array)
+    @Field(type => [LinkExpression])
     links: LinkExpression[]
 }
 
 @ObjectType()
-export class PerspectiveExpression extends ExpressionGeneric<Perspective>() {};
+export class PerspectiveExpression extends ExpressionGeneric(Perspective) {};
 
 @ObjectType()
 export class PerspectiveDiff {
-    @Field(type => Array)
+    @Field(type => [LinkExpression])
     additions: LinkExpression[]
     
-    @Field(type => Array)
+    @Field(type => [LinkExpression])
     removals: LinkExpression[]
 }
 
 @ObjectType()
-export class PerspectiveDiffExpression extends ExpressionGeneric<PerspectiveDiff>() {};
+export class PerspectiveDiffExpression extends ExpressionGeneric(PerspectiveDiff) {};
 
 @ObjectType()
 export class MutatedPerspective {
@@ -38,4 +38,4 @@ export class MutatedPerspective {
 }
 
 @ObjectType()
-export class MutatedPerspectiveExpression extends ExpressionGeneric<MutatedPerspective>() {};
+export class MutatedPerspectiveExpression extends ExpressionGeneric(MutatedPerspective) {};

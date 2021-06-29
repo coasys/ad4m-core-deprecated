@@ -7,7 +7,7 @@ import AgentResolver from "./agent/AgentResolver";
 const schema = buildSchema({
     resolvers: [AgentResolver],
     emitSchemaFile: {
-        path: __dirname + './schema.gql',
+        path: __dirname + '/schema.gql',
         commentDescriptions: true
     }
 })

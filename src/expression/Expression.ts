@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { ClassType, Field, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class ExpressionProof {
@@ -21,7 +21,7 @@ export class ExpressionProof {
 }
 
 //Note having any as return type here fixes compilation errors but I think we loose the ExpressionClass type in resulting .d.ts gql files
-export function ExpressionGeneric<Type>(): any {
+export function ExpressionGeneric<DataType>(DataTypeClass: ClassType<DataType>): any {
     @ObjectType({ isAbstract: true })
     abstract class ExpressionClass {
         @Field()
@@ -30,8 +30,8 @@ export function ExpressionGeneric<Type>(): any {
         @Field()
         timestamp: string;
     
-        @Field(type => Object)
-        data: Type;
+        @Field(type => DataTypeClass)
+        data: DataType;
     
         @Field()
         proof: ExpressionProof;
@@ -40,7 +40,7 @@ export function ExpressionGeneric<Type>(): any {
 }
 
 @ObjectType()
-export class Expression extends ExpressionGeneric<object>() {};
+export class Expression extends ExpressionGeneric(Object) {};
 
 export function isExpression(e: any): boolean {
     return e && e.author && e.timestamp && e.data

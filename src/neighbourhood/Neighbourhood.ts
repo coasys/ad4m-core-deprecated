@@ -15,4 +15,4 @@ export default class Neighbourhood extends MutablePerspective {
 }
 
 @ObjectType()
-export class NeighbourhoodExpression extends ExpressionGeneric<Neighbourhood>() {};
+export class NeighbourhoodExpression extends ExpressionGeneric(Neighbourhood) {};

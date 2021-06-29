@@ -1,4 +1,4 @@
-import { Perspective } from "../perspectives/Perspective";
+import Perspective from "../perspectives/Perspective";
 export default class Agent {
     did: String;
     perspective: Perspective;
