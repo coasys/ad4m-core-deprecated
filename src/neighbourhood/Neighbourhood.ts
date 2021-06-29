@@ -1,17 +1,16 @@
 import { Field, ObjectType } from "type-graphql";
 import { ExpressionGeneric } from "../expression/Expression";
-import MutablePerspective from "../perspectives/MutablePerspective";
+import LanguageRef from "../language/LanguageRef";
+import Perspective from "../perspectives/Perspective";
+
 
 @ObjectType()
-export default class Neighbourhood extends MutablePerspective {
+export default class Neighbourhood {
     @Field()
-    content: MutablePerspective
-    
+    linkLanguage: LanguageRef
+
     @Field()
-    meta: MutablePerspective
-    
-    @Field()
-    fixtures: object
+    meta: Perspective
 }
 
 @ObjectType()
