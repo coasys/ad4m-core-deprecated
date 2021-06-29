@@ -1,5 +1,5 @@
-import { Field, Mutation, Query, Resolver } from "type-graphql";
-import { Perspective } from "../perspectives/PerspectiveGraphQL";
+import { Arg, Field, Mutation, Query, Resolver } from "type-graphql";
+import Perspective from "../perspectives/Perspective";
 import Agent from "./Agent";
 
 @Resolver()
@@ -14,8 +14,8 @@ export default class AgentResolver {
         return new Agent("", new Perspective)
     }
 
-    @Mutation()
-    updateAgentPerspective(perspective: Perspective) {
+    //@Mutation()
+    //updateAgentPerspective(@Arg('perspective') perspective: Perspective) {
 
-    }
+//    }
 }

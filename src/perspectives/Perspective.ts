@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, ObjectType, InputType } from "type-graphql";
 import { ExpressionGeneric } from "../expression/Expression";
 import ExpressionRef from "../expression/ExpressionRef";
 import { LinkExpression } from "../links/Links";
@@ -7,8 +7,9 @@ import { LinkExpression } from "../links/Links";
 // associations between expressions, a.k.a. Links, that is a graph
 // over the objective Expressions of any subset of Languages.
 @ObjectType()
+@InputType()
 export default class Perspective {
-    @Field()
+    @Field(type => Array)
     links: LinkExpression[]
 }
 
@@ -17,10 +18,10 @@ export class PerspectiveExpression extends ExpressionGeneric<Perspective>() {};
 
 @ObjectType()
 export class PerspectiveDiff {
-    @Field()
+    @Field(type => Array)
     additions: LinkExpression[]
     
-    @Field()
+    @Field(type => Array)
     removals: LinkExpression[]
 }
 

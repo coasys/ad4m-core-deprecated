@@ -30,7 +30,7 @@ export function ExpressionGeneric<Type>(): any {
         @Field()
         timestamp: string;
     
-        @Field()
+        @Field(type => Object)
         data: Type;
     
         @Field()
