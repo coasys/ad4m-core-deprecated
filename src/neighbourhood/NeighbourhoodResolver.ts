@@ -6,7 +6,7 @@ import PerspectiveHandle from "../perspectives/PerspectiveHandle";
 @Resolver()
 export default class NeighbourhoodResolver {
     @Mutation(returns => Boolean)
-    publishPerspectiveAsNeighbourhood(
+    neighbourhoodPublishFromPerspective(
         @Arg('perspectiveUUID') perspectiveUUID: string, 
         @Arg('linkLanguage') linkLanguage: string,
         @Arg('meta') meta: string
@@ -15,7 +15,7 @@ export default class NeighbourhoodResolver {
     }
 
     @Mutation(returns => PerspectiveHandle)
-    joinNeighbourhood(@Arg('url') url: string): PerspectiveHandle {
+    neighbourhoodJoinFromUrl(@Arg('url') url: string): PerspectiveHandle {
         return new PerspectiveHandle
     }
 }

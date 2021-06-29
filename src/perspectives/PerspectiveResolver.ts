@@ -23,37 +23,37 @@ export default class PerspectiveResolver {
     }
 
     @Query(returns => [LinkExpression])
-    queryLinks(@Arg('uuid') uuid: string, @Arg('query') query: LinkQuery): LinkExpression[] {
+    perspectiveQueryLinks(@Arg('uuid') uuid: string, @Arg('query') query: LinkQuery): LinkExpression[] {
         return []
     }
 
     @Mutation(returns => PerspectiveHandle)
-    addPerspective(@Arg('name') name: string): PerspectiveHandle {
+    perspectiveAdd(@Arg('name') name: string): PerspectiveHandle {
         return new PerspectiveHandle()
     }
 
     @Mutation(returns => PerspectiveHandle)
-    updatePerspective(@Arg('uuid') uuid: string, @Arg('name') name: string): PerspectiveHandle {
+    perspectiveUpdate(@Arg('uuid') uuid: string, @Arg('name') name: string): PerspectiveHandle {
         return new PerspectiveHandle()
     }
 
     @Mutation(returns => Boolean)
-    removePerspective(@Arg('uuid') uuid: string): boolean {
+    perspectiveRemove(@Arg('uuid') uuid: string): boolean {
         return true
     }
 
     @Mutation(returns => LinkExpression)
-    addLink(@Arg('uuid') uuid: string, @Arg('link') link: string): LinkExpression {
+    perspectiveAddLink(@Arg('uuid') uuid: string, @Arg('link') link: string): LinkExpression {
         return new LinkExpression()
     }
  
     @Mutation(returns => LinkExpression)
-    updateLink(@Arg('uuid') uuid: string, @Arg('oldLink') oldlink: string, @Arg('newLink') newlink: string): LinkExpression {
+    perspectiveUpdateLink(@Arg('uuid') uuid: string, @Arg('oldLink') oldlink: string, @Arg('newLink') newlink: string): LinkExpression {
         return new LinkExpression()
     }
 
     @Mutation(returns => Boolean)
-    removeLink(@Arg('uuid') uuid: string, @Arg('link') link: string): Boolean {
+    perspectiveRemoveLink(@Arg('uuid') uuid: string, @Arg('link') link: string): Boolean {
         return true
     }
 }
