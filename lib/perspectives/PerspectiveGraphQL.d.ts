@@ -1,4 +1,4 @@
-import { Agent } from "../agent/AgentGraphQL";
+import Agent from "../agent/Agent";
 import { LanguageRef } from "../language/LanguageRefGraphQL";
 import { LinkExpression } from "../links/LinksGraphQL";
 export declare class Perspective {

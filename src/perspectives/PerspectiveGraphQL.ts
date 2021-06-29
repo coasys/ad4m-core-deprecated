@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import { Agent } from "../agent/AgentGraphQL";
+import Agent from "../agent/Agent";
 import { LanguageRef } from "../language/LanguageRefGraphQL";
 import { ExpressionGeneric } from "../expression/ExpressionGraphQL";
 import { LinkExpression } from "../links/LinksGraphQL";

@@ -1,6 +1,6 @@
-import Perspective from "../perspectives/Perspective";
+import { Perspective } from "../perspectives/PerspectiveGraphQL";
 export default class Agent {
-    did: string;
+    did: String;
     perspective: Perspective;
     constructor(did: string, perspective: Perspective);
 }

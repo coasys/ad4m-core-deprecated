@@ -1,5 +1,5 @@
-import ExpressionRef from "../expression/ExpressionRef";
-import Perspective from "../perspectives/Perspective";
+import { Field, ObjectType } from "type-graphql";
+import { Perspective } from "../perspectives/PerspectiveGraphQL";
 
 // An Agent (as seen from other Agents)
 // 
@@ -9,8 +9,12 @@ import Perspective from "../perspectives/Perspective";
 // 
 // 2. Holds and shares a Perspective that links all information
 // this agent wants to offer as public-facing semantics
+@ObjectType()
 export default class Agent {
-    did: string;
+    @Field()
+    did: String;
+
+    @Field(type => Perspective)
     perspective: Perspective;
 
     constructor(did: string, perspective: Perspective) {
