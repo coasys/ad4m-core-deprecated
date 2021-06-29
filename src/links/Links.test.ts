@@ -1,4 +1,4 @@
-import { LinkQuery } from "./Links"
+import LinkQuery  from '../perspectives/LinkQuery'
 
 const query = new LinkQuery({
     source: 'a'

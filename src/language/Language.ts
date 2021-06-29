@@ -3,7 +3,7 @@ import type Agent from '../agent/Agent'
 import DID from '../DID';
 import type { Expression } from '../expression/Expression'
 import type ExpressionRef from '../expression/ExpressionRef';
-import type { LinkQuery}  from '../links/Links'
+import type LinkQuery  from '../perspectives/LinkQuery'
 import Perspective, { PerspectiveDiffExpression } from '../perspectives/Perspective';
 
 export default interface Language {

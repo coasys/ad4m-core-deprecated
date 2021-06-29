@@ -22,7 +22,7 @@ export class ExpressionProof {
 
 //Note having any as return type here fixes compilation errors but I think we loose the ExpressionClass type in resulting .d.ts gql files
 export function ExpressionGeneric<DataType>(DataTypeClass: ClassType<DataType>): any {
-    @ObjectType({ isAbstract: true })
+    @ObjectType()
     abstract class ExpressionClass {
         @Field()
         author: string;

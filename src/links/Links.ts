@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, InputType, ObjectType } from "type-graphql";
 import { ExpressionGeneric, Expression } from '../expression/Expression';
 
 @ObjectType()
@@ -22,60 +22,8 @@ export default class Link {
 @ObjectType()
 export class LinkExpression extends ExpressionGeneric(Link) {};
 
-@ObjectType()
-export class LinkQuery {
-    @Field({nullable: true})
-    source?: string;
-
-    @Field({nullable: true})
-    target?: string;
-
-    @Field({nullable: true})
-    predicate?: string;
-
-    @Field({nullable: true})
-    fromDate?: Date;
-
-    @Field({nullable: true})
-    untilDate?: Date;
-
-    constructor(obj: object) {
-        if(obj) {
-            // @ts-ignore
-            this.source = obj.source
-            // @ts-ignore
-            this.predicate = obj.predicate
-            // @ts-ignore
-            this.target = obj.target
-            // @ts-ignore
-            if(obj.fromDate) {
-                // @ts-ignore
-                this.fromDate = obj.fromDate;
-            };
-            // @ts-ignore
-            if (obj.untilDate) {
-                // @ts-ignore
-                this.untilDate = obj.untilDate;
-            }
-        }
-    }
-
-    isMatch(l: Link): boolean {
-        if(this.source)
-            if(this.source !== l.source)
-                return false
-
-        if(this.predicate)
-            if(this.predicate !== l.predicate)
-                return false
-        
-        if(this.target)
-            if(this.target !== l.target)
-                return false    
-
-        return true
-    }
-}
+@InputType()
+export class LinkExpressionInput extends ExpressionGeneric(Link) {};
 
 export function linkEqual(l1: Expression, l2: Expression): boolean {
     return l1.author == l2.author &&
