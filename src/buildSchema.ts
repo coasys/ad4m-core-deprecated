@@ -6,6 +6,7 @@ import ExpressionResolver from "./expression/ExpressionResolver"
 import LanguageResolver from "./language/LanguageResolver";
 import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 import PerspectiveResolver from "./perspectives/PerspectiveResolver";
+import RuntimeResolver from "./runtime/RuntimeResolver";
 
 const schema = buildSchema({
     resolvers: [
@@ -13,7 +14,8 @@ const schema = buildSchema({
         ExpressionResolver,
         LanguageResolver,
         NeighbourhoodResolver,
-        PerspectiveResolver
+        PerspectiveResolver,
+        RuntimeResolver
     ],
     emitSchemaFile: {
         path: __dirname + '/schema.gql',
