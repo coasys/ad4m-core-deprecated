@@ -2,9 +2,8 @@ import type Address from '../Address'
 import type Agent from '../agent/Agent'
 import DID from '../DID';
 import type { Expression } from '../expression/Expression'
-import type ExpressionRef from '../expression/ExpressionRef';
 import type LinkQuery  from '../perspectives/LinkQuery'
-import Perspective, { PerspectiveDiffExpression } from '../perspectives/Perspective';
+import Perspective from '../perspectives/Perspective';
 
 export default interface Language {
     readonly name: string;
@@ -118,7 +117,9 @@ export interface LinksAdapter {
     public(): boolean;
     others(): Promise<DID[]>;
 
-    mutate(diff: PerspectiveDiffExpression)
+    addLink(linkExpression: Expression);
+    updateLink(oldLinkExpression: Expression, newLinkExpression: Expression);
+    removeLink(link: Expression);
     render(): Promise<Perspective>
 
     getLinks(query: LinkQuery): Promise<Expression[]>;
