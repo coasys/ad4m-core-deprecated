@@ -1,7 +1,7 @@
 
-import { Arg, Field, Mutation, Query, Resolver } from "type-graphql";
-import Language from "./Language";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import LanguageHandle from "./LanguageHandle";
+import LanguageRef from "./LanguageRef";
 
 @Resolver()
 export default class LanguageResolver {
@@ -21,6 +21,15 @@ export default class LanguageResolver {
         @Arg('settings') settings: string
     ): Boolean {
         return true
+    }
+
+    @Mutation()
+    languageCloneHolochainTemplate(
+        @Arg('languagePath') languagePath: string,
+        @Arg('dnaNick') dnaNick: string,
+        @Arg('uid') uid: string
+    ): LanguageRef {
+        return new LanguageRef()
     }
 }
 
