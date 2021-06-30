@@ -1,4 +1,4 @@
-import type Address from '../address/Address'
+import type Address from '../Address'
 import { Field, ObjectType } from "type-graphql";
 
 

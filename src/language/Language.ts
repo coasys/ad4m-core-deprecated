@@ -1,4 +1,4 @@
-import type Address from '../address/Address'
+import type Address from '../Address'
 import type Agent from '../agent/Agent'
 import DID from '../DID';
 import type { Expression } from '../expression/Expression'
