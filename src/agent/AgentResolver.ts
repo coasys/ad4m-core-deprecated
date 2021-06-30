@@ -1,5 +1,4 @@
-import { Arg, Field, Mutation, Query, Resolver } from "type-graphql";
-import LanguageRef from "../language/LanguageRef";
+import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
 import Perspective from "../perspectives/Perspective";
 import Agent from "./Agent";
 import AgentStatus from "./AgentStatus"
@@ -53,6 +52,11 @@ export default class AgentResolver {
 
     @Mutation(returns => Agent)
     agentUpdateInboxLanguage(@Arg('inboxLanguageAddress') inboxLanguageAddress: string): Agent {
+        return new Agent("", new Perspective)
+    }
+
+    @Subscription({topics: ""})
+    agentUpdated(): Agent {
         return new Agent("", new Perspective)
     }
 }

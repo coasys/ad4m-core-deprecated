@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
 import { LinkExpression } from "../links/Links";
 import LinkQuery from "./LinkQuery";
 import Perspective from "./Perspective";
@@ -54,5 +54,30 @@ export default class PerspectiveResolver {
     @Mutation(returns => Boolean)
     perspectiveRemoveLink(@Arg('uuid') uuid: string, @Arg('link') link: string): Boolean {
         return true
+    }
+
+    @Subscription({topics: ""})
+    perspectiveAdded(): PerspectiveHandle {
+        return new PerspectiveHandle()
+    }
+
+    @Subscription({topics: ""})
+    perspectiveUpdated(): PerspectiveHandle {
+        return new PerspectiveHandle()
+    }
+
+    @Subscription({topics: ""})
+    perspectiveRemoved(): String {
+        return new String()
+    }
+
+    @Subscription({topics: ""})
+    perspectiveLinkAdded(@Arg('perspectiveUUID') perspectiveUUID: String): LinkExpression {
+        return new LinkExpression()
+    }
+
+    @Subscription({topics: ""})
+    perspectiveLinkRemoved(@Arg('perspectiveUUID') perspectiveUUID: String): LinkExpression {
+        return new LinkExpression()
     }
 }
