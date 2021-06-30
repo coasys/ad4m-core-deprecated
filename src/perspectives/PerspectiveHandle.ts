@@ -1,5 +1,8 @@
 import { Field, ObjectType, InputType } from "type-graphql";
 
+// This type is used in the GraphQL interface to reference a mutable
+// prespective that is implemented locally by the Ad4m runtime.
+// The UUID is used in mutations to identify the perspective that gets mutated.
 @ObjectType()
 export default class PerspectiveHandle {
     @Field()
