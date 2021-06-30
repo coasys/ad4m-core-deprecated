@@ -1,7 +1,6 @@
-import { Arg, Field, Mutation, Query, Resolver } from "type-graphql";
-import { LinkExpression, LinkExpressionInput } from "../links/Links";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { LinkExpression } from "../links/Links";
 import LinkQuery from "./LinkQuery";
-import { NeighbourhoodExpression } from "../neighbourhood/Neighbourhood";
 import Perspective from "./Perspective";
 import PerspectiveHandle from "./PerspectiveHandle";
 
