@@ -42,6 +42,9 @@ export function ExpressionGeneric<DataType>(DataTypeClass: ClassType<DataType>):
 @ObjectType()
 export class Expression extends ExpressionGeneric(Object) {};
 
+@ObjectType()
+export class ExpressionStringified extends ExpressionGeneric(String) {};
+
 export function isExpression(e: any): boolean {
     return e && e.author && e.timestamp && e.data
 }
