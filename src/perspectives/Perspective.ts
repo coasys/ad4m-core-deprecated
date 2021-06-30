@@ -20,27 +20,3 @@ export class PerspectiveInput {
 
 @ObjectType()
 export class PerspectiveExpression extends ExpressionGeneric(Perspective) {};
-
-@ObjectType()
-export class PerspectiveDiff {
-    @Field(type => [LinkExpression])
-    additions: LinkExpression[]
-    
-    @Field(type => [LinkExpression])
-    removals: LinkExpression[]
-}
-
-@ObjectType()
-export class PerspectiveDiffExpression extends ExpressionGeneric(PerspectiveDiff) {};
-
-@ObjectType()
-export class MutatedPerspective {
-    @Field()
-    base: ExpressionRef
-
-    @Field()
-    diff: PerspectiveDiff
-}
-
-@ObjectType()
-export class MutatedPerspectiveExpression extends ExpressionGeneric(MutatedPerspective) {};
