@@ -1,5 +1,5 @@
-//import reflect-get
 import "reflect-metadata";
+import fs from 'fs'
 import { buildSchema } from "type-graphql";
 import AgentResolver from "./agent/AgentResolver";
 import ExpressionResolver from "./expression/ExpressionResolver"
@@ -8,7 +8,7 @@ import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 import PerspectiveResolver from "./perspectives/PerspectiveResolver";
 import RuntimeResolver from "./runtime/RuntimeResolver";
 
-const schema = buildSchema({
+buildSchema({
     resolvers: [
         AgentResolver, 
         ExpressionResolver,
@@ -22,3 +22,16 @@ const schema = buildSchema({
         commentDescriptions: true
     }
 })
+.then(() => {
+    const schemaFile = fs.readFileSync(__dirname+'/schema.gql')
+    const schemaFileWithoutComments = schemaFile.toString().split("\n").filter((line)=>!line.startsWith('#')).join("\n")
+    const typeDefsFile = `
+const apollo = require("apollo-server");
+const typeDefs = apollo.gql \`${schemaFileWithoutComments}\`
+module.exports = { typeDefs }
+`
+
+    fs.writeFileSync(__dirname+'/typeDefs.js', typeDefsFile)
+})
+
+
