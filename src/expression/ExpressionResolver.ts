@@ -3,12 +3,12 @@ import { Expression, ExpressionStringified } from "./Expression";
 
 @Resolver()
 export default class ExpressionResolver {
-    @Query(returns => ExpressionStringified)
+    @Query(returns => ExpressionStringified, {nullable: true})
     expression(@Arg('url') url: string): ExpressionStringified {
         return new ExpressionStringified()
     }
 
-    @Query(returns => String)
+    @Query(returns => String, {nullable: true})
     expressionRaw(@Arg('url') url: string): String {
         return new String()
     }

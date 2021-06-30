@@ -41,13 +41,13 @@ export default class AgentResolver {
     }
 
 
-    @Query(returns => Agent)
+    @Query(returns => Agent, {nullable: true})
     agentByDID(@Arg('did') did: string): Agent {
         return new Agent("", new Perspective)
     }
 
     @Mutation(returns => Agent)
-    agentUpdatePerspective(@Arg('perspective') perspective: String): Agent {
+    agentUpdatePublicPerspective(@Arg('perspective') perspective: String): Agent {
         return new Agent("", new Perspective)
     }
 

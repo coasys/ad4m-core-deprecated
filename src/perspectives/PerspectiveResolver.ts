@@ -12,17 +12,17 @@ export default class PerspectiveResolver {
         return []
     }
 
-    @Query(returns => PerspectiveHandle)
+    @Query(returns => PerspectiveHandle, {nullable: true})
     perspective(@Arg('uuid') uuid: string): PerspectiveHandle|void {
         return null
     }
 
-    @Query(returns => Perspective)
+    @Query(returns => Perspective, {nullable: true})
     perspectiveSnapshot(@Arg('uuid') uuid: string): Perspective|void {
         return null
     }
 
-    @Query(returns => [LinkExpression])
+    @Query(returns => [LinkExpression], {nullable: true})
     perspectiveQueryLinks(@Arg('uuid') uuid: string, @Arg('query') query: LinkQuery): LinkExpression[] {
         return []
     }
@@ -32,7 +32,7 @@ export default class PerspectiveResolver {
         return new PerspectiveHandle()
     }
 
-    @Mutation(returns => PerspectiveHandle)
+    @Mutation(returns => PerspectiveHandle, {nullable: true})
     perspectiveUpdate(@Arg('uuid') uuid: string, @Arg('name') name: string): PerspectiveHandle {
         return new PerspectiveHandle()
     }
