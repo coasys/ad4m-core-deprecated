@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "*.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run buildSchema",
     "buildSchema": "node lib/buildSchema.js"
   },
   "repository": {
