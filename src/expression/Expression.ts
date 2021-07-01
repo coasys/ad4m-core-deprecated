@@ -1,4 +1,6 @@
 import { ClassType, Field, ObjectType } from "type-graphql";
+import { Icon } from "../language/Icon";
+import { LanguageRef } from "../language/LanguageRef";
 
 @ObjectType()
 export class ExpressionProof {
@@ -43,7 +45,13 @@ export function ExpressionGeneric<DataType>(DataTypeClass: ClassType<DataType>):
 export class Expression extends ExpressionGeneric(Object) {};
 
 @ObjectType()
-export class ExpressionStringified extends ExpressionGeneric(String) {};
+export class ExpressionRendered extends ExpressionGeneric(String) {
+    @Field()
+    language: LanguageRef
+
+    @Field()
+    icon: Icon
+};
 
 export function isExpression(e: any): boolean {
     return e && e.author && e.timestamp && e.data

@@ -1,11 +1,11 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import { ExpressionStringified } from "./Expression";
+import { ExpressionRendered } from "./Expression";
 
 @Resolver()
 export default class ExpressionResolver {
-    @Query(returns => ExpressionStringified, {nullable: true})
-    expression(@Arg('url') url: string): ExpressionStringified {
-        return new ExpressionStringified()
+    @Query(returns => ExpressionRendered, {nullable: true})
+    expression(@Arg('url') url: string): ExpressionRendered {
+        return new ExpressionRendered()
     }
 
     @Query(returns => String, {nullable: true})
