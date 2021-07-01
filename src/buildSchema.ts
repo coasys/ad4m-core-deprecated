@@ -26,9 +26,8 @@ buildSchema({
     const schemaFile = fs.readFileSync(__dirname+'/schema.gql')
     const schemaFileWithoutComments = schemaFile.toString().split("\n").filter((line)=>!line.startsWith('#')).join("\n")
     const typeDefsFile = `
-const apollo = require("apollo-server");
-const typeDefs = apollo.gql \`${schemaFileWithoutComments}\`
-module.exports = { typeDefs }
+const typeDefsString = \`${schemaFileWithoutComments}\`
+module.exports = { typeDefsString }
 `
 
     fs.writeFileSync(__dirname+'/typeDefs.js', typeDefsFile)
