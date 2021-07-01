@@ -23,7 +23,7 @@ export default class Agent {
     perspective: Perspective;
 
     @Field({nullable: true})
-    directMessageLanguage: LanguageRef
+    directMessageLanguage?: LanguageRef
 
     constructor(did: string, perspective: Perspective) {
         this.did = did
