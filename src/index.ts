@@ -1,3 +1,4 @@
+import "reflect-metadata";
 export * from "./Address";
 export * from "./agent/Agent";
 export * from "./expression/Expression";
