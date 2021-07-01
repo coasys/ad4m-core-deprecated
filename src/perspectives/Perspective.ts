@@ -1,6 +1,5 @@
 import { Field, ObjectType, InputType } from "type-graphql";
 import { ExpressionGeneric } from "../expression/Expression";
-import ExpressionRef from "../expression/ExpressionRef";
 import { LinkExpression, LinkExpressionInput } from "../links/Links";
 
 // A Perspective represents subjective meaning, encoded through
@@ -14,7 +13,7 @@ import { LinkExpression, LinkExpressionInput } from "../links/Links";
 // The other type PerspectiveHandle is used when dealing with an instantiated
 // mutable perspective as is done through most of the GraphQL mutations.
 @ObjectType()
-export default class Perspective {
+export class Perspective {
     @Field(type => [LinkExpression])
     links: LinkExpression[]
 }

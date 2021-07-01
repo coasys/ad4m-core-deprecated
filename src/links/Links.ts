@@ -2,7 +2,7 @@ import { Field, InputType, ObjectType } from "type-graphql";
 import { ExpressionGeneric, Expression } from '../expression/Expression';
 
 @ObjectType()
-export default class Link {
+export class Link {
     @Field()
     source: string;
     

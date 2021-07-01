@@ -1,7 +1,7 @@
 import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
-import Perspective from "../perspectives/Perspective";
-import Agent from "./Agent";
-import AgentStatus from "./AgentStatus"
+import { Perspective } from "../perspectives/Perspective";
+import { Agent } from "./Agent";
+import { AgentStatus } from "./AgentStatus"
 
 @Resolver()
 export default class AgentResolver {

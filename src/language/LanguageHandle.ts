@@ -1,8 +1,8 @@
 import { Field, ObjectType } from "type-graphql";
-import Icon from "./Icon";
+import { Icon } from "./Icon";
 
 @ObjectType()
-export default class LanguageHandle {
+export class LanguageHandle {
     @Field()
     name: string;
 

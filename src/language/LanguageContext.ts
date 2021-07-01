@@ -10,7 +10,7 @@ export interface SignaturesService {
     verify(expr: Expression): boolean
 }
 
-export default interface LanguageContext {
+export interface LanguageContext {
     agent: AgentService;
     IPFS: IPFSNode;
     signatures: SignaturesService;

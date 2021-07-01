@@ -1,11 +1,11 @@
 import { Field, ObjectType } from "type-graphql";
 import { ExpressionGeneric } from "../expression/Expression";
-import LanguageRef from "../language/LanguageRef";
-import Perspective from "../perspectives/Perspective";
+import { LanguageRef } from "../language/LanguageRef";
+import { Perspective } from "../perspectives/Perspective";
 
 
 @ObjectType()
-export default class Neighbourhood {
+export class Neighbourhood {
     @Field()
     linkLanguage: LanguageRef
 

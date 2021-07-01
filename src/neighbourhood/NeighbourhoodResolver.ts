@@ -1,6 +1,6 @@
-import { Arg, Field, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Resolver } from "type-graphql";
 import { NeighbourhoodExpression } from "../neighbourhood/Neighbourhood";
-import PerspectiveHandle from "../perspectives/PerspectiveHandle";
+import { PerspectiveHandle } from "../perspectives/PerspectiveHandle";
 
 
 @Resolver()

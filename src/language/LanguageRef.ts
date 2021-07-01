@@ -1,10 +1,10 @@
-import type Address from '../Address'
+import type { Address } from '../Address'
 import { Field, ObjectType } from "type-graphql";
 
 
 // Unique Language ID with option type
 @ObjectType()
-export default class LanguageRef {
+export class LanguageRef {
     @Field()
     address: Address;
     

@@ -1,6 +1,6 @@
 import { Field, ObjectType } from "type-graphql";
-import LanguageRef from "../language/LanguageRef";
-import Perspective from "../perspectives/Perspective";
+import { LanguageRef } from "../language/LanguageRef";
+import { Perspective } from "../perspectives/Perspective";
 
 // An Agent (as seen from other Agents)
 // 
@@ -15,7 +15,7 @@ import Perspective from "../perspectives/Perspective";
 // 3. A reference to the direct message language via which the agent
 // is able to receive DMs.
 @ObjectType()
-export default class Agent {
+export class Agent {
     @Field()
     did: String;
 

@@ -1,3 +1,1 @@
-type DID = string;
-
-export default DID;
+export type DID = string;

@@ -1,7 +1,7 @@
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
-export default class Icon {
+export class Icon {
     @Field()
     code: string
 }

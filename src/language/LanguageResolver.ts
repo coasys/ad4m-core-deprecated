@@ -1,7 +1,7 @@
 
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import LanguageHandle from "./LanguageHandle";
-import LanguageRef from "./LanguageRef";
+import { LanguageHandle } from "./LanguageHandle";
+import { LanguageRef } from "./LanguageRef";
 
 @Resolver()
 export default class LanguageResolver {

@@ -1,9 +1,9 @@
 import { Field, InputType, ObjectType } from "type-graphql";
-import Link from "../links/Links"
+import { Link } from "../links/Links"
 
 @ObjectType()
 @InputType()
-export default class LinkQuery {
+export class LinkQuery {
     @Field({nullable: true})
     source?: string;
 

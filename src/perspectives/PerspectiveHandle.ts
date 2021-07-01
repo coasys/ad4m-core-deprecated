@@ -4,7 +4,7 @@ import { Field, ObjectType, InputType } from "type-graphql";
 // prespective that is implemented locally by the Ad4m runtime.
 // The UUID is used in mutations to identify the perspective that gets mutated.
 @ObjectType()
-export default class PerspectiveHandle {
+export class PerspectiveHandle {
     @Field()
     uuid: String
     @Field()

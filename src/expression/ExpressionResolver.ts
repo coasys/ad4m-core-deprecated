@@ -1,5 +1,5 @@
-import { Arg, Field, Mutation, Query, Resolver } from "type-graphql";
-import { Expression, ExpressionStringified } from "./Expression";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { ExpressionStringified } from "./Expression";
 
 @Resolver()
 export default class ExpressionResolver {

@@ -1,10 +1,10 @@
-import type Address from '../Address';
-import LanguageRef from '../language/LanguageRef';
+import type { Address } from '../Address';
+import { LanguageRef } from '../language/LanguageRef';
 import { Field, ObjectType } from "type-graphql";
 
 // Expression address + unique Language ID = global expression URL
 @ObjectType()
-export default class ExpressionRef {
+export class ExpressionRef {
     @Field()
     language: LanguageRef;
     

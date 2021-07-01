@@ -1,3 +1,1 @@
-type Address = string;
-
-export default Address;
+export type Address = string;

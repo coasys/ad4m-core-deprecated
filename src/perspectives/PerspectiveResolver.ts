@@ -1,8 +1,8 @@
 import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
 import { LinkExpression } from "../links/Links";
-import LinkQuery from "./LinkQuery";
-import Perspective from "./Perspective";
-import PerspectiveHandle from "./PerspectiveHandle";
+import { LinkQuery } from "./LinkQuery";
+import { Perspective } from "./Perspective";
+import { PerspectiveHandle } from "./PerspectiveHandle";
 
 @Resolver()
 export default class PerspectiveResolver {

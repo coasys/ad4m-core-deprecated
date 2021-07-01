@@ -1,9 +1,9 @@
-import type Address from '../Address'
-import type Agent from '../agent/Agent'
-import DID from '../DID';
+import type { Address } from '../Address'
+import type { Agent } from '../agent/Agent'
+import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
-import type LinkQuery  from '../perspectives/LinkQuery'
-import Perspective from '../perspectives/Perspective';
+import type { LinkQuery }  from '../perspectives/LinkQuery'
+import { Perspective } from '../perspectives/Perspective';
 
 export default interface Language {
     readonly name: string;
