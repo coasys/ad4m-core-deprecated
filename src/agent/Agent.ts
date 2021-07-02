@@ -1,6 +1,7 @@
 import { Field, ObjectType } from "type-graphql";
 import { LanguageRef } from "../language/LanguageRef";
 import { Perspective } from "../perspectives/Perspective";
+import { ExpressionGeneric } from "../expression/Expression";
 
 // An Agent (as seen from other Agents)
 // 
@@ -30,3 +31,6 @@ export class Agent {
         this.perspective = perspective
     }
 }
+
+@ObjectType()
+export class AgentExpression extends ExpressionGeneric(Agent) {};

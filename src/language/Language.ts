@@ -1,5 +1,5 @@
 import type { Address } from '../Address'
-import type { Agent } from '../agent/Agent'
+import type { AgentExpression } from '../agent/Agent'
 import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
 import type { LinkQuery }  from '../perspectives/LinkQuery'
@@ -85,8 +85,8 @@ export interface ReadOnlyLanguage {
 // Interface for Agent Languages.
 // Class Agent in Agent.ts is what these Languages store and retrieve via DID
 export interface AgentAdapter {
-    setProfile(agent: Agent);
-    getProfile(did: string): Promise<Agent|void>;
+    setProfile(agent: AgentExpression);
+    getProfile(did: string): Promise<AgentExpression|void>;
 }
 
 export interface LanguageAdapter {
