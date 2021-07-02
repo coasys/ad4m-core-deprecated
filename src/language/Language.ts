@@ -85,7 +85,7 @@ export interface ReadOnlyLanguage {
 // Interface for Agent Languages.
 // Class Agent in Agent.ts is what these Languages store and retrieve via DID
 export interface AgentAdapter {
-    setProfile(agent: AgentExpression);
+    setProfile(agentExpression: AgentExpression);
     getProfile(did: string): Promise<AgentExpression|void>;
 }
 
