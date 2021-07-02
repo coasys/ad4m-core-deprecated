@@ -8,12 +8,12 @@ export class AgentStatus {
     @Field()
     isUnlocked: Boolean
 
-    @Field()
+    @Field({nullable: true})
     did: String
 
-    @Field()
+    @Field({nullable: true})
     didDocument: String
     
-    @Field()
+    @Field({nullable: true})
     error: String
 }

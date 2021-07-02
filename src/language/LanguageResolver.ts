@@ -11,7 +11,7 @@ export default class LanguageResolver {
     }
 
     @Query(returns => [LanguageHandle])
-    languages(@Arg('filter') filter: string): LanguageHandle[] {
+    languages(@Arg('filter', {nullable: true}) filter: string): LanguageHandle[] {
         return []
     }
 
