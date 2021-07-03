@@ -1,7 +1,25 @@
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, ApolloQueryResult, gql } from "@apollo/client";
 import { Perspective } from "../perspectives/Perspective";
 import { Agent } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
+
+const AGENT_WITH_ALL_SUBITEMS = `
+agent {
+    did
+    directMessageLanguage { address }
+    perspective { 
+        links {
+            author, timestamp, 
+            proof {
+                signature, key, valid, invalid
+            }
+            data {
+                source, predicate, target
+            }
+        }
+    }
+}
+`
 
 export default class AgentClient {
     #apolloClient: ApolloClient<any>
@@ -10,36 +28,22 @@ export default class AgentClient {
         this.#apolloClient = client
     }
 
-    async agent(): Promise<Agent> {
-        const result = await this.#apolloClient.query({
-            query: gql`
-                query agent {
-                    agent {
-                        did
-                        directMessageLanguage { address }
-                        perspective { 
-                            links {
-                                author, timestamp, 
-                                proof {
-                                    signature, key, valid, invalid
-                                }
-                                data {
-                                    source, predicate, target
-                                }
-                            }
-                        }
-                    }
-                }
-            `
-        })
-
+    data(result: ApolloQueryResult<any>) {
         if(result.error) {
             throw result.error
         } else {
-            let agent = new Agent(result.data.agent.did, result.data.agent.prespective)
-            agent.directMessageLanguage = result.data.agent.directMessageLanguage
-            return agent
+            return result.data
         }
+    }
+
+    async agent(): Promise<Agent> {
+        const { agent } = this.data(await this.#apolloClient.query({ 
+            query: gql`query agent {${AGENT_WITH_ALL_SUBITEMS}}` 
+        }))
+
+        let agentObject = new Agent(agent.did, agent.prespective)
+        agentObject.directMessageLanguage = agent.directMessageLanguage
+        return agentObject
     }
 
     agentStatus(): AgentStatus {
