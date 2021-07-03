@@ -16,6 +16,14 @@ import { LinkExpression, LinkExpressionInput } from "../links/Links";
 export class Perspective {
     @Field(type => [LinkExpression])
     links: LinkExpression[]
+
+    constructor(links?: LinkExpression[]) {
+        if(links) {
+            this.links = links
+        } else {
+            this.links = []
+        }
+    }
 }
 
 @InputType()

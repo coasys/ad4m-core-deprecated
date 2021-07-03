@@ -16,4 +16,9 @@ export class AgentStatus {
     
     @Field({nullable: true})
     error: String
+
+    constructor(isInitialized: Boolean, isUnlocked: Boolean) {
+        this.isInitialized = isInitialized
+        this.isUnlocked = isUnlocked
+    }
 }
