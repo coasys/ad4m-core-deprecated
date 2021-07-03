@@ -1,10 +1,9 @@
-import { ApolloClient, ApolloQueryResult, gql } from "@apollo/client";
+import { ApolloClient, ApolloQueryResult, FetchResult, gql } from "@apollo/client";
 import { Perspective } from "../perspectives/Perspective";
 import { Agent } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 
-const AGENT_WITH_ALL_SUBITEMS = `
-agent {
+const AGENT_SUBITEMS = `
     did
     directMessageLanguage { address }
     perspective { 
@@ -18,9 +17,20 @@ agent {
             }
         }
     }
-}
 `
 
+const AGENT_STATUS_FIELDS =`
+    isInitialized
+    isUnlocked
+    did
+    didDocument
+`
+export interface InitializeArgs {
+    did: string,
+    didDocument: string,
+    keystore: string,
+    passphrase: string
+}
 export default class AgentClient {
     #apolloClient: ApolloClient<any>
     
@@ -28,17 +38,22 @@ export default class AgentClient {
         this.#apolloClient = client
     }
 
-    data(result: ApolloQueryResult<any>) {
+    data(result: ApolloQueryResult<any> | FetchResult<any>) {
+        //console.debug('GQL result:', result)
+        //@ts-ignore
         if(result.error) {
+            //@ts-ignore
             throw result.error
-        } else {
-            return result.data
+        } 
+        if(result.errors) {
+            throw result.errors
         }
+        return result.data
     }
 
     async agent(): Promise<Agent> {
         const { agent } = this.data(await this.#apolloClient.query({ 
-            query: gql`query agent {${AGENT_WITH_ALL_SUBITEMS}}` 
+            query: gql`query agent { agent { ${AGENT_SUBITEMS} } }` 
         }))
 
         let agentObject = new Agent(agent.did, agent.prespective)
@@ -46,43 +61,102 @@ export default class AgentClient {
         return agentObject
     }
 
-    agentStatus(): AgentStatus {
-        return new AgentStatus(false, false)
+    async status(): Promise<AgentStatus> {
+        const { agentStatus } = this.data(await this.#apolloClient.query({ 
+            query: gql`query agentStatus {
+                agentStatus {
+                    ${AGENT_STATUS_FIELDS}
+                }
+            }` 
+        }))
+        return new AgentStatus(agentStatus)
     }
 
-    agentInitialize(
-        did: string,
-        didDocument: string,
-        keystore: string,
-        passphrase: string
-    ): AgentStatus {
-        return new AgentStatus(true, true)
+    async initialize(args: InitializeArgs): Promise<AgentStatus> {
+        const { did, didDocument, keystore, passphrase } = args
+        const { agentInitialize } = this.data(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentInitialize(
+                $did: String!,
+                $didDocument: String!,
+                $keystore: String!,
+                $passphrase: String!
+            ) {
+                agentInitialize(did: $did, didDocument: $didDocument, keystore: $keystore, passphrase: $passphrase) {
+                    ${AGENT_STATUS_FIELDS}
+                }
+            }`,
+            variables: { did, didDocument, keystore, passphrase} 
+        }))
+        return new AgentStatus(agentInitialize)
     }
 
-    agentLock(passphrase: string): AgentStatus {
-        return new AgentStatus(true, false)
+    async lock(passphrase: string): Promise<AgentStatus> {
+        const { agentLock } = this.data(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentLock($passphrase: String!) {
+                agentLock(passphrase: $passphrase) {
+                    ${AGENT_STATUS_FIELDS}
+                }
+            }`,
+            variables: { passphrase }
+        }))
+        return new AgentStatus(agentLock)
     }
 
-    agentUnlock(
-        passphrase: string
-    ): AgentStatus {
-        return new AgentStatus(true, true)
+    async unlock(passphrase: string): Promise<AgentStatus> {
+        const { agentUnlock } = this.data(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentUnlock($passphrase: String!) {
+                agentUnlock(passphrase: $passphrase) {
+                    ${AGENT_STATUS_FIELDS}
+                }
+            }`,
+            variables: { passphrase }
+        }))
+        return new AgentStatus(agentUnlock)
     }
 
 
-    agentByDID(did: string): Agent {
-        return new Agent("", new Perspective)
+    async byDID(did: string): Promise<Agent> {
+        const { agentByDID } = this.data(await this.#apolloClient.query({ 
+            query: gql`query agentByDID($did: String!) {
+                agentByDID(did: $did) {
+                    ${AGENT_SUBITEMS}
+                }
+            }`,
+            variables: { did } 
+        }))
+        return agentByDID as Agent
     }
 
-    agentUpdatePublicPerspective(perspective: String): Agent {
-        return new Agent("", new Perspective)
+    async updatePublicPerspective(perspective: Perspective): Promise<Agent> {
+        const { agentUpdatePublicPerspective } = this.data(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentUpdatePublicPerspective($perspective: String!) {
+                agentUpdatePublicPerspective(perspective: $perspective) {
+                    ${AGENT_SUBITEMS}
+                }
+            }`,
+            variables: { perspective: JSON.stringify(perspective) }
+        }))
+        const a = agentUpdatePublicPerspective
+        const agent = new Agent(a.did, a.perspective)
+        agent.directMessageLanguage = a.directMessageLanguage
+        return agent
     }
 
-    agentUpdateInboxLanguage(inboxLanguageAddress: string): Agent {
-        return new Agent("", new Perspective)
+    async updateInboxLanguage(inboxLanguageAddress: string): Promise<Agent> {
+        const { agentUpdateInboxLanguage } = this.data(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentUpdateInboxLanguage($inboxLanguageAddress: String!) {
+                agentUpdateInboxLanguage(inboxLanguageAddress: $inboxLanguageAddress) {
+                    ${AGENT_SUBITEMS}
+                }
+            }`,
+            variables: { inboxLanguageAddress }
+        }))
+        const a = agentUpdateInboxLanguage
+        const agent = new Agent(a.did, a.perspective)
+        agent.directMessageLanguage = a.directMessageLanguage
+        return agent
     }
 
-    agentUpdated(): Agent {
-        return new Agent("", new Perspective)
+    addUpdatedListener(listener) {
     }
 }

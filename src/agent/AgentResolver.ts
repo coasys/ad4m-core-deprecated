@@ -1,4 +1,5 @@
 import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
+import { LanguageRef } from "../language/LanguageRef";
 import { Perspective } from "../perspectives/Perspective";
 import { Agent } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
@@ -14,7 +15,7 @@ export default class AgentResolver {
 
     @Query(returns => AgentStatus)
     agentStatus(): AgentStatus {
-        return new AgentStatus(false, false)
+        return new AgentStatus({did: TEST_AGENT_DID})
     }
 
     @Mutation(returns => AgentStatus)
@@ -24,21 +25,21 @@ export default class AgentResolver {
         @Arg('keystore', {nullable: true}) keystore: string,
         @Arg('passphrase', {nullable: true}) passphrase: string
     ): AgentStatus {
-        return new AgentStatus(false, false)
+        return new AgentStatus({did, didDocument, isInitialized: true, isUnlocked: true})
     }
 
     @Mutation(returns => AgentStatus)
     agentLock(
         @Arg('passphrase') passphrase: string
     ): AgentStatus {
-        return new AgentStatus(false, false)
+        return new AgentStatus({isInitialized: true, did: TEST_AGENT_DID})
     }
 
     @Mutation(returns => AgentStatus)
     agentUnlock(
         @Arg('passphrase') passphrase: string
     ): AgentStatus {
-        return new AgentStatus(true, true)
+        return new AgentStatus({isInitialized: true, isUnlocked: true, did: TEST_AGENT_DID})
     }
 
 
@@ -48,13 +49,17 @@ export default class AgentResolver {
     }
 
     @Mutation(returns => Agent)
-    agentUpdatePublicPerspective(@Arg('perspective') perspective: String): Agent {
-        return new Agent(TEST_AGENT_DID)
+    agentUpdatePublicPerspective(@Arg('perspective') perspective: string): Agent {
+        const perspectiveObject = JSON.parse(perspective) as Perspective
+        const agent = new Agent(TEST_AGENT_DID, perspectiveObject)
+        return agent
     }
 
     @Mutation(returns => Agent)
     agentUpdateInboxLanguage(@Arg('inboxLanguageAddress') inboxLanguageAddress: string): Agent {
-        return new Agent(TEST_AGENT_DID)
+        const agent =  new Agent(TEST_AGENT_DID)
+        agent.directMessageLanguage = { address: inboxLanguageAddress, name: '' } as LanguageRef
+        return agent
     }
 
     @Subscription({topics: ""})
