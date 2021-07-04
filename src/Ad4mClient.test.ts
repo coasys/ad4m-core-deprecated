@@ -7,7 +7,7 @@ import AgentResolver from "./agent/AgentResolver"
 import { Ad4mClient } from "./Ad4mClient";
 import { Perspective } from "./perspectives/Perspective";
 import { Link, LinkExpression } from "./links/Links";
-import { isRgbColor } from "class-validator";
+import LanguageResolver from "./language/LanguageResolver";
 
 jest.setTimeout(15000)
 
@@ -16,7 +16,7 @@ describe('Ad4mClient', () => {
     
     beforeAll(async () => {
         const schema = await buildSchema({
-            resolvers: [AgentResolver]
+            resolvers: [AgentResolver, LanguageResolver]
         })
         const server = new ApolloServer({ schema })
         const { url, subscriptionsUrl } = await server.listen()
@@ -108,6 +108,36 @@ describe('Ad4mClient', () => {
         it('updateInboxLanguage() works', async () => {
             const agent = await ad4mClient.agent.updateInboxLanguage("abcd")
             expect(agent.directMessageLanguage.address).toBe('abcd')
+        })
+    })
+
+    describe('.langauge', () => {
+        it('byAddress() works', async () => {
+            const language = await ad4mClient.languages.byAddress('test-language-address')
+            expect(language.address).toBe('test-language-address')
+        })
+
+        it('byFilter() works', async () => {
+            const languages = await ad4mClient.languages.byFilter('linksAdapter')
+            expect(languages.length).toBe(1)
+            expect(languages[0].name).toBe('test-links-language')
+        })
+
+        it('writeSettings() works', async () => {
+            const result = await ad4mClient.languages.writeSettings(
+                'test-language-address',
+                JSON.stringify({testSetting: true})
+            )
+            expect(result).toBe(true)
+        })
+
+        it('cloneHolochainTemplate() works', async () => {
+            const language = await ad4mClient.languages.cloneHolochainTemplate(
+                './languages/agent-language.js',
+                'agents',
+                '57398-234234-54453345-34'
+            )
+            expect(language.name).toBe('agents-clone')
         })
     })
 

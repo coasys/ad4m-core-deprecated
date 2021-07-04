@@ -1,5 +1,6 @@
-import { ApolloClient, ApolloQueryResult, FetchResult, gql } from "@apollo/client";
+import { ApolloClient, gql } from "@apollo/client";
 import { Perspective } from "../perspectives/Perspective";
+import unwrapApolloResult from "../unwrapApolloResult";
 import { Agent } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 
@@ -38,21 +39,9 @@ export default class AgentClient {
         this.#apolloClient = client
     }
 
-    data(result: ApolloQueryResult<any> | FetchResult<any>) {
-        //console.debug('GQL result:', result)
-        //@ts-ignore
-        if(result.error) {
-            //@ts-ignore
-            throw result.error
-        } 
-        if(result.errors) {
-            throw result.errors
-        }
-        return result.data
-    }
 
     async agent(): Promise<Agent> {
-        const { agent } = this.data(await this.#apolloClient.query({ 
+        const { agent } = unwrapApolloResult(await this.#apolloClient.query({ 
             query: gql`query agent { agent { ${AGENT_SUBITEMS} } }` 
         }))
 
@@ -62,7 +51,7 @@ export default class AgentClient {
     }
 
     async status(): Promise<AgentStatus> {
-        const { agentStatus } = this.data(await this.#apolloClient.query({ 
+        const { agentStatus } = unwrapApolloResult(await this.#apolloClient.query({ 
             query: gql`query agentStatus {
                 agentStatus {
                     ${AGENT_STATUS_FIELDS}
@@ -74,7 +63,7 @@ export default class AgentClient {
 
     async initialize(args: InitializeArgs): Promise<AgentStatus> {
         const { did, didDocument, keystore, passphrase } = args
-        const { agentInitialize } = this.data(await this.#apolloClient.mutate({ 
+        const { agentInitialize } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentInitialize(
                 $did: String!,
                 $didDocument: String!,
@@ -91,7 +80,7 @@ export default class AgentClient {
     }
 
     async lock(passphrase: string): Promise<AgentStatus> {
-        const { agentLock } = this.data(await this.#apolloClient.mutate({ 
+        const { agentLock } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentLock($passphrase: String!) {
                 agentLock(passphrase: $passphrase) {
                     ${AGENT_STATUS_FIELDS}
@@ -103,7 +92,7 @@ export default class AgentClient {
     }
 
     async unlock(passphrase: string): Promise<AgentStatus> {
-        const { agentUnlock } = this.data(await this.#apolloClient.mutate({ 
+        const { agentUnlock } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentUnlock($passphrase: String!) {
                 agentUnlock(passphrase: $passphrase) {
                     ${AGENT_STATUS_FIELDS}
@@ -116,7 +105,7 @@ export default class AgentClient {
 
 
     async byDID(did: string): Promise<Agent> {
-        const { agentByDID } = this.data(await this.#apolloClient.query({ 
+        const { agentByDID } = unwrapApolloResult(await this.#apolloClient.query({ 
             query: gql`query agentByDID($did: String!) {
                 agentByDID(did: $did) {
                     ${AGENT_SUBITEMS}
@@ -128,7 +117,7 @@ export default class AgentClient {
     }
 
     async updatePublicPerspective(perspective: Perspective): Promise<Agent> {
-        const { agentUpdatePublicPerspective } = this.data(await this.#apolloClient.mutate({ 
+        const { agentUpdatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentUpdatePublicPerspective($perspective: String!) {
                 agentUpdatePublicPerspective(perspective: $perspective) {
                     ${AGENT_SUBITEMS}
@@ -143,7 +132,7 @@ export default class AgentClient {
     }
 
     async updateInboxLanguage(inboxLanguageAddress: string): Promise<Agent> {
-        const { agentUpdateInboxLanguage } = this.data(await this.#apolloClient.mutate({ 
+        const { agentUpdateInboxLanguage } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentUpdateInboxLanguage($inboxLanguageAddress: String!) {
                 agentUpdateInboxLanguage(inboxLanguageAddress: $inboxLanguageAddress) {
                     ${AGENT_SUBITEMS}
