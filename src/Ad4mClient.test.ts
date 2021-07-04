@@ -8,6 +8,7 @@ import { Ad4mClient } from "./Ad4mClient";
 import { Perspective } from "./perspectives/Perspective";
 import { Link, LinkExpression } from "./links/Links";
 import LanguageResolver from "./language/LanguageResolver";
+import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 
 jest.setTimeout(15000)
 
@@ -16,7 +17,7 @@ describe('Ad4mClient', () => {
     
     beforeAll(async () => {
         const schema = await buildSchema({
-            resolvers: [AgentResolver, LanguageResolver]
+            resolvers: [AgentResolver, LanguageResolver, NeighbourhoodResolver]
         })
         const server = new ApolloServer({ schema })
         const { url, subscriptionsUrl } = await server.listen()
@@ -111,7 +112,7 @@ describe('Ad4mClient', () => {
         })
     })
 
-    describe('.langauge', () => {
+    describe('.langauges', () => {
         it('byAddress() works', async () => {
             const language = await ad4mClient.languages.byAddress('test-language-address')
             expect(language.address).toBe('test-language-address')
@@ -138,6 +139,21 @@ describe('Ad4mClient', () => {
                 '57398-234234-54453345-34'
             )
             expect(language.name).toBe('agents-clone')
+        })
+    })
+
+    describe('.neighbourhood', () => {
+        it('publishFromPerspective() works', async () => {
+            const expressionRef = await ad4mClient.neighbourhood.publishFromPerspective('UUID', 'test-link-lang', new Perspective())
+            expect(expressionRef.expression).toBe('test-address')
+            expect(expressionRef.language.name).toBe('neighbourhoods')
+        })
+
+        it('joinFromUrl() works', async () => {
+            const perspective = await ad4mClient.neighbourhood.joinFromUrl('neighbourhood://Qm3sdf3dfwhsafd')
+            expect(perspective.sharedURL).toBe('neighbourhood://Qm3sdf3dfwhsafd')
+            expect(perspective.uuid).toBeTruthy()
+            expect(perspective.name).toBeTruthy()
         })
     })
 

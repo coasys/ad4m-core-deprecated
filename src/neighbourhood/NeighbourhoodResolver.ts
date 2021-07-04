@@ -13,11 +13,15 @@ export default class NeighbourhoodResolver {
         @Arg('linkLanguage') linkLanguage: string,
         @Arg('meta') meta: string
     ): ExpressionRef {
-        return new ExpressionRef(new LanguageRef(), "")
+        return new ExpressionRef(new LanguageRef("test-neighbourhood-language-address", "neighbourhoods"), "test-address")
     }
 
     @Mutation(returns => PerspectiveHandle)
     neighbourhoodJoinFromUrl(@Arg('url') url: string): PerspectiveHandle {
-        return new PerspectiveHandle
+        const perspective = new PerspectiveHandle
+        perspective.name = "test-perspective"
+        perspective.sharedURL = url
+        perspective.uuid = "234234234"
+        return perspective
     }
 }
