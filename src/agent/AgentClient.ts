@@ -32,11 +32,30 @@ export interface InitializeArgs {
     keystore: string,
     passphrase: string
 }
+
+export type AgentUpdatedCallback = (agent: Agent) => void
 export default class AgentClient {
     #apolloClient: ApolloClient<any>
+    #updatedCallbacks: AgentUpdatedCallback[]
     
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
+        this.#updatedCallbacks = []
+
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                agentUpdated { ${AGENT_SUBITEMS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                console.log("SUBSCRIPTION:", result)
+                const agent = result.data.agentUpdated
+                this.#updatedCallbacks.forEach(cb => {
+                    cb(agent)
+                })
+            },
+            error: (e) => console.error(e)
+        })
     }
 
 
@@ -147,5 +166,6 @@ export default class AgentClient {
     }
 
     addUpdatedListener(listener) {
+        this.#updatedCallbacks.push(listener)
     }
 }
