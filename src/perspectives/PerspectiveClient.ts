@@ -18,11 +18,59 @@ name
 sharedURL
 `
 
+export type PerspectiveHandleCallback = (perspective: PerspectiveHandle) => void
+export type UuidCallback = (uuid: String) => void
+export type LinkCallback = (link: LinkExpression) => void
 export default class PerspectiveClient {
     #apolloClient: ApolloClient<any>
+    #perspectiveAddedCallbacks: PerspectiveHandleCallback[]
+    #perspectiveUpdatedCallbacks: PerspectiveHandleCallback[]
+    #perspectiveRemovedCallbacks: UuidCallback[]
 
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
+        this.#perspectiveAddedCallbacks = []
+        this.#perspectiveUpdatedCallbacks = []
+        this.#perspectiveRemovedCallbacks = []
+
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                perspectiveAdded { ${PERSPECTIVE_HANDLE_FIELDS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                this.#perspectiveAddedCallbacks.forEach(cb => {
+                    cb(result.data.perspectiveAdded)
+                })
+            },
+            error: (e) => console.error(e)
+        })
+
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                perspectiveUpdated { ${PERSPECTIVE_HANDLE_FIELDS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                this.#perspectiveUpdatedCallbacks.forEach(cb => {
+                    cb(result.data.perspectiveUpdated)
+                })
+            },
+            error: (e) => console.error(e)
+        })
+
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                perspectiveRemoved
+            }   
+        `}).subscribe({
+            next: result => {
+                this.#perspectiveRemovedCallbacks.forEach(cb => {
+                    cb(result.data.perspectiveRemoved)
+                })
+            },
+            error: (e) => console.error(e)
+        })
     }
 
     async all(): Promise<PerspectiveHandle[]> {
@@ -153,23 +201,43 @@ export default class PerspectiveClient {
 
 
     // Subscriptions:
-    perspectiveAdded(): PerspectiveHandle {
-        return new PerspectiveHandle()
+    addPerspectiveAddedListener(cb: PerspectiveHandleCallback) {
+        this.#perspectiveAddedCallbacks.push(cb)
     }
 
-    perspectiveUpdated(): PerspectiveHandle {
-        return new PerspectiveHandle()
+    addPerspectiveUpdatedListener(cb: PerspectiveHandleCallback) {
+        this.#perspectiveUpdatedCallbacks.push(cb)
     }
 
-    perspectiveRemoved(): String {
-        return new String()
+    addPerspectiveRemovedListener(cb: UuidCallback) {
+        this.#perspectiveRemovedCallbacks.push(cb)
     }
 
-    perspectiveLinkAdded(perspectiveUUID: String): LinkExpression {
-        return new LinkExpression()
+    addPerspectiveLinkAddedListener(uuid: String, cb: LinkCallback) {
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                perspectiveLinkAdded(uuid: ${uuid}) { ${LINK_EXPRESSION_FIELDS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                //@ts-ignore
+                cb(result.perspectiveLinkAdded)
+            },
+            error: (e) => console.error(e)
+        })
     }
 
-    perspectiveLinkRemoved(perspectiveUUID: String): LinkExpression {
-        return new LinkExpression()
+    addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback) {
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                perspectiveLinkRemoved(uuid: ${uuid}) { ${LINK_EXPRESSION_FIELDS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                //@ts-ignore
+                cb(result.perspectiveLinkRemoved)
+            },
+            error: (e) => console.error(e)
+        })
     }
 }

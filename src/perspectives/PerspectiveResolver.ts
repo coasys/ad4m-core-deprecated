@@ -87,26 +87,26 @@ export default class PerspectiveResolver {
 
     @Subscription({topics: ""})
     perspectiveAdded(): PerspectiveHandle {
-        return new PerspectiveHandle()
+        return new PerspectiveHandle('00001', 'New Perspective')
     }
 
     @Subscription({topics: ""})
     perspectiveUpdated(): PerspectiveHandle {
-        return new PerspectiveHandle()
+        return new PerspectiveHandle('00001', 'New Perspective')
     }
 
     @Subscription({topics: ""})
     perspectiveRemoved(): String {
-        return new String()
+        return new String('00006')
     }
 
     @Subscription({topics: ""})
-    perspectiveLinkAdded(@Arg('perspectiveUUID') perspectiveUUID: String): LinkExpression {
+    perspectiveLinkAdded(@Arg('uuid') uuid: String): LinkExpression {
         return new LinkExpression()
     }
 
     @Subscription({topics: ""})
-    perspectiveLinkRemoved(@Arg('perspectiveUUID') perspectiveUUID: String): LinkExpression {
+    perspectiveLinkRemoved(@Arg('uuid') uuid: String): LinkExpression {
         return new LinkExpression()
     }
 }
