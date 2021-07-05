@@ -40,7 +40,7 @@ export default class AgentClient {
     }
 
 
-    async agent(): Promise<Agent> {
+    async me(): Promise<Agent> {
         const { agent } = unwrapApolloResult(await this.#apolloClient.query({ 
             query: gql`query agent { agent { ${AGENT_SUBITEMS} } }` 
         }))

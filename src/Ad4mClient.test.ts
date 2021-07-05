@@ -54,8 +54,8 @@ describe('Ad4mClient', () => {
     })
 
     describe('.agent', () => {
-        it('agent() smoke test', async () => {
-            const agent = await ad4mClient.agent.agent()
+        it('me() smoke test', async () => {
+            const agent = await ad4mClient.agent.me()
             expect(agent.did).toBe('did:ad4m:test')
         })
 
