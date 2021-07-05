@@ -1,4 +1,5 @@
 import "reflect-metadata";
+export * from "./Ad4mClient"
 export * from "./Address";
 export * from "./agent/Agent";
 export * from "./agent/AgentStatus";
