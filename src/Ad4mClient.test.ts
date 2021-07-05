@@ -10,6 +10,7 @@ import { Link, LinkExpression } from "./links/Links";
 import LanguageResolver from "./language/LanguageResolver";
 import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 import PerspectiveResolver from "./perspectives/PerspectiveResolver";
+import RuntimeResolver from "./runtime/RuntimeResolver";
 
 jest.setTimeout(15000)
 
@@ -22,7 +23,8 @@ describe('Ad4mClient', () => {
                 AgentResolver, 
                 LanguageResolver, 
                 NeighbourhoodResolver,
-                PerspectiveResolver
+                PerspectiveResolver,
+                RuntimeResolver
             ]
         })
         const server = new ApolloServer({ schema })
@@ -235,6 +237,18 @@ describe('Ad4mClient', () => {
 
         it('removeLink() smoke test', async () => {
             const r = await ad4mClient.perspective.removeLink('00001', {source: 'root', target: '...'})
+            expect(r).toBeTruthy()
+        })
+    })
+
+    describe('.runtime', () => {
+        it('quit() smoke test', async () => {
+            const r = await ad4mClient.runtime.quit()
+            expect(r).toBeTruthy()
+        })
+
+        it('openLink() smoke test', async () => {
+            const r = await ad4mClient.runtime.openLink('https://ad4m.dev')
             expect(r).toBeTruthy()
         })
     })
