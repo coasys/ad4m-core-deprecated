@@ -52,18 +52,18 @@ describe('Ad4mClient', () => {
     })
 
     describe('.agent', () => {
-        it('agent() works', async () => {
+        it('agent() smoke test', async () => {
             const agent = await ad4mClient.agent.agent()
             expect(agent.did).toBe('did:ad4m:test')
         })
 
-        it('status() works', async () => {
+        it('status() smoke test', async () => {
             const agentStatus = await ad4mClient.agent.status()
             expect(agentStatus.did).toBe('did:ad4m:test')
             expect(agentStatus.isUnlocked).toBe(false)
         })
 
-        it('initialize() works', async () => {
+        it('initialize() smoke test', async () => {
             const did = "did:test:test"
             const didDocument = "did document test"
             const keystore = "test"
@@ -79,24 +79,24 @@ describe('Ad4mClient', () => {
             expect(agentStatus.isUnlocked).toBe(true)
         })
 
-        it('lock() works', async () => {
+        it('lock() smoke test', async () => {
             const agentStatus = await ad4mClient.agent.lock('secret')
             expect(agentStatus.did).toBe("did:ad4m:test")
             expect(agentStatus.isUnlocked).toBe(false)
         })
 
-        it('unlock() works', async () => {
+        it('unlock() smoke test', async () => {
             const agentStatus = await ad4mClient.agent.unlock('secret')
             expect(agentStatus.did).toBe("did:ad4m:test")
             expect(agentStatus.isUnlocked).toBe(true)
         })
 
-        it('byDID() works', async () => {
+        it('byDID() smoke test', async () => {
             const agent = await ad4mClient.agent.byDID('did:method:12345')
             expect(agent.did).toBe('did:method:12345')
         })
 
-        it('updatePublicPerspective() works', async () => {
+        it('updatePublicPerspective() smoke test', async () => {
             const perspective = new Perspective()
             const link = new LinkExpression()
             link.author = 'did:method:12345'
@@ -112,25 +112,25 @@ describe('Ad4mClient', () => {
             expect(agent.perspective.links[0].data.target).toBe('perspective://Qm34589a3ccc0')
         })
 
-        it('updateInboxLanguage() works', async () => {
+        it('updateInboxLanguage() smoke test', async () => {
             const agent = await ad4mClient.agent.updateInboxLanguage("abcd")
             expect(agent.directMessageLanguage.address).toBe('abcd')
         })
     })
 
     describe('.langauges', () => {
-        it('byAddress() works', async () => {
+        it('byAddress() smoke test', async () => {
             const language = await ad4mClient.languages.byAddress('test-language-address')
             expect(language.address).toBe('test-language-address')
         })
 
-        it('byFilter() works', async () => {
+        it('byFilter() smoke test', async () => {
             const languages = await ad4mClient.languages.byFilter('linksAdapter')
             expect(languages.length).toBe(1)
             expect(languages[0].name).toBe('test-links-language')
         })
 
-        it('writeSettings() works', async () => {
+        it('writeSettings() smoke test', async () => {
             const result = await ad4mClient.languages.writeSettings(
                 'test-language-address',
                 JSON.stringify({testSetting: true})
@@ -138,7 +138,7 @@ describe('Ad4mClient', () => {
             expect(result).toBe(true)
         })
 
-        it('cloneHolochainTemplate() works', async () => {
+        it('cloneHolochainTemplate() smoke test', async () => {
             const language = await ad4mClient.languages.cloneHolochainTemplate(
                 './languages/agent-language.js',
                 'agents',
@@ -149,13 +149,13 @@ describe('Ad4mClient', () => {
     })
 
     describe('.neighbourhood', () => {
-        it('publishFromPerspective() works', async () => {
+        it('publishFromPerspective() smoke test', async () => {
             const expressionRef = await ad4mClient.neighbourhood.publishFromPerspective('UUID', 'test-link-lang', new Perspective())
             expect(expressionRef.expression).toBe('test-address')
             expect(expressionRef.language.name).toBe('neighbourhoods')
         })
 
-        it('joinFromUrl() works', async () => {
+        it('joinFromUrl() smoke test', async () => {
             const perspective = await ad4mClient.neighbourhood.joinFromUrl('neighbourhood://Qm3sdf3dfwhsafd')
             expect(perspective.sharedURL).toBe('neighbourhood://Qm3sdf3dfwhsafd')
             expect(perspective.uuid).toBeTruthy()
@@ -164,7 +164,7 @@ describe('Ad4mClient', () => {
     })
 
     describe('.perspective', () => {
-        it('all() works',async () => {
+        it('all() smoke test',async () => {
             const perspectives = await ad4mClient.perspective.all()
             expect(perspectives.length).toBe(2)
             const p1 = perspectives[0]
@@ -176,13 +176,13 @@ describe('Ad4mClient', () => {
             expect(p2.sharedURL).toBe('neighbourhood://Qm12345')
         })
 
-        it('byUUID() works', async () => {
+        it('byUUID() smoke test', async () => {
             const p = await ad4mClient.perspective.byUUID('00004')
             expect(p.uuid).toBe('00004')
             expect(p.name).toBe('test-perspective-1')
         })
 
-        it('snapshotByUUID() works', async () => {
+        it('snapshotByUUID() smoke test', async () => {
             const ps = await ad4mClient.perspective.snapshotByUUID('00004')
             expect(ps.links.length).toBe(1)
             expect(ps.links[0].author).toBe('did:ad4m:test')
@@ -190,31 +190,31 @@ describe('Ad4mClient', () => {
             expect(ps.links[0].data.target).toBe('neighbourhood://Qm12345')
         })
 
-        it('queryLinks() works', async () => {
+        it('queryLinks() smoke test', async () => {
             const links = await ad4mClient.perspective.queryLinks('000001', {source: 'root'})
             expect(links.length).toBe(1)
             expect(links[0].data.source).toBe('root')
             expect(links[0].data.target).toBe('neighbourhood://Qm12345')
         })
 
-        it('add() works', async () => {
+        it('add() smoke test', async () => {
             const p = await ad4mClient.perspective.add('p-name')
             expect(p.uuid).toBe('00006')
             expect(p.name).toBe('p-name')
         })
 
-        it('update() works', async () => {
+        it('update() smoke test', async () => {
             const p = await ad4mClient.perspective.update('00001', 'new-name')
             expect(p.uuid).toBe('00001')
             expect(p.name).toBe('new-name')
         })
 
-        it('remove() works', async () => {
+        it('remove() smoke test', async () => {
             const r = await ad4mClient.perspective.remove('000001')
             expect(r).toBeTruthy()
         })
 
-        it('addLink() works', async () => {
+        it('addLink() smoke test', async () => {
             const link = await ad4mClient.perspective.addLink('00001', {source: 'root', target: 'lang://Qm123', predicate: 'p'})
             expect(link.author).toBe('did:ad4m:test')
             expect(link.data.source).toBe('root')
@@ -222,7 +222,7 @@ describe('Ad4mClient', () => {
             expect(link.data.target).toBe('lang://Qm123')
         })
 
-        it('updateLink() works', async () => {
+        it('updateLink() smoke test', async () => {
             const link = await ad4mClient.perspective.updateLink(
                 '00001', 
                 {source: 'root', target: 'none'},
@@ -233,7 +233,7 @@ describe('Ad4mClient', () => {
             expect(link.data.target).toBe('lang://Qm123')
         })
 
-        it('removeLink() works', async () => {
+        it('removeLink() smoke test', async () => {
             const r = await ad4mClient.perspective.removeLink('00001', {source: 'root', target: '...'})
             expect(r).toBeTruthy()
         })
