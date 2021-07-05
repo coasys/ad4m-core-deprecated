@@ -9,7 +9,7 @@ const LINK_EXPRESSION_FIELDS = `
 author
 timestamp
 data { source, predicate, target }
-proof { valid, invalid }
+proof { valid, invalid, signature, key }
 `
 
 const PERSPECTIVE_HANDLE_FIELDS = `
