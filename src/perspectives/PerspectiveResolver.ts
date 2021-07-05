@@ -1,39 +1,58 @@
 import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
-import { LinkExpression } from "../links/Links";
+import { Link, LinkExpression, LinkInput } from "../links/Links";
 import { LinkQuery } from "./LinkQuery";
 import { Perspective } from "./Perspective";
 import { PerspectiveHandle } from "./PerspectiveHandle";
 
+const testLink = new LinkExpression()
+testLink.author = "did:ad4m:test"
+testLink.timestamp = Date.now()
+testLink.data = {
+    source: 'root',
+    target: 'neighbourhood://Qm12345'
+}
+testLink.proof = {
+    signature: '',
+    key: '',
+    valid: true
+}
 @Resolver()
 export default class PerspectiveResolver {
     @Query(returns => [PerspectiveHandle])
     perspectives(): PerspectiveHandle[] {
-        return []
+        const p1 = new PerspectiveHandle()
+        p1.name = 'test-perspective-1'
+        p1.uuid = '00001'
+        const p2 = new PerspectiveHandle()
+        p2.name = 'test-perspective-2'
+        p2.uuid = '00002'
+        p2.sharedURL = 'neighbourhood://Qm12345'
+        return [p1, p2]
     }
 
     @Query(returns => PerspectiveHandle, {nullable: true})
     perspective(@Arg('uuid') uuid: string): PerspectiveHandle|void {
-        return null
+        return new PerspectiveHandle(uuid, 'test-perspective-1')
     }
 
     @Query(returns => Perspective, {nullable: true})
     perspectiveSnapshot(@Arg('uuid') uuid: string): Perspective|void {
-        return null
+        return new Perspective([testLink])
     }
 
     @Query(returns => [LinkExpression], {nullable: true})
     perspectiveQueryLinks(@Arg('uuid') uuid: string, @Arg('query') query: LinkQuery): LinkExpression[] {
-        return []
+        return [testLink]
     }
 
     @Mutation(returns => PerspectiveHandle)
     perspectiveAdd(@Arg('name') name: string): PerspectiveHandle {
-        return new PerspectiveHandle()
+        return new PerspectiveHandle('00006', name)
     }
 
     @Mutation(returns => PerspectiveHandle, {nullable: true})
     perspectiveUpdate(@Arg('uuid') uuid: string, @Arg('name') name: string): PerspectiveHandle {
-        return new PerspectiveHandle()
+        return new PerspectiveHandle(uuid, name)
     }
 
     @Mutation(returns => Boolean)
@@ -42,17 +61,27 @@ export default class PerspectiveResolver {
     }
 
     @Mutation(returns => LinkExpression)
-    perspectiveAddLink(@Arg('uuid') uuid: string, @Arg('link') link: string): LinkExpression {
-        return new LinkExpression()
+    perspectiveAddLink(@Arg('uuid') uuid: string, @Arg('link') link: LinkInput): LinkExpression {
+        const l = new LinkExpression()
+        l.author = 'did:ad4m:test'
+        l.timestamp = Date.now()
+        l.proof = testLink.proof
+        l.data = link
+        return l
     }
  
     @Mutation(returns => LinkExpression)
-    perspectiveUpdateLink(@Arg('uuid') uuid: string, @Arg('oldLink') oldlink: string, @Arg('newLink') newlink: string): LinkExpression {
-        return new LinkExpression()
+    perspectiveUpdateLink(@Arg('uuid') uuid: string, @Arg('oldLink') oldlink: LinkInput, @Arg('newLink') newlink: LinkInput): LinkExpression {
+        const l = new LinkExpression()
+        l.author = 'did:ad4m:test'
+        l.timestamp = Date.now()
+        l.proof = testLink.proof
+        l.data = newlink
+        return l    
     }
 
     @Mutation(returns => Boolean)
-    perspectiveRemoveLink(@Arg('uuid') uuid: string, @Arg('link') link: string): Boolean {
+    perspectiveRemoveLink(@Arg('uuid') uuid: string, @Arg('link') link: LinkInput): Boolean {
         return true
     }
 

@@ -12,4 +12,9 @@ export class PerspectiveHandle {
 
     @Field(type => String, {nullable: true})
     sharedURL: String|void
+
+    constructor(uuid?: String, name?: String) {
+        this.uuid = uuid
+        this.name = name
+    }
 }

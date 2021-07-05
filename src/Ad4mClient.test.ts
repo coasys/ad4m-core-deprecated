@@ -9,6 +9,7 @@ import { Perspective } from "./perspectives/Perspective";
 import { Link, LinkExpression } from "./links/Links";
 import LanguageResolver from "./language/LanguageResolver";
 import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
+import PerspectiveResolver from "./perspectives/PerspectiveResolver";
 
 jest.setTimeout(15000)
 
@@ -17,7 +18,12 @@ describe('Ad4mClient', () => {
     
     beforeAll(async () => {
         const schema = await buildSchema({
-            resolvers: [AgentResolver, LanguageResolver, NeighbourhoodResolver]
+            resolvers: [
+                AgentResolver, 
+                LanguageResolver, 
+                NeighbourhoodResolver,
+                PerspectiveResolver
+            ]
         })
         const server = new ApolloServer({ schema })
         const { url, subscriptionsUrl } = await server.listen()
@@ -154,6 +160,82 @@ describe('Ad4mClient', () => {
             expect(perspective.sharedURL).toBe('neighbourhood://Qm3sdf3dfwhsafd')
             expect(perspective.uuid).toBeTruthy()
             expect(perspective.name).toBeTruthy()
+        })
+    })
+
+    describe('.perspective', () => {
+        it('all() works',async () => {
+            const perspectives = await ad4mClient.perspective.all()
+            expect(perspectives.length).toBe(2)
+            const p1 = perspectives[0]
+            const p2 = perspectives[1]
+            expect(p1.name).toBe('test-perspective-1')
+            expect(p2.name).toBe('test-perspective-2')
+            expect(p1.uuid).toBe('00001')
+            expect(p2.uuid).toBe('00002')
+            expect(p2.sharedURL).toBe('neighbourhood://Qm12345')
+        })
+
+        it('byUUID() works', async () => {
+            const p = await ad4mClient.perspective.byUUID('00004')
+            expect(p.uuid).toBe('00004')
+            expect(p.name).toBe('test-perspective-1')
+        })
+
+        it('snapshotByUUID() works', async () => {
+            const ps = await ad4mClient.perspective.snapshotByUUID('00004')
+            expect(ps.links.length).toBe(1)
+            expect(ps.links[0].author).toBe('did:ad4m:test')
+            expect(ps.links[0].data.source).toBe('root')
+            expect(ps.links[0].data.target).toBe('neighbourhood://Qm12345')
+        })
+
+        it('queryLinks() works', async () => {
+            const links = await ad4mClient.perspective.queryLinks('000001', {source: 'root'})
+            expect(links.length).toBe(1)
+            expect(links[0].data.source).toBe('root')
+            expect(links[0].data.target).toBe('neighbourhood://Qm12345')
+        })
+
+        it('add() works', async () => {
+            const p = await ad4mClient.perspective.add('p-name')
+            expect(p.uuid).toBe('00006')
+            expect(p.name).toBe('p-name')
+        })
+
+        it('update() works', async () => {
+            const p = await ad4mClient.perspective.update('00001', 'new-name')
+            expect(p.uuid).toBe('00001')
+            expect(p.name).toBe('new-name')
+        })
+
+        it('remove() works', async () => {
+            const r = await ad4mClient.perspective.remove('000001')
+            expect(r).toBeTruthy()
+        })
+
+        it('addLink() works', async () => {
+            const link = await ad4mClient.perspective.addLink('00001', {source: 'root', target: 'lang://Qm123', predicate: 'p'})
+            expect(link.author).toBe('did:ad4m:test')
+            expect(link.data.source).toBe('root')
+            expect(link.data.predicate).toBe('p')
+            expect(link.data.target).toBe('lang://Qm123')
+        })
+
+        it('updateLink() works', async () => {
+            const link = await ad4mClient.perspective.updateLink(
+                '00001', 
+                {source: 'root', target: 'none'},
+                {source: 'root', target: 'lang://Qm123', predicate: 'p'})
+            expect(link.author).toBe('did:ad4m:test')
+            expect(link.data.source).toBe('root')
+            expect(link.data.predicate).toBe('p')
+            expect(link.data.target).toBe('lang://Qm123')
+        })
+
+        it('removeLink() works', async () => {
+            const r = await ad4mClient.perspective.removeLink('00001', {source: 'root', target: '...'})
+            expect(r).toBeTruthy()
         })
     })
 

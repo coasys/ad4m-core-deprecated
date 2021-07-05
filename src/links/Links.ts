@@ -19,6 +19,18 @@ export class Link {
     }
 }
 
+@InputType()
+export class LinkInput {
+    @Field()
+    source: string;
+    
+    @Field()
+    target: string;
+    
+    @Field({nullable: true})
+    predicate?: string;
+}
+
 @ObjectType()
 export class LinkExpression extends ExpressionGeneric(Link) {};
 
