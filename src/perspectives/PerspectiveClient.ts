@@ -1,5 +1,5 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { Link, LinkExpression } from "../links/Links";
+import { Link, LinkExpressionInput, LinkExpression, LinkInput } from "../links/Links";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { LinkQuery } from "./LinkQuery";
 import { Perspective } from "./Perspective";
@@ -170,12 +170,12 @@ export default class PerspectiveClient {
         return perspectiveAddLink
     }
  
-    async updateLink(uuid: string, oldLink: Link, newLink: Link): Promise<LinkExpression> {
+    async updateLink(uuid: string, oldLink: LinkExpressionInput, newLink: LinkInput): Promise<LinkExpression> {
         const { perspectiveUpdateLink } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation perspectiveUpdateLink(
                 $uuid: String!, 
                 $newLink: LinkInput!
-                $oldLink: LinkInput!
+                $oldLink: LinkExpressionInput!
             ){
                 perspectiveUpdateLink(
                     newLink: $newLink, 
@@ -190,9 +190,9 @@ export default class PerspectiveClient {
         return perspectiveUpdateLink
     }
 
-    async removeLink(uuid: string, link: Link): Promise<Boolean> {
+    async removeLink(uuid: string, link: LinkExpressionInput): Promise<Boolean> {
         return unwrapApolloResult(await this.#apolloClient.mutate({
-            mutation: gql`mutation perspectiveRemoveLink($link: LinkInput!, $uuid: String!) {
+            mutation: gql`mutation perspectiveRemoveLink($link: LinkExpressionInput!, $uuid: String!) {
                 perspectiveRemoveLink(link: $link, uuid: $uuid)
             }`,
             variables: { uuid, link }

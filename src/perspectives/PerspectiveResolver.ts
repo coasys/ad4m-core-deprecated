@@ -1,5 +1,5 @@
 import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
-import { Link, LinkExpression, LinkInput } from "../links/Links";
+import { LinkExpression, LinkExpressionInput, LinkInput } from "../links/Links";
 import { LinkQuery } from "./LinkQuery";
 import { Perspective } from "./Perspective";
 import { PerspectiveHandle } from "./PerspectiveHandle";
@@ -71,7 +71,7 @@ export default class PerspectiveResolver {
     }
  
     @Mutation(returns => LinkExpression)
-    perspectiveUpdateLink(@Arg('uuid') uuid: string, @Arg('oldLink') oldlink: LinkInput, @Arg('newLink') newlink: LinkInput): LinkExpression {
+    perspectiveUpdateLink(@Arg('uuid') uuid: string, @Arg('oldLink') oldlink: LinkExpressionInput, @Arg('newLink') newlink: LinkInput): LinkExpression {
         const l = new LinkExpression()
         l.author = 'did:ad4m:test'
         l.timestamp = Date.now()
@@ -81,7 +81,7 @@ export default class PerspectiveResolver {
     }
 
     @Mutation(returns => Boolean)
-    perspectiveRemoveLink(@Arg('uuid') uuid: string, @Arg('link') link: LinkInput): Boolean {
+    perspectiveRemoveLink(@Arg('uuid') uuid: string, @Arg('link') link: LinkExpressionInput): Boolean {
         return true
     }
 
