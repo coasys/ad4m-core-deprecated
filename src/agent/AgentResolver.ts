@@ -19,11 +19,18 @@ export default class AgentResolver {
     }
 
     @Mutation(returns => AgentStatus)
-    agentInitialize(
-        @Arg('did', {nullable: true}) did: string,
-        @Arg('didDocument', {nullable: true}) didDocument: string,
-        @Arg('keystore', {nullable: true}) keystore: string,
-        @Arg('passphrase', {nullable: true}) passphrase: string
+    agentGenerate(
+        @Arg('passphrase') passphrase: string
+    ): AgentStatus {
+        return new AgentStatus({did: TEST_AGENT_DID, didDocument: "did document", isInitialized: true, isUnlocked: true})
+    }
+
+    @Mutation(returns => AgentStatus)
+    agentImport(
+        @Arg('did') did: string,
+        @Arg('didDocument') didDocument: string,
+        @Arg('keystore') keystore: string,
+        @Arg('passphrase') passphrase: string
     ): AgentStatus {
         return new AgentStatus({did, didDocument, isInitialized: true, isUnlocked: true})
     }

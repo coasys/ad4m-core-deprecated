@@ -27,10 +27,10 @@ const AGENT_STATUS_FIELDS =`
     didDocument
 `
 export interface InitializeArgs {
-    did?: string,
-    didDocument?: string,
-    keystore?: string,
-    passphrase?: string
+    did: string,
+    didDocument: string,
+    keystore: string,
+    passphrase: string
 }
 
 export type AgentUpdatedCallback = (agent: Agent) => void
@@ -80,26 +80,36 @@ export default class AgentClient {
         return new AgentStatus(agentStatus)
     }
 
-    async initialize(args: InitializeArgs): Promise<AgentStatus> {
+    async generate(passphrase: string): Promise<AgentStatus> {
+        const { agentGenerate } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentGenerate(
+                $passphrase: String!
+            ) {
+                agentGenerate(passphrase: $passphrase) {
+                    ${AGENT_STATUS_FIELDS}
+                }
+            }`,
+            variables: { passphrase} 
+        }))
+        return new AgentStatus(agentGenerate)
+    }
+
+    async import(args: InitializeArgs): Promise<AgentStatus> {
         let { did, didDocument, keystore, passphrase } = args
-        if (did == undefined) did = null;
-        if (didDocument == undefined) didDocument = null;
-        if (keystore == undefined) keystore = null;
-        if (passphrase == undefined) passphrase = null;
-        const { agentInitialize } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentInitialize(
+        const { agentImport } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentImport(
                 $did: String,
                 $didDocument: String,
                 $keystore: String,
                 $passphrase: String
             ) {
-                agentInitialize(did: $did, didDocument: $didDocument, keystore: $keystore, passphrase: $passphrase) {
+                agentImport(did: $did, didDocument: $didDocument, keystore: $keystore, passphrase: $passphrase) {
                     ${AGENT_STATUS_FIELDS}
                 }
             }`,
             variables: { did, didDocument, keystore, passphrase} 
         }))
-        return new AgentStatus(agentInitialize)
+        return new AgentStatus(agentImport)
     }
 
     async lock(passphrase: string): Promise<AgentStatus> {
