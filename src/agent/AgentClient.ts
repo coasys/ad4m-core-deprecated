@@ -27,10 +27,10 @@ const AGENT_STATUS_FIELDS =`
     didDocument
 `
 export interface InitializeArgs {
-    did: string,
-    didDocument: string,
-    keystore: string,
-    passphrase: string
+    did?: string,
+    didDocument?: string,
+    keystore?: string,
+    passphrase?: string
 }
 
 export type AgentUpdatedCallback = (agent: Agent) => void
