@@ -48,7 +48,6 @@ export default class AgentClient {
             }   
         `}).subscribe({
             next: result => {
-                console.log("SUBSCRIPTION:", result)
                 const agent = result.data.agentUpdated
                 this.#updatedCallbacks.forEach(cb => {
                     cb(agent)
