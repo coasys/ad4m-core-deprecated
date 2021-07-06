@@ -1,6 +1,6 @@
 import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
 import { LanguageRef } from "../language/LanguageRef";
-import { Perspective } from "../perspectives/Perspective";
+import { PerspectiveInput } from "../perspectives/Perspective";
 import { Agent } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 
@@ -56,16 +56,15 @@ export default class AgentResolver {
     }
 
     @Mutation(returns => Agent)
-    agentUpdatePublicPerspective(@Arg('perspective') perspective: string): Agent {
-        const perspectiveObject = JSON.parse(perspective) as Perspective
-        const agent = new Agent(TEST_AGENT_DID, perspectiveObject)
+    agentUpdatePublicPerspective(@Arg('perspective') perspective: PerspectiveInput): Agent {
+        const agent = new Agent(TEST_AGENT_DID, perspective)
         return agent
     }
 
     @Mutation(returns => Agent)
-    agentUpdateInboxLanguage(@Arg('inboxLanguageAddress') inboxLanguageAddress: string): Agent {
-        const agent =  new Agent(TEST_AGENT_DID)
-        agent.directMessageLanguage = { address: inboxLanguageAddress, name: '' } as LanguageRef
+    agentUpdateDirectMessageLanguage(@Arg('directMessageLanguage') directMessageLanguage: string): Agent {
+        const agent = new Agent(TEST_AGENT_DID)
+        agent.directMessageLanguage = directMessageLanguage;
         return agent
     }
 

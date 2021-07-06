@@ -1,5 +1,5 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { Perspective } from "../perspectives/Perspective";
+import { PerspectiveInput } from "../perspectives/Perspective";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { Agent } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
@@ -149,14 +149,14 @@ export default class AgentClient {
         return agentByDID as Agent
     }
 
-    async updatePublicPerspective(perspective: Perspective): Promise<Agent> {
+    async updatePublicPerspective(perspective: PerspectiveInput): Promise<Agent> {
         const { agentUpdatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentUpdatePublicPerspective($perspective: String!) {
+            mutation: gql`mutation agentUpdatePublicPerspective($perspective: PerspectiveInput!) {
                 agentUpdatePublicPerspective(perspective: $perspective) {
                     ${AGENT_SUBITEMS}
                 }
             }`,
-            variables: { perspective: JSON.stringify(perspective) }
+            variables: { perspective: perspective }
         }))
         const a = agentUpdatePublicPerspective
         const agent = new Agent(a.did, a.perspective)
@@ -164,16 +164,16 @@ export default class AgentClient {
         return agent
     }
 
-    async updateInboxLanguage(inboxLanguageAddress: string): Promise<Agent> {
-        const { agentUpdateInboxLanguage } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentUpdateInboxLanguage($inboxLanguageAddress: String!) {
-                agentUpdateInboxLanguage(inboxLanguageAddress: $inboxLanguageAddress) {
+    async updateDirectMessageLanguage(directMessageLanguage: string): Promise<Agent> {
+        const { agentUpdateDirectMessageLanguage } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentUpdateDirectMessageLanguage($directMessageLanguage: String!) {
+                agentUpdateDirectMessageLanguage(directMessageLanguage: $directMessageLanguage) {
                     ${AGENT_SUBITEMS}
                 }
             }`,
-            variables: { inboxLanguageAddress }
+            variables: { directMessageLanguage }
         }))
-        const a = agentUpdateInboxLanguage
+        const a = agentUpdateDirectMessageLanguage
         const agent = new Agent(a.did, a.perspective)
         agent.directMessageLanguage = a.directMessageLanguage
         return agent
