@@ -36,11 +36,6 @@ export class ExpressionProofInput {
     
     @Field({nullable: true})
     invalid?: boolean;
-
-    constructor(sig: string, k: string) {
-        this.key = k
-        this.signature = sig
-    }
 }
 
 //Note having any as return type here fixes compilation errors but I think we loose the ExpressionClass type in resulting .d.ts gql files
@@ -58,6 +53,13 @@ export function ExpressionGeneric<DataType>(DataTypeClass: ClassType<DataType>):
     
         @Field()
         proof: ExpressionProof;
+        
+        constructor(author: string, timestamp: string, data: DataType, proof: ExpressionProof) {
+            this.author = author;
+            this.timestamp = timestamp;
+            this.data = data;
+            this.proof = proof;
+        }
     }
     return ExpressionClass;
 }
