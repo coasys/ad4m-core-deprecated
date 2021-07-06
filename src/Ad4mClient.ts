@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { ApolloClient } from '@apollo/client'
 import AgentClient from './agent/AgentClient'
 import { LanguageClient } from './language/LanguageClient'
