@@ -62,7 +62,7 @@ export default class AgentResolver {
         return agent
     }
 
-    @Subscription({topics: ""})
+    @Subscription({topics: "", nullable: true})
     agentUpdated(): Agent {
         return new Agent(TEST_AGENT_DID)
     }
