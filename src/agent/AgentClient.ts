@@ -81,13 +81,17 @@ export default class AgentClient {
     }
 
     async initialize(args: InitializeArgs): Promise<AgentStatus> {
-        const { did, didDocument, keystore, passphrase } = args
+        let { did, didDocument, keystore, passphrase } = args
+        if (did == undefined) did = null;
+        if (didDocument == undefined) didDocument = null;
+        if (keystore == undefined) keystore = null;
+        if (passphrase == undefined) passphrase = null;
         const { agentInitialize } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentInitialize(
-                $did: String!,
-                $didDocument: String!,
-                $keystore: String!,
-                $passphrase: String!
+                $did: String,
+                $didDocument: String,
+                $keystore: String,
+                $passphrase: String
             ) {
                 agentInitialize(did: $did, didDocument: $didDocument, keystore: $keystore, passphrase: $passphrase) {
                     ${AGENT_STATUS_FIELDS}
