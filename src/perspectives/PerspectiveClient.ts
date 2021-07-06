@@ -213,31 +213,35 @@ export default class PerspectiveClient {
         this.#perspectiveRemovedCallbacks.push(cb)
     }
 
-    addPerspectiveLinkAddedListener(uuid: String, cb: LinkCallback) {
+    async addPerspectiveLinkAddedListener(uuid: String, cb: LinkCallback): Promise<void> {
         this.#apolloClient.subscribe({
             query: gql` subscription {
-                perspectiveLinkAdded(uuid: ${uuid}) { ${LINK_EXPRESSION_FIELDS} }
+                perspectiveLinkAdded(uuid: "${uuid}") { ${LINK_EXPRESSION_FIELDS} }
             }   
         `}).subscribe({
             next: result => {
                 //@ts-ignore
-                cb(result.perspectiveLinkAdded)
+                cb(result.data.perspectiveLinkAdded)
             },
             error: (e) => console.error(e)
         })
+
+        await new Promise<void>(resolve => setTimeout(resolve, 500))
     }
 
-    addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback) {
+    async addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback): Promise<void> {
         this.#apolloClient.subscribe({
             query: gql` subscription {
-                perspectiveLinkRemoved(uuid: ${uuid}) { ${LINK_EXPRESSION_FIELDS} }
+                perspectiveLinkRemoved(uuid: "${uuid}") { ${LINK_EXPRESSION_FIELDS} }
             }   
         `}).subscribe({
             next: result => {
                 //@ts-ignore
-                cb(result.perspectiveLinkRemoved)
+                cb(result.data.perspectiveLinkRemoved)
             },
             error: (e) => console.error(e)
         })
+
+        await new Promise<void>(resolve => setTimeout(resolve, 500))
     }
 }
