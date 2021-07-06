@@ -6,7 +6,7 @@ import { AgentStatus } from "./AgentStatus"
 
 const AGENT_SUBITEMS = `
     did
-    directMessageLanguage { address }
+    directMessageLanguage
     perspective { 
         links {
             author, timestamp, 
