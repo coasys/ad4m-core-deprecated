@@ -62,8 +62,7 @@ export default class AgentClient {
         const { agent } = unwrapApolloResult(await this.#apolloClient.query({ 
             query: gql`query agent { agent { ${AGENT_SUBITEMS} } }` 
         }))
-
-        let agentObject = new Agent(agent.did, agent.prespective)
+        let agentObject = new Agent(agent.did, agent.perspective)
         agentObject.directMessageLanguage = agent.directMessageLanguage
         return agentObject
     }
