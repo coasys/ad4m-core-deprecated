@@ -3,6 +3,7 @@ import { ExpressionRef } from "../expression/ExpressionRef";
 import { LanguageRef } from "../language/LanguageRef";
 import { NeighbourhoodExpression } from "../neighbourhood/Neighbourhood";
 import { PerspectiveHandle } from "../perspectives/PerspectiveHandle";
+import { PerspectiveInput } from "../perspectives/Perspective";
 
 
 @Resolver()
@@ -11,7 +12,7 @@ export default class NeighbourhoodResolver {
     neighbourhoodPublishFromPerspective(
         @Arg('perspectiveUUID') perspectiveUUID: string, 
         @Arg('linkLanguage') linkLanguage: string,
-        @Arg('meta') meta: string
+        @Arg('meta') meta: PerspectiveInput
     ): ExpressionRef {
         return new ExpressionRef(new LanguageRef("test-neighbourhood-language-address", "neighbourhoods"), "test-address")
     }

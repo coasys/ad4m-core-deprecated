@@ -21,7 +21,7 @@ export default class NeighbourhoodClient {
         const { neighbourhoodPublishFromPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation neighbourhoodPublishFromPerspective(
                 $linkLanguage: String!,
-                $meta: String!,
+                $meta: PerspectiveInput!,
                 $perspectiveUUID: String!
             ) {
                 neighbourhoodPublishFromPerspective(
@@ -36,7 +36,7 @@ export default class NeighbourhoodClient {
                     }
                 }
             }`,
-            variables: { perspectiveUUID, linkLanguage, meta: JSON.stringify(meta)}
+            variables: { perspectiveUUID, linkLanguage, meta: meta}
         }))
 
         const r = neighbourhoodPublishFromPerspective

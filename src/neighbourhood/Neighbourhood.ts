@@ -7,10 +7,15 @@ import { Perspective } from "../perspectives/Perspective";
 @ObjectType()
 export class Neighbourhood {
     @Field()
-    linkLanguage: LanguageRef
+    linkLanguage: String
 
     @Field()
     meta: Perspective
+
+    constructor(linkLanguage: string, meta: Perspective) {
+        this.linkLanguage = linkLanguage;
+        this.meta = meta;
+    }
 }
 
 @ObjectType()
