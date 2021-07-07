@@ -5,10 +5,12 @@ import { LanguageClient } from './language/LanguageClient'
 import NeighbourhoodClient from './neighbourhood/NeighbourhoodClient'
 import PerspectiveClient from './perspectives/PerspectiveClient'
 import RuntimeClient from './runtime/RuntimeClient'
+import ExpressionClient from './expression/ExpressionClient'
 
 export class Ad4mClient {
     #apolloClient: ApolloClient<any>
     #agentClient: AgentClient
+    #expressionClient: ExpressionClient
     #languageClient: LanguageClient
     #neighbourhoodClient: NeighbourhoodClient
     #perspectiveClient: PerspectiveClient
@@ -18,6 +20,7 @@ export class Ad4mClient {
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
         this.#agentClient = new AgentClient(client)
+        this.#expressionClient = new ExpressionClient(client)
         this.#languageClient = new LanguageClient(client)
         this.#neighbourhoodClient = new NeighbourhoodClient(client)
         this.#perspectiveClient = new PerspectiveClient(client)
@@ -26,6 +29,10 @@ export class Ad4mClient {
 
     get agent(): AgentClient {
         return this.#agentClient
+    }
+
+    get expression(): ExpressionClient {
+        return this.#expressionClient
     }
 
     get languages(): LanguageClient {

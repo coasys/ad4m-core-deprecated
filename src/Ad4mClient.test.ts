@@ -126,6 +126,34 @@ describe('Ad4mClient', () => {
         })
     })
 
+    describe('.expression', () => {
+        it('get() smoke test', async () => {
+            const nonExisting = await ad4mClient.expression.get("wrong address")
+            expect(nonExisting).toBeNull()
+
+            const expression = await ad4mClient.expression.get("neighbourhood://Qm123")
+            expect(expression).toBeDefined()
+            expect(expression.author).toBe('did:ad4m:test')
+            expect(expression.data).toBe("{\"type\":\"test expression\",\"content\":\"test\"}")
+        })
+
+        it('getRaw() smoke test', async () => {
+            const nonExisting = await ad4mClient.expression.getRaw("wrong address")
+            expect(nonExisting).toBeNull()
+
+            const expressionRaw = await ad4mClient.expression.getRaw("neighbourhood://Qm123")
+            expect(expressionRaw).toBeDefined()
+            const expression = JSON.parse(expressionRaw)
+            expect(expression.author).toBe('did:ad4m:test')
+            expect(expression.data).toBe("{\"type\":\"test expression\",\"content\":\"test\"}")
+        })
+
+        it('create() smoke test', async () => {
+            const address = await ad4mClient.expression.create('content', 'Qmabcdf')
+            expect(address.toString()).toBe("Qm1234")
+        })
+    })
+
     describe('.langauges', () => {
         it('byAddress() smoke test', async () => {
             const language = await ad4mClient.languages.byAddress('test-language-address')
