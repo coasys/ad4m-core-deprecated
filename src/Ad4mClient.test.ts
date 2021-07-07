@@ -11,6 +11,7 @@ import LanguageResolver from "./language/LanguageResolver";
 import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 import PerspectiveResolver from "./perspectives/PerspectiveResolver";
 import RuntimeResolver from "./runtime/RuntimeResolver";
+import ExpressionResolver from "./expression/ExpressionResolver";
 
 jest.setTimeout(15000)
 
@@ -21,6 +22,7 @@ describe('Ad4mClient', () => {
         const schema = await buildSchema({
             resolvers: [
                 AgentResolver, 
+                ExpressionResolver,
                 LanguageResolver, 
                 NeighbourhoodResolver,
                 PerspectiveResolver,
