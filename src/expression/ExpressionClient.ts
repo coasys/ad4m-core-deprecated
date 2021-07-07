@@ -1,41 +1,52 @@
-import { ApolloClient } from "@apollo/client";
-import { Link } from "../links/Links";
-import { ExpressionProof, ExpressionRendered } from "./Expression";
-import { ExpressionRef } from "./ExpressionRef";
+import { ApolloClient, gql } from "@apollo/client";
+import unwrapApolloResult from "../unwrapApolloResult";
+import { ExpressionRendered } from "./Expression";
 
 export default class ExpressionClient {
     #apolloClient: ApolloClient<any>
-    #testExpression: ExpressionRendered
 
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
-        const e = new ExpressionRendered()
-        e.author = 'did:ad4m:test'
-        e.timestamp = Date.now().toString()
-        e.proof = new ExpressionProof('', '')
-        e.data = JSON.stringify({ type: 'test expression', content: 'test'})
-
-        this.#testExpression = e
     }
 
-    get(url: string): ExpressionRendered {
-        if(url === 'neighbourhood://Qm123') {
-            return this.#testExpression
-        } else {
-            return null
-        }
+    async get(url: string): Promise<ExpressionRendered> {
+        const { expression } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query expression($url: String!) {
+                expression(url: $url) {
+                    author
+                    timestamp
+                    data
+                    language {
+                        address
+                    }
+                    proof {
+                        valid
+                        invalid
+                    }
+                }
+            }`,
+            variables: { url }
+        }))
+        return expression
     }
 
-    getRaw(url: string): String {
-        if(url === 'neighbourhood://Qm123') {
-            return JSON.stringify(this.#testExpression)
-        } else {
-            return null
-        }
+    async getRaw(url: string): Promise<String> {
+        const { expressionRaw } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query expressionRaw($url: String!) {
+                expressionRaw(url: $url)
+            }`,
+            variables: { url }
+        }))
+        return expressionRaw
     }
 
-    create(content: string, languageAddress: string
-    ): String {
-        return new String("Qm1234")
+    async create(content: string, languageAddress: string): Promise<String> {
+        const { expressionCreate } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation expressionCreate($content: String!, $languageAddress: String!){
+                expressionCreate(content: $content, languageAddress: $languageAddress)
+            }`,
+            variables: { content, languageAddress }
+        }))
+        return expressionCreate
     }
 }
