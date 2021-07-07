@@ -65,13 +65,13 @@ describe('Ad4mClient', () => {
             expect(agentStatus.isUnlocked).toBe(false)
         })
 
-        it('initialize() smoke test', async () => {
+        it('import() smoke test', async () => {
             const did = "did:test:test"
             const didDocument = "did document test"
             const keystore = "test"
             const passphrase = "secret"
 
-            const agentStatus = await ad4mClient.agent.initialize({
+            const agentStatus = await ad4mClient.agent.import({
                 did, didDocument, keystore, passphrase
             })
 
@@ -79,6 +79,12 @@ describe('Ad4mClient', () => {
             expect(agentStatus.didDocument).toBe(didDocument)
             expect(agentStatus.isInitialized).toBe(true)
             expect(agentStatus.isUnlocked).toBe(true)
+        })
+
+        it('generate() smoke test', async () => {
+            const agentStatus = await ad4mClient.agent.generate("passphrase")
+            expect(agentStatus.did).toBeDefined()
+            expect(agentStatus.isInitialized).toBeTruthy()
         })
 
         it('lock() smoke test', async () => {
@@ -114,9 +120,9 @@ describe('Ad4mClient', () => {
             expect(agent.perspective.links[0].data.target).toBe('perspective://Qm34589a3ccc0')
         })
 
-        it('updateInboxLanguage() smoke test', async () => {
-            const agent = await ad4mClient.agent.updateInboxLanguage("abcd")
-            expect(agent.directMessageLanguage.address).toBe('abcd')
+        it('updateDirectMessageLanguage() smoke test', async () => {
+            const agent = await ad4mClient.agent.updateDirectMessageLanguage("abcd")
+            expect(agent.directMessageLanguage).toBe('abcd')
         })
     })
 
@@ -227,7 +233,7 @@ describe('Ad4mClient', () => {
         it('updateLink() smoke test', async () => {
             const link = await ad4mClient.perspective.updateLink(
                 '00001', 
-                {source: 'root', target: 'none'},
+                {author: '', timestamp: '', proof: {signature: '', key: ''}, data:{source: 'root', target: 'none'}},
                 {source: 'root', target: 'lang://Qm123', predicate: 'p'})
             expect(link.author).toBe('did:ad4m:test')
             expect(link.data.source).toBe('root')
@@ -236,7 +242,7 @@ describe('Ad4mClient', () => {
         })
 
         it('removeLink() smoke test', async () => {
-            const r = await ad4mClient.perspective.removeLink('00001', {source: 'root', target: '...'})
+            const r = await ad4mClient.perspective.removeLink('00001', {author: '', timestamp: '', proof: {signature: '', key: ''}, data:{source: 'root', target: 'none'}})
             expect(r).toBeTruthy()
         })
     })

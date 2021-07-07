@@ -97,10 +97,10 @@ export default class AgentClient {
         let { did, didDocument, keystore, passphrase } = args
         const { agentImport } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentImport(
-                $did: String,
-                $didDocument: String,
-                $keystore: String,
-                $passphrase: String
+                $did: String!,
+                $didDocument: String!,
+                $keystore: String!,
+                $passphrase: String!
             ) {
                 agentImport(did: $did, didDocument: $didDocument, keystore: $keystore, passphrase: $passphrase) {
                     ${AGENT_STATUS_FIELDS}
