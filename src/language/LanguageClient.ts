@@ -62,7 +62,7 @@ export class LanguageClient {
         uid: string
     ): Promise<LanguageRef> {
         const { languageCloneHolochainTemplate } = unwrapApolloResult(await this.#apolloClient.mutate({
-            mutation: gql`mutation cloneHolochainTemplate(
+            mutation: gql`mutation languageCloneHolochainTemplate(
                 $languagePath: String!,
                 $dnaNick: String!,
                 $uid: String!
