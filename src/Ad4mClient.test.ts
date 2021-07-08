@@ -153,7 +153,11 @@ describe('Ad4mClient', () => {
         it('create() smoke test', async () => {
             const address = await ad4mClient.expression.create('content', 'Qmabcdf')
             expect(address.toString()).toBe("Qm1234")
+
+            const address2 = await ad4mClient.expression.create({content: 'json'}, 'Qmabcdf')
+            expect(address2.toString()).toBe("Qm1234")
         })
+
     })
 
     describe('.langauges', () => {

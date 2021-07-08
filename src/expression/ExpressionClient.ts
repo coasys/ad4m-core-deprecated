@@ -40,7 +40,8 @@ export default class ExpressionClient {
         return expressionRaw
     }
 
-    async create(content: string, languageAddress: string): Promise<String> {
+    async create(content: any, languageAddress: string): Promise<String> {
+        content = JSON.stringify(content)
         const { expressionCreate } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation expressionCreate($content: String!, $languageAddress: String!){
                 expressionCreate(content: $content, languageAddress: $languageAddress)
