@@ -1,16 +1,33 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import { ExpressionRendered } from "./Expression";
+import { LanguageRef } from "../language/LanguageRef";
+import { ExpressionProof, ExpressionRendered } from "./Expression";
 
+
+const e = new ExpressionRendered()
+e.author = 'did:ad4m:test'
+e.timestamp = Date.now().toString()
+e.proof = new ExpressionProof('', '')
+e.data = JSON.stringify({ type: 'test expression', content: 'test'})
+e.language = new LanguageRef('test-language-address')
+const testExpression = e
 @Resolver()
 export default class ExpressionResolver {
     @Query(returns => ExpressionRendered, {nullable: true})
     expression(@Arg('url') url: string): ExpressionRendered {
-        return new ExpressionRendered()
+        if(url === 'neighbourhood://Qm123') {
+            return testExpression
+        } else {
+            return null
+        }
     }
 
     @Query(returns => String, {nullable: true})
     expressionRaw(@Arg('url') url: string): String {
-        return new String()
+        if(url === 'neighbourhood://Qm123') {
+            return JSON.stringify(testExpression)
+        } else {
+            return null
+        }
     }
 
     @Mutation(returns => String)
@@ -18,6 +35,6 @@ export default class ExpressionResolver {
         @Arg('content') content: string, 
         @Arg('languageAddress') languageAddress: string
     ): String {
-        return new String()
+        return new String("Qm1234")
     }
 }

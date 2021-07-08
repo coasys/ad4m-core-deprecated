@@ -24,11 +24,15 @@ export class Agent {
     perspective: Perspective;
 
     @Field({nullable: true})
-    directMessageLanguage?: LanguageRef
+    directMessageLanguage?: String;
 
-    constructor(did: string, perspective: Perspective) {
+    constructor(did: string, perspective?: Perspective) {
         this.did = did
-        this.perspective = perspective
+        if(perspective) {
+            this.perspective = perspective
+        } else {
+            this.perspective = new Perspective()
+        }
     }
 }
 

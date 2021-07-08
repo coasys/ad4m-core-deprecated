@@ -10,4 +10,9 @@ export class LanguageRef {
     
     @Field()
     name: string;
+
+    constructor(address?: Address, name?: string) {
+        this.address = address
+        this.name = name
+    }
 }

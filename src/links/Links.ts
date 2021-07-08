@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from "type-graphql";
-import { ExpressionGeneric, Expression } from '../expression/Expression';
+import { ExpressionGeneric, ExpressionGenericInput } from '../expression/Expression';
 
 @ObjectType()
 export class Link {
@@ -19,20 +19,29 @@ export class Link {
     }
 }
 
+@InputType()
+export class LinkInput {
+    @Field()
+    source: string;
+    
+    @Field()
+    target: string;
+    
+    @Field({nullable: true})
+    predicate?: string;
+}
+
 @ObjectType()
 export class LinkExpression extends ExpressionGeneric(Link) {};
 
 @InputType()
-export class LinkExpressionInput extends ExpressionGeneric(Link) {};
+export class LinkExpressionInput extends ExpressionGenericInput(LinkInput) {};
 
-export function linkEqual(l1: Expression, l2: Expression): boolean {
+export function linkEqual(l1: LinkExpression, l2: LinkExpression): boolean {
     return l1.author == l2.author &&
         l1.timestamp == l2.timestamp &&
-        // @ts-ignore
         l1.data.source == l2.data.source &&
-        // @ts-ignore
         l1.data.predicate == l2.data.predicate &&
-        // @ts-ignore
         l1.data.target == l2.data.target
 }
 
@@ -40,7 +49,7 @@ export function isLink(l: any): boolean {
     return l && l.source && l.target
 }
 
-export function hashLinkExpression(link: Expression): number {
+export function hashLinkExpression(link: LinkExpression): number {
     const mash = JSON.stringify(link.data, Object.keys(link.data).sort()) +
                 JSON.stringify(link.author) + link.timestamp
     let hash = 0, i, chr;
