@@ -189,8 +189,7 @@ describe('Ad4mClient', () => {
     describe('.neighbourhood', () => {
         it('publishFromPerspective() smoke test', async () => {
             const expressionRef = await ad4mClient.neighbourhood.publishFromPerspective('UUID', 'test-link-lang', new Perspective())
-            expect(expressionRef.expression).toBe('test-address')
-            expect(expressionRef.language.name).toBe('neighbourhoods')
+            expect(expressionRef).toBe('neighbourhood://neighbourhoodAddress')
         })
 
         it('joinFromUrl() smoke test', async () => {

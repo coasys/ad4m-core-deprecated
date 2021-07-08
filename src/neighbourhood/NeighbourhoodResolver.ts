@@ -1,5 +1,4 @@
 import { Arg, Mutation, Resolver } from "type-graphql";
-import { ExpressionRef } from "../expression/ExpressionRef";
 import { LanguageRef } from "../language/LanguageRef";
 import { NeighbourhoodExpression } from "../neighbourhood/Neighbourhood";
 import { PerspectiveHandle } from "../perspectives/PerspectiveHandle";
@@ -8,13 +7,13 @@ import { PerspectiveInput } from "../perspectives/Perspective";
 
 @Resolver()
 export default class NeighbourhoodResolver {
-    @Mutation(returns => ExpressionRef)
+    @Mutation(returns => String)
     neighbourhoodPublishFromPerspective(
         @Arg('perspectiveUUID') perspectiveUUID: string, 
         @Arg('linkLanguage') linkLanguage: string,
         @Arg('meta') meta: PerspectiveInput
-    ): ExpressionRef {
-        return new ExpressionRef(new LanguageRef("test-neighbourhood-language-address", "neighbourhoods"), "test-address")
+    ): String {
+        return "neighbourhood://neighbourhoodAddress"
     }
 
     @Mutation(returns => PerspectiveHandle)

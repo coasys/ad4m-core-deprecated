@@ -17,7 +17,7 @@ export default class NeighbourhoodClient {
         perspectiveUUID: string, 
         linkLanguage: Address,
         meta: Perspective
-    ): Promise<ExpressionRef> {
+    ): Promise<String> {
         const { neighbourhoodPublishFromPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation neighbourhoodPublishFromPerspective(
                 $linkLanguage: String!,
@@ -28,20 +28,11 @@ export default class NeighbourhoodClient {
                     linkLanguage: $linkLanguage,
                     meta: $meta,
                     perspectiveUUID: $perspectiveUUID
-                ) {
-                    expression
-                    language {
-                        name
-                        address
-                    }
-                }
+                )
             }`,
             variables: { perspectiveUUID, linkLanguage, meta: meta}
         }))
-
-        const r = neighbourhoodPublishFromPerspective
-
-        return new ExpressionRef(new LanguageRef(r.language.address, r.language.name), r.expression)
+        return neighbourhoodPublishFromPerspective
     }
 
     async joinFromUrl(url: string): Promise<PerspectiveHandle> {
@@ -55,7 +46,6 @@ export default class NeighbourhoodClient {
             }`,
             variables: { url }
         }))
-
         return neighbourhoodJoinFromUrl
     }
 }
