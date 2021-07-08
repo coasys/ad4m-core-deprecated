@@ -18,7 +18,7 @@ npm install --save @perspect3vism/ad4m
 ```
 In your code:
 ```js
-import { Ad4mClient } from '@perspect3vism/ad4m`
+import { Ad4mClient } from '@perspect3vism/ad4m'
 import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
 import { WebSocketLink } from '@apollo/client/link/ws';
 import ws from "ws"
@@ -91,7 +91,7 @@ await ad4mClient.perspective.addLink(
 
 ### Publishing that local Perspective by turning it into a Neighbourhood
 The back-bone of a Neighbourhood is a *LinkLanguage* - a Language that enables the sharing
-and thus synchronizing of links. While there can and should be many different implementations
+and thus synchronizing of links (see `LinksAdapter` in [Language.ts](src/language/Language.ts)). While there can and should be many different implementations
 with different trade-offs and features (like membranes etc.) the go-to implementation for now
 is *Social Context* from Junto: https://github.com/juntofoundation/Social-Context
 
@@ -112,7 +112,7 @@ console.log(neighbourhoodUrl) // => neighbourhood://Qm123456789abcdef
 ```
 
 ### Joining a Neighbourhood (on another node/agent)
-Assume everything above happened on Alice agent.
+Assume everything above happened on Alice's agent.
 Alice now shares the Neighbourhood's URL with Bob.
 This is what Bob does to join the Neigbourhood, access it as a (local) Perspective
 and retrieve the Expression Alice created and linked there:
@@ -164,7 +164,7 @@ This is a *meta*-ontology since it doesn't make any assumptions about the specif
 Any AD4M implementation will have to include at least 3 reflexive system Languages to enable the dynamic bootstrapping of apps and interconnected sense-making networks:
 * A Language of Agents, i.e. where the expressions represent agents, and which uses DIDs as the expression URLs.
 * A Language of Languages, i.e. a way to talk about Languages so Languages can be created by users and shared.
-* A Language of Perspectives which implies the concept of **Shared Perspectives**, i.e. a way to share an otherwise local and private Perspective with others which constitutes the basic building block of any collaboration context.
+* A Language of Perspectives which implies the concept of **Shared Perspectives** a.k.a. **Neighbourhoods**, i.e. a way to share an otherwise local and private Perspective with others which constitutes the basic building block of any collaboration context.
 
 Having these Languages means Agents can author expressions that represent Agents, Languages and Perspectives. These expressions get linked from inside Perspectives. That way we can model primitives like friends-lists (Perspective including agent expressions), app-stores (Perspective including Languages) and more.
 
