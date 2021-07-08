@@ -34,6 +34,11 @@ export interface InitializeArgs {
 }
 
 export type AgentUpdatedCallback = (agent: Agent) => void
+/**
+ * Provides access to all functions regarding the local agent,
+ * such as generating, locking, unlocking, importing the DID keystore,
+ * as well as updating the publicly shared Agent expression.
+ */
 export default class AgentClient {
     #apolloClient: ApolloClient<any>
     #updatedCallbacks: AgentUpdatedCallback[]
@@ -58,6 +63,12 @@ export default class AgentClient {
     }
 
 
+    /**
+     * Returns the Agent expression of the local agent as it is shared
+     * publicly via the AgentLanguage.
+     * 
+     * I.e. this is the users profile.
+     */
     async me(): Promise<Agent> {
         const { agent } = unwrapApolloResult(await this.#apolloClient.query({ 
             query: gql`query agent { agent { ${AGENT_SUBITEMS} } }` 

@@ -7,6 +7,15 @@ import PerspectiveClient from './perspectives/PerspectiveClient'
 import RuntimeClient from './runtime/RuntimeClient'
 import ExpressionClient from './expression/ExpressionClient'
 
+/**
+ * Client for the Ad4m interface wrapping GraphQL queryies
+ * for convenient use in user facing code.
+ * 
+ * Aggregates the six sub-clients:
+ * AgentClient, ExpressionClient, LanguageClient,
+ * NeighbourhoodClient, PerspectiveClient and RuntimeClient
+ * for the respective functionality.
+ */
 export class Ad4mClient {
     #apolloClient: ApolloClient<any>
     #agentClient: AgentClient
