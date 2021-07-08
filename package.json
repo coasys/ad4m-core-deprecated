@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc && npm run buildSchema",
     "buildSchema": "node lib/buildSchema.js",
-    "test": "jest"
+    "test": "jest --forceExit"
   },
   "repository": {
     "type": "git",
