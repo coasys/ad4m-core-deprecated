@@ -171,19 +171,10 @@ Having these Languages means Agents can author expressions that represent Agents
 
 ### How do I build an app on/with AD4M?
 
-* Languages
 Building an AD4M app actually means extending the AD4M ecosystem with the
+* Languages
 * and link-ontologies
 
 needed for the apps domain - and then creating expressions from those Languages and linking them inside Perspectives.
 
 The latter means creating RDF/semantic web style triplets that associate expressions in order to represent app specific semantics - not too different to how Solid style linked-data would work.
-
-
-### What can I do with AD4M now?
-
-There are 3 ways to use AD4M right now:
-
-1. Directly use [Perspect3ve](https://github.com/perspect3vism/perspect3ve) with its general purpose UI to manually create, link and share graphs of expressions of arbitrary type
-2. Just use the [AD4M executor](https://github.com/perspect3vism/ad4m-executor) which is the core engine and AD4M runtime used in Perspect3ve and connect your own UI via its [AD4M GraphQL interface](https://github.com/perspect3vism/ad4m-executor/blob/main/src/core/graphQL-interface/GraphQL.ts) but run the exact same code for driving Agents, Languages and Perspectives
-3. Just understand the paradigm shift to a complete agent-centric meta-ontology that AD4M represents und apply it to your otherwise unrelated code base. Making your code interoperable with other AD4M implementations will be possible just by wrapping Languages
