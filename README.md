@@ -5,10 +5,138 @@ or just:
 * A new **meta-ontology** for interoperable, decentralized application design
 * A **spanning-layer** to enable seamless integration between Holochain DNAs, blockchains, linked-data structures/ontologies and centralized back-ends
 * The basis for turning distinct, monolithic and siloed apps into a global, open and interoperable **sense-making network**
- 
 ---
 
-## Overview 
+## Ok, let's go...
+To build an app/UI against Ad4m, you need to make sure that an 
+[ad4m-executor](https://github.com/perspect3vism/ad4m-executor) is running
+on the user's machine.
+
+Then use `Ad4mClient` to connect to and work with the running ad4m-executor like this:
+```
+npm install --save @perspect3vism/ad4m
+```
+In your code:
+```js
+import { Ad4mClient } from '@perspect3vism/ad4m`
+import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
+import { WebSocketLink } from '@apollo/client/link/ws';
+import ws from "ws"
+
+const uri = 'http://localhost:4000/graphql'
+const apolloClient = new ApolloClient({
+    link: new WebSocketLink({
+        uri,
+        options: { reconnect: true },
+        webSocketImpl: ws,
+    }),
+    cache: new InMemoryCache({resultCaching: false, addTypename: false}),
+    defaultOptions: {
+        watchQuery: { fetchPolicy: "no-cache" },
+        query: { fetchPolicy: "no-cache" }
+    },
+});
+
+
+ad4mClient = new Ad4mClient(apolloClient)
+```
+
+### Unlocking / initializing the agent
+You can't do much with the Ad4m runtime as long as the agent is not initialized.
+So first get the agent status to see if we either need to create new DID or unlock
+an existing keystore.
+
+```js
+const { isInitialized, isUnlocked, did } = await ad4mClient.agent.status()
+```
+
+If `isInitialized` is `false` (and then `did` is empty) we need to create or import
+a DID and keys. `generate()` will create a new DID with method `key` and lock the
+keystore with the given passphrase.
+
+```js
+const { did } = await ad4mClient.agent.generate("passphrase")
+```
+
+In following runs of the exectuor, `ad4mClient.agent.status()` will return a `did`
+and `isInitialized` true, but if `isUnlocked` is false, we need to unlock the keystore
+providing the passphrase:
+```js
+const { isUnlocked, did } = await ad4mClient.agent.unlock("passphrase")
+```
+
+### Languages
+For creating an expression we need to select a language that we create an expression in:
+```js
+const languages = await ad4mClient.languages.all()
+const noteIpfsAddress = languages.find(l => l.name === 'note-ipfs').address
+```
+### Creating an Expressions
+
+```js
+const exprAddress = await ad4mClient.expression.create("A new text note", noteIpfsAddress)
+```
+
+### Creating a Perspective and linking that new Expression
+```js
+const perspectiveHandle = await ad4mClient.perspective.add("A new perspective on apps...")
+await ad4mClient.perspective.addLink(
+    perspectiveHandle.uuid,
+    new Link({
+        source: 'root',
+        target: exprAddress
+    })
+)
+```
+
+### Publishing that local Perspective by turning it into a Neighbourhood
+The back-bone of a Neighbourhood is a *LinkLanguage* - a Language that enables the sharing
+and thus synchronizing of links. While there can and should be many different implementations
+with different trade-offs and features (like membranes etc.) the go-to implementation for now
+is *Social Context* from Junto: https://github.com/juntofoundation/Social-Context
+
+Let's assume we have downloaded the build files from their release directory, we can use it as
+a template to create a unique Language (with unique Holochain DNA in this case) like so:
+```js
+const uniqueLinkLanguage = await ad4mClient.languages.cloneHolochainTemplate(path.join(__dirname, "../languages/social-context"), "social-context", "b98e53a8-5800-47b6-adb9-86d55a74871e");
+```
+And then use this new LinkLanguage in our Neighbourhood:
+```js
+const meta = new Perspective()
+const neighbourhoodUrl = await ad4mClient.neighbourhood.publishFromPerspective(
+    perspectiveHandle.uuid,
+    uniqueLinkLanguage.address,
+    meta
+)
+console.log(neighbourhoodUrl) // => neighbourhood://Qm123456789abcdef
+```
+
+### Joining a Neighbourhood (on another node/agent)
+Assume everything above happened on Alice agent.
+Alice now shares the Neighbourhood's URL with Bob.
+This is what Bob does to join the Neigbourhood, access it as a (local) Perspective
+and retrieve the Expression Alice created and linked there:
+```js
+const perspectiveHandle = await ad4mClient.neighbourhood.joinFromUrl(neighbourhoodUrl)
+const links = await ad4mClient.perspective.queryLinks(perspectiveHandle.uuid, {})
+links.forEach(link => {
+    const address = link.data.target
+    const expression = await ad4mClient.expression.get(address)
+    const data = JSON.parse(expression.data)
+    console.log(data) //=> "A new text note"
+})
+```
+
+## Building from source
+Run:
+```
+npm i && npm run build
+```
+
+
+---
+
+## Wait, what?! 
 The central claim of AD4M is that any single- but also specifically multi-user application can be bootstrapped out of a meta-ontology consisting of 3 quintessential entities:
 * Agents
 * Languages
