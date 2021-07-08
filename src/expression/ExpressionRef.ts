@@ -26,7 +26,7 @@ export function exprRef2String(ref: ExpressionRef): string {
         return `${ref.language.address}://${ref.expression}`
 }
 
-export function parseExprURL(url: string): ExpressionRef {
+export function parseExprUrl(url: string): ExpressionRef {
     const URIregexp = /^([^:^\s]+):\/\/([^\s]+)$/
     const URImatches = URIregexp.exec(url)
 

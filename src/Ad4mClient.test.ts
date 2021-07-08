@@ -198,7 +198,7 @@ describe('Ad4mClient', () => {
 
         it('joinFromUrl() smoke test', async () => {
             const perspective = await ad4mClient.neighbourhood.joinFromUrl('neighbourhood://Qm3sdf3dfwhsafd')
-            expect(perspective.sharedURL).toBe('neighbourhood://Qm3sdf3dfwhsafd')
+            expect(perspective.sharedUrl).toBe('neighbourhood://Qm3sdf3dfwhsafd')
             expect(perspective.uuid).toBeTruthy()
             expect(perspective.name).toBeTruthy()
         })
@@ -214,7 +214,7 @@ describe('Ad4mClient', () => {
             expect(p2.name).toBe('test-perspective-2')
             expect(p1.uuid).toBe('00001')
             expect(p2.uuid).toBe('00002')
-            expect(p2.sharedURL).toBe('neighbourhood://Qm12345')
+            expect(p2.sharedUrl).toBe('neighbourhood://Qm12345')
         })
 
         it('byUUID() smoke test', async () => {

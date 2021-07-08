@@ -15,7 +15,7 @@ proof { valid, invalid, signature, key }
 const PERSPECTIVE_HANDLE_FIELDS = `
 uuid
 name
-sharedURL
+sharedUrl
 `
 
 export type PerspectiveHandleCallback = (perspective: PerspectiveHandle) => void
@@ -79,7 +79,7 @@ export default class PerspectiveClient {
                 perspectives {
                     uuid
                     name
-                    sharedURL
+                    sharedUrl
                 }
                 
             }`
@@ -93,7 +93,7 @@ export default class PerspectiveClient {
                 perspective(uuid: $uuid) {
                     uuid
                     name
-                    sharedURL
+                    sharedUrl
                 }
             }`,
             variables: { uuid }

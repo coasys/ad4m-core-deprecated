@@ -20,7 +20,7 @@ export default class NeighbourhoodResolver {
     neighbourhoodJoinFromUrl(@Arg('url') url: string): PerspectiveHandle {
         const perspective = new PerspectiveHandle
         perspective.name = "test-perspective"
-        perspective.sharedURL = url
+        perspective.sharedUrl = url
         perspective.uuid = "234234234"
         return perspective
     }

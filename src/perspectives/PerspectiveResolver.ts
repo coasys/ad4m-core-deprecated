@@ -26,7 +26,7 @@ export default class PerspectiveResolver {
         const p2 = new PerspectiveHandle()
         p2.name = 'test-perspective-2'
         p2.uuid = '00002'
-        p2.sharedURL = 'neighbourhood://Qm12345'
+        p2.sharedUrl = 'neighbourhood://Qm12345'
         return [p1, p2]
     }
 

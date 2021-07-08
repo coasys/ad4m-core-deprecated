@@ -41,7 +41,7 @@ export default class NeighbourhoodClient {
                 neighbourhoodJoinFromUrl(url: $url) {
                     uuid
                     name
-                    sharedURL
+                    sharedUrl
                 }
             }`,
             variables: { url }
