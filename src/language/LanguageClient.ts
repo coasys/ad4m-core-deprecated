@@ -43,6 +43,10 @@ export class LanguageClient {
         return languages
     }
 
+    async all(): Promise<LanguageHandle[]> {
+        return this.byFilter('')
+    }
+
     async writeSettings(
         languageAddress: string,
         settings: string

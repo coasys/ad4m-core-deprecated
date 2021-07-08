@@ -172,6 +172,12 @@ describe('Ad4mClient', () => {
             expect(languages[0].name).toBe('test-links-language')
         })
 
+        it('all() smoke test', async () => {
+            const languages = await ad4mClient.languages.all()
+            expect(languages.length).toBe(1)
+            expect(languages[0].name).toBe('test-links-language')
+        })
+
         it('writeSettings() smoke test', async () => {
             const result = await ad4mClient.languages.writeSettings(
                 'test-language-address',
