@@ -16,7 +16,7 @@ export interface LanguageContext {
     signatures: SignaturesService;
     storageDirectory: string;
     customSettings: object;
-    Holochain: HolochainLanguageDelegate | void;
+    Holochain: HolochainLanguageDelegate | undefined;
     ad4mSignal: Ad4mSignalCB;
 }
 

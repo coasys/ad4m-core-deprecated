@@ -11,6 +11,7 @@ export * from "./language/LanguageRef";
 export * from "./language/LanguageContext";
 export * from "./links/Links";
 export * from "./perspectives/Perspective";
+export * from "./perspectives/PerspectiveHandle";
 export * from "./perspectives/LinkQuery";
 export * from "./neighbourhood/Neighbourhood";
 export * from "./typeDefs";

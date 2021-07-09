@@ -10,14 +10,14 @@ export class LanguageHandle {
     address: string;
 
     @Field({nullable: true})
-    settings: string;
+    settings?: string;
 
     @Field({nullable: true})
-    icon: Icon;
+    icon?: Icon;
 
     @Field({nullable: true})
-    constructorIcon: Icon;
+    constructorIcon?: Icon;
 
     @Field({nullable: true})
-    settingsIcon: Icon;
+    settingsIcon?: Icon;
 }

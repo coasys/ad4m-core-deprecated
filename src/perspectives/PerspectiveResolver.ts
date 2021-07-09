@@ -38,12 +38,12 @@ export default class PerspectiveResolver {
     }
 
     @Query(returns => PerspectiveHandle, {nullable: true})
-    perspective(@Arg('uuid') uuid: string): PerspectiveHandle|void {
+    perspective(@Arg('uuid') uuid: string): PerspectiveHandle|null {
         return new PerspectiveHandle(uuid, 'test-perspective-1')
     }
 
     @Query(returns => Perspective, {nullable: true})
-    perspectiveSnapshot(@Arg('uuid') uuid: string): Perspective|void {
+    perspectiveSnapshot(@Arg('uuid') uuid: string): Perspective|null {
         return new Perspective([testLink])
     }
 
@@ -103,17 +103,17 @@ export default class PerspectiveResolver {
     }
 
     @Subscription({topics: "", nullable: true})
-    perspectiveRemoved(): String {
-        return new String('00006')
+    perspectiveRemoved(): string {
+        return '00006'
     }
 
     @Subscription({topics: "", nullable: true})
-    perspectiveLinkAdded(@Arg('uuid') uuid: String): LinkExpression {
+    perspectiveLinkAdded(@Arg('uuid') uuid: string): LinkExpression {
         return new LinkExpression()
     }
 
     @Subscription({topics: "", nullable: true})
-    perspectiveLinkRemoved(@Arg('uuid') uuid: String): LinkExpression {
+    perspectiveLinkRemoved(@Arg('uuid') uuid: string): LinkExpression {
         return new LinkExpression()
     }
 }

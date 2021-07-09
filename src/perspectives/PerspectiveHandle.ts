@@ -1,4 +1,4 @@
-import { Field, ObjectType, InputType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 
 // This type is used in the GraphQL interface to reference a mutable
 // prespective that is implemented locally by the Ad4m runtime.
@@ -6,14 +6,14 @@ import { Field, ObjectType, InputType } from "type-graphql";
 @ObjectType()
 export class PerspectiveHandle {
     @Field()
-    uuid: String
+    uuid: string
     @Field()
-    name: String
+    name: string
 
     @Field(type => String, {nullable: true})
-    sharedUrl: String|void
+    sharedUrl?: string
 
-    constructor(uuid?: String, name?: String) {
+    constructor(uuid?: string, name?: string) {
         this.uuid = uuid
         this.name = name
     }

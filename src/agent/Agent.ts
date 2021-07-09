@@ -18,13 +18,13 @@ import { ExpressionGeneric } from "../expression/Expression";
 @ObjectType()
 export class Agent {
     @Field()
-    did: String;
+    did: string;
 
     @Field(type => Perspective, {nullable: true})
-    perspective: Perspective;
+    perspective?: Perspective;
 
     @Field({nullable: true})
-    directMessageLanguage?: String;
+    directMessageLanguage?: string;
 
     constructor(did: string, perspective?: Perspective) {
         this.did = did

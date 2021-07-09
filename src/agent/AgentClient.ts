@@ -33,7 +33,7 @@ export interface InitializeArgs {
     passphrase: string
 }
 
-export type AgentUpdatedCallback = (agent: Agent) => void
+export type AgentUpdatedCallback = (agent: Agent) => null
 /**
  * Provides access to all functions regarding the local agent,
  * such as generating, locking, unlocking, importing the DID keystore,

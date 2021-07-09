@@ -17,7 +17,7 @@ export default class NeighbourhoodResolver {
         @Arg('perspectiveUUID') perspectiveUUID: string, 
         @Arg('linkLanguage') linkLanguage: string,
         @Arg('meta') meta: PerspectiveInput
-    ): String {
+    ): string {
         return "neighbourhood://neighbourhoodAddress"
     }
 
