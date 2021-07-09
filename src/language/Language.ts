@@ -5,7 +5,7 @@ import type { Expression } from '../expression/Expression'
 import type { LinkQuery }  from '../perspectives/LinkQuery'
 import { Perspective } from '../perspectives/Perspective';
 
-export default interface Language {
+export interface Language {
     readonly name: string;
 
     // Adapter implementations:
@@ -46,7 +46,7 @@ export interface SettingsUI {
 export interface ExpressionAdapter {
     // Returns an Expression by address, or null if there is no Expression
     // with that given address
-    get(address: Address): Promise<void | Expression>;
+    get(address: Address): Promise<null | Expression>;
 
     // Strategy for putting an expression with needs to be different
     // for those two cases:
@@ -65,6 +65,7 @@ export interface ExpressionAdapter {
 // of Expressions.
 // See ExpressionAdapter
 export interface PublicSharing {
+    kind: "PublicSharing";
     // Creates and Expression and shares it.
     // Returns the Expression's address.
     // * content is the object created by the constructorIcon component
@@ -74,6 +75,7 @@ export interface PublicSharing {
 // Implement this interface if your Language is defined over a static
 // set of pre-defined Expressions.
 export interface ReadOnlyLanguage {
+    kind: "ReadOnlyLanguage";
     // This just calculates the address of an object
     // * content is the object created by the constructorIcon component
     addressOf(content: object): Promise<Address>;
@@ -87,7 +89,7 @@ export interface LanguageAdapter {
 // authored by a given agent
 export interface GetByAuthorAdapter {
     /// Get expressions authored by a given Agent/Identity
-    getByAuthor(author: DID, count: number, page: number): Promise<void | Expression[]>;
+    getByAuthor(author: DID, count: number, page: number): Promise<null | Expression[]>;
 }
 
 // Implement this if your Language supports retrievel of all Expressions
@@ -96,10 +98,10 @@ export interface GetByAuthorAdapter {
 // in general - hence not a required interface.
 export interface GetAllAdapter {
     /// Get expressions authored by a given Agent/Identity
-    getAll(filter: any, count: number, page: number): Promise<void | Expression[]>;
+    getAll(filter: any, count: number, page: number): Promise<null | Expression[]>;
 }
 
-export type NewLinksObserver = (added: Expression[], removed: Expression[])=>void;
+export type NewLinksObserver = (added: Expression[], removed: Expression[])=>null;
 
 // Implement this if your Language can share Links between Agents' Perspectives
 export interface LinksAdapter {
@@ -124,7 +126,7 @@ export interface DirectMessageAdapter {
     /// Send an expression to someone privately p2p
     sendPrivate(to: DID, content: object);
     /// Get private expressions sent to you
-    inbox(filterFrom: void | DID[]): Promise<Expression[]>;
+    inbox(filterFrom: null | DID[]): Promise<Expression[]>;
 }
 
 export interface Interaction {

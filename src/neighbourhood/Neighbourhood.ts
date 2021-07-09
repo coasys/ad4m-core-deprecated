@@ -7,7 +7,7 @@ import { Perspective } from "../perspectives/Perspective";
 @ObjectType()
 export class Neighbourhood {
     @Field()
-    linkLanguage: String
+    linkLanguage: string
 
     @Field()
     meta: Perspective

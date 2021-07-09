@@ -16,7 +16,7 @@ export interface LanguageContext {
     signatures: SignaturesService;
     storageDirectory: string;
     customSettings: object;
-    Holochain: HolochainLanguageDelegate | void;
+    Holochain: HolochainLanguageDelegate | null;
     ad4mSignal: Ad4mSignalCB;
 }
 
@@ -30,7 +30,7 @@ export interface HolochainLanguageDelegate {
     call(dnaNick: string, zomeName: string, fnName: string, params: object|string): Promise<any>;
 }
 
-export type Ad4mSignalCB = (signal: any) => void
+export type Ad4mSignalCB = (signal: any) => null
 
 export interface IPFSNode {
     add(data: object): Promise<object>

@@ -30,7 +30,7 @@ export default class ExpressionClient {
         return expression
     }
 
-    async getRaw(url: string): Promise<String> {
+    async getRaw(url: string): Promise<string> {
         const { expressionRaw } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query expressionRaw($url: String!) {
                 expressionRaw(url: $url)
@@ -40,7 +40,7 @@ export default class ExpressionClient {
         return expressionRaw
     }
 
-    async create(content: any, languageAddress: string): Promise<String> {
+    async create(content: any, languageAddress: string): Promise<string> {
         content = JSON.stringify(content)
         const { expressionCreate } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation expressionCreate($content: String!, $languageAddress: String!){

@@ -18,9 +18,9 @@ name
 sharedUrl
 `
 
-export type PerspectiveHandleCallback = (perspective: PerspectiveHandle) => void
-export type UuidCallback = (uuid: String) => void
-export type LinkCallback = (link: LinkExpression) => void
+export type PerspectiveHandleCallback = (perspective: PerspectiveHandle) => null
+export type UuidCallback = (uuid: string) => null
+export type LinkCallback = (link: LinkExpression) => null
 export default class PerspectiveClient {
     #apolloClient: ApolloClient<any>
     #perspectiveAddedCallbacks: PerspectiveHandleCallback[]
@@ -87,7 +87,7 @@ export default class PerspectiveClient {
         return perspectives
     }
 
-    async byUUID(uuid: string): Promise<PerspectiveHandle|void> {
+    async byUUID(uuid: string): Promise<PerspectiveHandle|null> {
         const { perspective } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query perspective($uuid: String!) {
                 perspective(uuid: $uuid) {
@@ -101,7 +101,7 @@ export default class PerspectiveClient {
         return perspective
     }
 
-    async snapshotByUUID(uuid: string): Promise<Perspective|void> {
+    async snapshotByUUID(uuid: string): Promise<Perspective|null> {
         const { perspectiveSnapshot } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query perspectiveSnapshot($uuid: String!) {
                 perspectiveSnapshot(uuid: $uuid) {
@@ -226,7 +226,7 @@ export default class PerspectiveClient {
             error: (e) => console.error(e)
         })
 
-        await new Promise<void>(resolve => setTimeout(resolve, 500))
+        await new Promise<null>(resolve => setTimeout(resolve, 500))
     }
 
     async addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback): Promise<void> {
@@ -242,6 +242,6 @@ export default class PerspectiveClient {
             error: (e) => console.error(e)
         })
 
-        await new Promise<void>(resolve => setTimeout(resolve, 500))
+        await new Promise<null>(resolve => setTimeout(resolve, 500))
     }
 }

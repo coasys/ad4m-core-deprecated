@@ -22,7 +22,7 @@ export default class ExpressionResolver {
     }
 
     @Query(returns => String, {nullable: true})
-    expressionRaw(@Arg('url') url: string): String {
+    expressionRaw(@Arg('url') url: string): string {
         if(url === 'neighbourhood://Qm123') {
             return JSON.stringify(testExpression)
         } else {
@@ -34,7 +34,7 @@ export default class ExpressionResolver {
     expressionCreate(
         @Arg('content') content: string, 
         @Arg('languageAddress') languageAddress: string
-    ): String {
-        return new String("Qm1234")
+    ): string {
+        return "Qm1234"
     }
 }
