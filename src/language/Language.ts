@@ -65,7 +65,6 @@ export interface ExpressionAdapter {
 // of Expressions.
 // See ExpressionAdapter
 export interface PublicSharing {
-    kind: "PublicSharing";
     // Creates and Expression and shares it.
     // Returns the Expression's address.
     // * content is the object created by the constructorIcon component
@@ -75,7 +74,6 @@ export interface PublicSharing {
 // Implement this interface if your Language is defined over a static
 // set of pre-defined Expressions.
 export interface ReadOnlyLanguage {
-    kind: "ReadOnlyLanguage";
     // This just calculates the address of an object
     // * content is the object created by the constructorIcon component
     addressOf(content: object): Promise<Address>;

@@ -149,7 +149,7 @@ export default class PerspectiveClient {
         return perspectiveUpdate
     }
 
-    async remove(uuid: string): Promise<boolean> {
+    async remove(uuid: string): Promise<{perspectiveRemove: boolean}> {
         return unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation perspectiveRemove($uuid: String!) {
                 perspectiveRemove(uuid: $uuid)
@@ -190,7 +190,7 @@ export default class PerspectiveClient {
         return perspectiveUpdateLink
     }
 
-    async removeLink(uuid: string, link: LinkExpressionInput): Promise<Boolean> {
+    async removeLink(uuid: string, link: LinkExpressionInput): Promise<{perspectiveRemoveLink: boolean}> {
         return unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation perspectiveRemoveLink($link: LinkExpressionInput!, $uuid: String!) {
                 perspectiveRemoveLink(link: $link, uuid: $uuid)
