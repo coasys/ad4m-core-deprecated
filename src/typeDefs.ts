@@ -3,4 +3,4 @@
 // This way lib/index.js can stay the compiled version of index.ts,
 // where index.ts imports this file...
 
-export const typeDefs = ""
+export const typeDefsString = ""
