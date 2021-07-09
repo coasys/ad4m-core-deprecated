@@ -11,7 +11,7 @@ export class PerspectiveHandle {
     name: string
 
     @Field(type => String, {nullable: true})
-    sharedUrl: string|null
+    sharedUrl?: string
 
     constructor(uuid?: string, name?: string) {
         this.uuid = uuid

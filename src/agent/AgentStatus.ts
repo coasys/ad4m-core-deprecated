@@ -9,13 +9,13 @@ export class AgentStatus {
     isUnlocked: Boolean
 
     @Field({nullable: true})
-    did: string
+    did?: string
 
     @Field({nullable: true})
-    didDocument: string
+    didDocument?: string
     
     @Field({nullable: true})
-    error: string
+    error?: string
 
     constructor(obj?: object) {
         if(obj) {

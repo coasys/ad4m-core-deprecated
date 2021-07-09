@@ -46,7 +46,7 @@ export interface SettingsUI {
 export interface ExpressionAdapter {
     // Returns an Expression by address, or null if there is no Expression
     // with that given address
-    get(address: Address): Promise<null | Expression>;
+    get(address: Address): Promise<Expression | null>;
 
     // Strategy for putting an expression with needs to be different
     // for those two cases:
@@ -89,7 +89,7 @@ export interface LanguageAdapter {
 // authored by a given agent
 export interface GetByAuthorAdapter {
     /// Get expressions authored by a given Agent/Identity
-    getByAuthor(author: DID, count: number, page: number): Promise<null | Expression[]>;
+    getByAuthor(author: DID, count: number, page: number): Promise<Expression[] | null>;
 }
 
 // Implement this if your Language supports retrievel of all Expressions
@@ -98,10 +98,10 @@ export interface GetByAuthorAdapter {
 // in general - hence not a required interface.
 export interface GetAllAdapter {
     /// Get expressions authored by a given Agent/Identity
-    getAll(filter: any, count: number, page: number): Promise<null | Expression[]>;
+    getAll(filter: any, count: number, page: number): Promise<Expression[] | null>;
 }
 
-export type NewLinksObserver = (added: Expression[], removed: Expression[])=>null;
+export type NewLinksObserver = (added: Expression[], removed: Expression[])=>void;
 
 // Implement this if your Language can share Links between Agents' Perspectives
 export interface LinksAdapter {
@@ -126,7 +126,7 @@ export interface DirectMessageAdapter {
     /// Send an expression to someone privately p2p
     sendPrivate(to: DID, content: object);
     /// Get private expressions sent to you
-    inbox(filterFrom: null | DID[]): Promise<Expression[]>;
+    inbox(filterFrom?: DID[]): Promise<Expression[]>;
 }
 
 export interface Interaction {

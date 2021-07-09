@@ -21,7 +21,7 @@ export class Agent {
     did: string;
 
     @Field(type => Perspective, {nullable: true})
-    perspective: Perspective;
+    perspective?: Perspective;
 
     @Field({nullable: true})
     directMessageLanguage?: string;
