@@ -1,5 +1,4 @@
 import type { Address } from '../Address'
-import type { AgentExpression } from '../agent/Agent'
 import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
 import type { LinkQuery }  from '../perspectives/LinkQuery'
@@ -110,7 +109,6 @@ export interface LinksAdapter {
     addLink(linkExpression: Expression);
     updateLink(oldLinkExpression: Expression, newLinkExpression: Expression);
     removeLink(link: Expression);
-    render(): Promise<Perspective>
 
     getLinks(query: LinkQuery): Promise<Expression[]>;
 
