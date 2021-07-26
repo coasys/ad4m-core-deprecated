@@ -158,6 +158,11 @@ describe('Ad4mClient', () => {
             expect(address2.toString()).toBe("Qm1234")
         })
 
+        it('sign() smoke test', async () => {
+            const expression = await ad4mClient.expression.sign('content')
+            expect(expression).toBeDefined();
+        })
+
     })
 
     describe('.langauges', () => {

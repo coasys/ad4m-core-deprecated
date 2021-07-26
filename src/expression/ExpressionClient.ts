@@ -1,6 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import unwrapApolloResult from "../unwrapApolloResult";
-import { ExpressionRendered } from "./Expression";
+import { ExpressionRendered, ExpressionString } from "./Expression";
 
 export default class ExpressionClient {
     #apolloClient: ApolloClient<any>
@@ -49,5 +49,24 @@ export default class ExpressionClient {
             variables: { content, languageAddress }
         }))
         return expressionCreate
+    }
+
+    async sign(data: any): Promise<ExpressionString> {
+        data = JSON.stringify(data);
+        const { expressionSign } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation expressionSign($data: String!){
+                expressionSign(data: $data) {
+                    author
+                    timestamp
+                    data
+                    proof {
+                        valid
+                        invalid
+                    }
+                }
+            }`,
+            variables: { data }
+        }))
+        return expressionSign
     }
 }

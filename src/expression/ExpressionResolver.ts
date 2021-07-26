@@ -10,6 +10,14 @@ e.proof = new ExpressionProof('', '')
 e.data = JSON.stringify({ type: 'test expression', content: 'test'})
 e.language = new LanguageRef('test-language-address')
 const testExpression = e
+
+const exp = new ExpressionString()
+exp.author = 'did:ad4m:test'
+exp.timestamp = Date.now().toString()
+exp.proof = new ExpressionProof('', '')
+exp.data = JSON.stringify({ type: 'test expression', content: 'test'})
+const testStringExpression = exp;
+
 @Resolver()
 export default class ExpressionResolver {
     @Query(returns => ExpressionRendered, {nullable: true})
@@ -42,6 +50,6 @@ export default class ExpressionResolver {
     expressionSign(
         @Arg('data') data: string,
     ): ExpressionString {
-        return new ExpressionString()
+        return testStringExpression
     }
 }
