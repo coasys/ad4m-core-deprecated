@@ -1,6 +1,6 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { LanguageRef } from "../language/LanguageRef";
-import { ExpressionProof, ExpressionRendered } from "./Expression";
+import { Expression, ExpressionProof, ExpressionRendered } from "./Expression";
 
 
 const e = new ExpressionRendered()
@@ -36,5 +36,12 @@ export default class ExpressionResolver {
         @Arg('languageAddress') languageAddress: string
     ): string {
         return "Qm1234"
+    }
+
+    @Mutation(returns => Expression)
+    expressionSign(
+        @Arg('expression') expression: Expression,
+    ): Expression {
+        return new Expression()
     }
 }
