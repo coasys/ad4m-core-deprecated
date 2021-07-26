@@ -1,6 +1,6 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { LanguageRef } from "../language/LanguageRef";
-import { Expression, ExpressionProof, ExpressionRendered } from "./Expression";
+import { ExpressionString, ExpressionProof, ExpressionRendered } from "./Expression";
 
 
 const e = new ExpressionRendered()
@@ -38,10 +38,10 @@ export default class ExpressionResolver {
         return "Qm1234"
     }
 
-    @Mutation(returns => Expression)
+    @Mutation(returns => ExpressionString)
     expressionSign(
-        @Arg('expression') expression: Expression,
-    ): Expression {
-        return new Expression()
+        @Arg('data') data: string,
+    ): ExpressionString {
+        return new ExpressionString()
     }
 }
