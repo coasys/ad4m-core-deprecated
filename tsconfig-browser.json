@@ -1,6 +1,11 @@
 {
-  "include": ["./src/buildSchema.ts", "./src/Ad4mClient.test.ts"], 
+  "include": ["./src/**/*.ts"],
+  "exclude": ["./src/buildSchema.ts", "./src/Ad4mClient.test.ts"],
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "type-graphql": ["./shims/type-graphql.ts"]
+    },
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Basic Options */
@@ -16,7 +21,7 @@
     // "declarationMap": true,                      /* Generates a sourcemap for each corresponding '.d.ts' file. */
     // "sourceMap": true,                           /* Generates corresponding '.map' file. */
     // "outFile": "./",                             /* Concatenate and emit output to single file. */
-    "rootDir": "./src",                             /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "rootDir": "./",                             /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "outDir": "./lib",
     // "composite": true,                           /* Enable project compilation */
     // "tsBuildInfoFile": "./",                     /* Specify file to store incremental compilation information */
