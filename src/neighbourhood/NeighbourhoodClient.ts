@@ -1,7 +1,5 @@
 import { ApolloClient, ApolloQueryResult, gql } from "@apollo/client"
 import { Address } from "../Address"
-import { ExpressionRef } from "../expression/ExpressionRef"
-import { LanguageRef } from "../language/LanguageRef"
 import { Perspective } from "../perspectives/Perspective"
 import { PerspectiveHandle } from "../perspectives/PerspectiveHandle"
 import unwrapApolloResult from "../unwrapApolloResult"
@@ -42,6 +40,18 @@ export default class NeighbourhoodClient {
                     uuid
                     name
                     sharedUrl
+                    neighbourhood { 
+                        linkLanguage 
+                        meta { 
+                            links
+                                {
+                                    author
+                                    timestamp
+                                    data { source, predicate, target }
+                                    proof { valid, invalid, signature, key }
+                                }  
+                        } 
+                    }
                 }
             }`,
             variables: { url }
