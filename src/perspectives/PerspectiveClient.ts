@@ -16,6 +16,18 @@ const PERSPECTIVE_HANDLE_FIELDS = `
 uuid
 name
 sharedUrl
+neighbourhood { 
+    linkLanguage 
+    meta { 
+        links
+            {
+                author
+                timestamp
+                data { source, predicate, target }
+                proof { valid, invalid, signature, key }
+            }  
+    } 
+}
 `
 
 export type PerspectiveHandleCallback = (perspective: PerspectiveHandle) => null
@@ -77,9 +89,7 @@ export default class PerspectiveClient {
         const { perspectives } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query perspectives {
                 perspectives {
-                    uuid
-                    name
-                    sharedUrl
+                    ${PERSPECTIVE_HANDLE_FIELDS}
                 }
                 
             }`
@@ -91,9 +101,7 @@ export default class PerspectiveClient {
         const { perspective } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query perspective($uuid: String!) {
                 perspective(uuid: $uuid) {
-                    uuid
-                    name
-                    sharedUrl
+                    ${PERSPECTIVE_HANDLE_FIELDS}
                 }
             }`,
             variables: { uuid }
