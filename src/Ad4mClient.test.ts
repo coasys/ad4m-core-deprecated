@@ -297,8 +297,20 @@ describe('Ad4mClient', () => {
             const r = await ad4mClient.runtime.openLink('https://ad4m.dev')
             expect(r).toBeTruthy()
         })
+        
+        it('addTrustedAgents() smoke test', async () => {
+            const r = await ad4mClient.runtime.addTrustedAgents(["agentPubKey"]);
+            expect(r).toStrictEqual([ 'agentPubKey' ])
+        })
+
+        it('deleteTrustedAgents() smoke test', async () => {
+            const r = await ad4mClient.runtime.deleteTrustedAgents(["agentPubKey"]);
+            expect(r).toStrictEqual([])
+        })
+
+        it('getTrustedAgents() smoke test', async () => {
+            const r = await ad4mClient.runtime.getTrustedAgents();
+            expect(r).toStrictEqual([ 'agentPubKey' ])
+        })
     })
-
-
-
 })

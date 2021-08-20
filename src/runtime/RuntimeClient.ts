@@ -25,4 +25,33 @@ export default class RuntimeClient {
         }))
         return runtimeOpenLink
     }
+
+    async addTrustedAgents(agents: string[]): Promise<string[]> {
+        const { addTrustedAgents } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation addTrustedAgents($agents: [String!]!) {
+                addTrustedAgents(agents: $agents)
+            }`,
+            variables: { agents }
+        }))
+        return addTrustedAgents 
+    }
+
+    async deleteTrustedAgents(agents: string[]): Promise<string[]> {
+        const { deleteTrustedAgents } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation deleteTrustedAgents($agents: [String!]!) {
+                deleteTrustedAgents(agents: $agents)
+            }`,
+            variables: { agents }
+        }))
+        return deleteTrustedAgents 
+    }
+
+    async getTrustedAgents(): Promise<string[]> {
+        const { getTrustedAgents } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query getTrustedAgents {
+                getTrustedAgents
+            }`,
+        }))
+        return getTrustedAgents
+    }
 }
