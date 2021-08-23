@@ -3,7 +3,7 @@ name: Readme JS Code
 on: [push]
 
 jobs:
-  build:
+  check-readme:
     runs-on: ubuntu-latest
 
     steps:
