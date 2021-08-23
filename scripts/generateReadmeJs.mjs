@@ -1,8 +1,5 @@
 import fs from "fs";
 
-// void (async () => {
-// })();
-
 let matches;
 const readme = fs.readFileSync("./README.md").toString();
 

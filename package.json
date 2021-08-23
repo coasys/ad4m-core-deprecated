@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc && npm run buildSchema",
     "buildSchema": "node lib/buildSchema.js",
-    "checkReadmeCode": "rm -rf  tmp/readme-test && mkdir -p  tmp/readme-test && ts-node scripts/generateReadmeJs.ts && ./scripts/runReadmeJs.sh",
+    "checkReadmeCode": "rm -rf  tmp/readme-test && mkdir -p  tmp/readme-test && cp tsconfig.json tmp/readme-test && ts-node scripts/generateReadmeJs.mjs && ./scripts/runReadmeJs.sh",
     "test": "jest --forceExit"
   },
   "repository": {
