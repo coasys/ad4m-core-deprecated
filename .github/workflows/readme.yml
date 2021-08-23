@@ -1,4 +1,4 @@
-name: Readme JS Code
+name: Check Readme JS Code
 
 on: [push]
 
