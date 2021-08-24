@@ -187,12 +187,11 @@ describe('Ad4mClient', () => {
         })
 
         it('cloneHolochainTemplate() smoke test', async () => {
-            const language = await ad4mClient.languages.cloneHolochainTemplate(
-                './languages/agent-language.js',
-                'agents',
-                '57398-234234-54453345-34'
+            const language = await ad4mClient.languages.applyTemplateAndPublish(
+                'languageHash',
+                '{"name": "test-templating"}',
             )
-            expect(language.name).toBe('agents-clone')
+            expect(language.name).toBe('languageHash-clone')
         })
     })
 

@@ -46,12 +46,11 @@ export default class LanguageResolver {
     }
 
     @Mutation()
-    languageCloneHolochainTemplate(
-        @Arg('languagePath') languagePath: string,
-        @Arg('dnaNick') dnaNick: string,
-        @Arg('uid') uid: string
+    languageApplyTemplateAndPublish(
+        @Arg('sourceLanguageHash') sourceLanguageHash: string,
+        @Arg('templateData') templateData: string,
     ): LanguageRef {
-        return new LanguageRef('test-address', `${dnaNick}-clone`)
+        return new LanguageRef('test-address', `${sourceLanguageHash}-clone`)
     }
 }
 
