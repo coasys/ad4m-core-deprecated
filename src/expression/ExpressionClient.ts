@@ -30,6 +30,27 @@ export default class ExpressionClient {
         return expression
     }
 
+    async getMany(urls: string[]): Promise<ExpressionRendered[]> {
+        const { expressionMany } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query expressionMany($urls: [String!]!) {
+                expressionMany(urls: $urls) {
+                    author
+                    timestamp
+                    data
+                    language {
+                        address
+                    }
+                    proof {
+                        valid
+                        invalid
+                    }
+                }
+            }`,
+            variables: { urls }
+        }))
+        return expressionMany
+    }
+
     async getRaw(url: string): Promise<string> {
         const { expressionRaw } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query expressionRaw($url: String!) {
