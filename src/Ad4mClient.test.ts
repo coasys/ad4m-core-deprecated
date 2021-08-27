@@ -186,12 +186,20 @@ describe('Ad4mClient', () => {
             expect(result).toBe(true)
         })
 
-        it('cloneHolochainTemplate() smoke test', async () => {
+        it('applyTemplateAndPublish() smoke test', async () => {
             const language = await ad4mClient.languages.applyTemplateAndPublish(
                 'languageHash',
                 '{"name": "test-templating"}',
             )
             expect(language.name).toBe('languageHash-clone')
+        })
+
+        it('applyTemplateAndPublish() smoke test', async () => {
+            const language = await ad4mClient.languages.publish(
+                '/some/language/path/',
+                '{"name": "test-templating"}',
+            )
+            expect(language.name).toBe('/some/language/path/-clone')
         })
     })
 

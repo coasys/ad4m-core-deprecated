@@ -52,5 +52,13 @@ export default class LanguageResolver {
     ): LanguageRef {
         return new LanguageRef('test-address', `${sourceLanguageHash}-clone`)
     }
+
+    @Mutation()
+    languagePublish(
+        @Arg('languagePath') languagePath: string,
+        @Arg('templateData') templateData: string,
+    ): LanguageRef {
+        return new LanguageRef('test-address', `${languagePath}-clone`)
+    }
 }
 

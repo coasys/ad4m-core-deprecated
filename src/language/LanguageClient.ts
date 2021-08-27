@@ -78,4 +78,23 @@ export class LanguageClient {
 
         return languageApplyTemplateAndPublish
     }
+
+    async publish(
+        languagePath: string,
+        templateData: string
+    ): Promise<LanguageRef> {
+        const { languagePublish } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation languagePublish(
+                $languagePath: String!,
+                $templateData: String!,
+            ) {
+                languagePublish(languagePath: $languagePath, templateData: $templateData) {
+                    name, address
+                }
+            }`,
+            variables: { languagePath, templateData }
+        }))
+
+        return languagePublish
+    }
 }
