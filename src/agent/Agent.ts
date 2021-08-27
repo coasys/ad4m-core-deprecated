@@ -71,10 +71,10 @@ export class EntanglementProofInput {
     @Field()
     deviceKeySignedByDid: string;
 
-    @Field({nullable: true})
-    didSignedByDeviceKey?: string;
+    @Field()
+    didSignedByDeviceKey: string;
 
-    constructor(did: string, deviceKey: string, deviceKeySignedByDid: string, didSignedByDeviceKey?: string) {
+    constructor(did: string, deviceKey: string, deviceKeySignedByDid: string, didSignedByDeviceKey: string) {
         this.did = did;
         this.deviceKey = deviceKey;
         this.deviceKeySignedByDid = deviceKeySignedByDid;
