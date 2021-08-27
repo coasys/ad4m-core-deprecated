@@ -1,7 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { PerspectiveInput } from "../perspectives/Perspective";
 import unwrapApolloResult from "../unwrapApolloResult";
-import { Agent } from "./Agent";
+import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 
 const AGENT_SUBITEMS = `
@@ -26,6 +26,14 @@ const AGENT_STATUS_FIELDS =`
     did
     didDocument
 `
+
+const ENTANGLEMENT_PROOF_FIELDS = `
+    did
+    deviceKey
+    deviceKeySignedByDid
+    didSignedByDeviceKey
+`
+
 export interface InitializeArgs {
     did: string,
     didDocument: string,
@@ -186,6 +194,41 @@ export default class AgentClient {
         const agent = new Agent(a.did, a.perspective)
         agent.directMessageLanguage = a.directMessageLanguage
         return agent
+    }
+
+    async addEntanglementProofs(proofs: EntanglementProofInput[]): Promise<EntanglementProof[]> {
+        const { addEntanglementProofs } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation addEntanglementProofs($proofs: [EntanglementProofInput!]!) {
+                addEntanglementProofs(proofs: $proofs) {
+                    ${ENTANGLEMENT_PROOF_FIELDS}
+                }
+            }`,
+            variables: { proofs }
+        }))
+        return addEntanglementProofs 
+    }
+
+    async deleteEntanglementProofs(proofs: EntanglementProofInput[]): Promise<EntanglementProof[]> {
+        const { deleteEntanglementProofs } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation deleteEntanglementProofs($proofs: [EntanglementProofInput!]!) {
+                deleteEntanglementProofs(proofs: $proofs) {
+                    ${ENTANGLEMENT_PROOF_FIELDS}
+                }
+            }`,
+            variables: { proofs }
+        }))
+        return deleteEntanglementProofs 
+    }
+
+    async getEntanglementProofs(): Promise<string[]> {
+        const { getEntanglementProofs } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query getEntanglementProofs {
+                getEntanglementProofs {
+                    ${ENTANGLEMENT_PROOF_FIELDS}
+                }
+            }`,
+        }))
+        return getEntanglementProofs
     }
 
     addUpdatedListener(listener) {
