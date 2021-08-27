@@ -86,4 +86,9 @@ export default class AgentResolver {
     getEntanglementProofs(): EntanglementProof[] {
         return [new EntanglementProof("did:key:hash", "ethAddr", "sig", "sig2")] 
     }
+
+    @Mutation(returns => EntanglementProof)
+    entanglementProofPreFlight(@Arg('deviceKey') deviceKey: string): EntanglementProof {
+        return new EntanglementProof("did:key:hash", "ethAddr", "sig")
+    }
 }

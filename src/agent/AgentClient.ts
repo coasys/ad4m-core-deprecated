@@ -231,6 +231,18 @@ export default class AgentClient {
         return getEntanglementProofs
     }
 
+    async entanglementProofPreFlight(deviceKey: string): Promise<EntanglementProof> {
+        const { entanglementProofPreFlight } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation entanglementProofPreFlight($deviceKey: String!) {
+                entanglementProofPreFlight(deviceKey: $deviceKey) {
+                    ${ENTANGLEMENT_PROOF_FIELDS}
+                }
+            }`,
+            variables: { deviceKey }
+        }))
+        return entanglementProofPreFlight
+    }
+
     addUpdatedListener(listener) {
         this.#updatedCallbacks.push(listener)
     }
