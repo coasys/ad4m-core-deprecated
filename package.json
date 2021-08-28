@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc && npm run buildSchema",
     "buildSchema": "node lib/buildSchema.js",
+    "checkReadmeCode": "rm -rf  tmp/readme-test && mkdir -p  tmp/readme-test && cp tsconfig.json tmp/readme-test && ts-node scripts/generateReadmeJs.mjs && ./scripts/runReadmeJs.sh",
     "test": "jest --forceExit"
   },
   "repository": {
@@ -35,17 +36,18 @@
     "@types/mocha": "^8.0.3",
     "class-validator": "^0.13.1",
     "graphql": "^15.5.0",
+    "react": "^17.0.2",
     "reflect-metadata": "^0.1.13",
-    "type-graphql": "^1.1.1",
-    "react": "^17.0.2"
+    "type-graphql": "^1.1.1"
   },
   "devDependencies": {
     "@apollo/link-error": "^2.0.0-beta.3",
     "@types/reflect-metadata": "^0.1.0",
     "apollo-server": "^2.25.2",
     "cross-fetch": "^3.1.4",
-    "ts-jest": "^27.0.3",
     "jest": "^27.0.4",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.2.1",
     "typescript": "^4.2.4"
   }
 }
