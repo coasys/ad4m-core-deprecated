@@ -234,7 +234,7 @@ export default class PerspectiveClient {
             error: (e) => console.error(e)
         })
 
-        await new Promise<null>(resolve => setTimeout(resolve, 500))
+        await new Promise<void>(resolve => setTimeout(resolve, 500))
     }
 
     async addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback): Promise<void> {
@@ -250,6 +250,6 @@ export default class PerspectiveClient {
             error: (e) => console.error(e)
         })
 
-        await new Promise<null>(resolve => setTimeout(resolve, 500))
+        await new Promise<void>(resolve => setTimeout(resolve, 500))
     }
 }
