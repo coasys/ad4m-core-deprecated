@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc && npm run buildSchema",
-    "buildSchema": "node lib/buildSchema.js",
+    "build": "tsc --build tsconfig-browser.json && npm run buildSchema",
+    "buildSchema": "tsc && node lib/buildSchema.js",
     "test": "jest --forceExit"
   },
   "repository": {
