@@ -4,7 +4,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "type-graphql": ["./shims/type-graphql.ts"]
+      "type-graphql": ["./shims/type-graphql.ts"],
+      "reflect-metadata": ["./shims/reflect-metadata.ts"]
     },
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
