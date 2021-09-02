@@ -5,4 +5,4 @@ pwd
 cd tmp/readme-test
 npm init -y
 bash readmeCodeSetup.sh
-ts-node readmeCode.ts
+node --loader ts-node/esm readmeCode.ts

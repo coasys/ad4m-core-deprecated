@@ -22,10 +22,12 @@ npm install --save subscriptions-transport-ws@0.9.19
 
 In your code:
 ```js
-import { Ad4mClient } from '@perspect3vism/ad4m'
-import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
-import { WebSocketLink } from '@apollo/client/link/ws';
+import { Ad4mClient, Link, LinkQuery, Perspective } from '@perspect3vism/ad4m'
+import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client"
+import { WebSocketLink } from '@apollo/client/link/ws'
 import ws from "ws"
+import path from "path"
+
 
 const uri = 'http://localhost:4000/graphql'
 const apolloClient = new ApolloClient({
@@ -42,7 +44,7 @@ const apolloClient = new ApolloClient({
 });
 
 
-ad4mClient = new Ad4mClient(apolloClient)
+let ad4mClient = new Ad4mClient(apolloClient)
 ```
 
 ### Unlocking / initializing the agent
@@ -51,7 +53,7 @@ So first get the agent status to see if we either need to create new DID or unlo
 an existing keystore.
 
 ```js
-const { isInitialized, isUnlocked, did } = await ad4mClient.agent.status()
+let { isInitialized, isUnlocked, did } = await ad4mClient.agent.status()
 ```
 
 If `isInitialized` is `false` (and then `did` is empty) we need to create or import
@@ -59,14 +61,14 @@ a DID and keys. `generate()` will create a new DID with method `key` and lock th
 keystore with the given passphrase.
 
 ```js
-const { did } = await ad4mClient.agent.generate("passphrase")
+;({ did } = await ad4mClient.agent.generate("passphrase"))
 ```
 
 In following runs of the exectuor, `ad4mClient.agent.status()` will return a `did`
 and `isInitialized` true, but if `isUnlocked` is false, we need to unlock the keystore
 providing the passphrase:
 ```js
-const { isUnlocked, did } = await ad4mClient.agent.unlock("passphrase")
+;({ isUnlocked, did } = await ad4mClient.agent.unlock("passphrase"))
 ```
 
 ### Languages
@@ -83,7 +85,7 @@ const exprAddress = await ad4mClient.expression.create("A new text note", noteIp
 
 ### Creating a Perspective and linking that new Expression
 ```js
-const perspectiveHandle = await ad4mClient.perspective.add("A new perspective on apps...")
+let perspectiveHandle = await ad4mClient.perspective.add("A new perspective on apps...")
 await ad4mClient.perspective.addLink(
     perspectiveHandle.uuid,
     new Link({
@@ -121,9 +123,9 @@ Alice now shares the Neighbourhood's URL with Bob.
 This is what Bob does to join the Neigbourhood, access it as a (local) Perspective
 and retrieve the Expression Alice created and linked there:
 ```js
-const perspectiveHandle = await ad4mClient.neighbourhood.joinFromUrl(neighbourhoodUrl)
-const links = await ad4mClient.perspective.queryLinks(perspectiveHandle.uuid, {})
-links.forEach(link => {
+perspectiveHandle = await ad4mClient.neighbourhood.joinFromUrl(neighbourhoodUrl)
+const links = await ad4mClient.perspective.queryLinks(perspectiveHandle.uuid, new LinkQuery({source: 'a'}))
+links.forEach(async link => {
     const address = link.data.target
     const expression = await ad4mClient.expression.get(address)
     const data = JSON.parse(expression.data)
