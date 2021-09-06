@@ -67,16 +67,18 @@ let { isInitialized, isUnlocked, did } = await ad4mClient.agent.status()
 If `isInitialized` is `false` (and then `did` is empty) we need to create or import
 a DID and keys. `generate()` will create a new DID with method `key` and lock the
 keystore with the given passphrase.
-
-```js
-;({ did } = await ad4mClient.agent.generate("passphrase"))
-```
-
 In following runs of the exectuor, `ad4mClient.agent.status()` will return a `did`
 and `isInitialized` true, but if `isUnlocked` is false, we need to unlock the keystore
 providing the passphrase:
+
 ```js
-;({ isUnlocked, did } = await ad4mClient.agent.unlock("passphrase"))
+if(!isInitialized) {
+    did = (await ad4mClient.agent.generate("passphrase"))).did
+} else {
+    if(!isUnlocked) {
+        await ad4mClient.agent.unlock("passphrase"))
+    }
+}
 ```
 
 ### Languages
