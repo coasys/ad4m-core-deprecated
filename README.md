@@ -12,6 +12,12 @@ To build an app/UI against Ad4m, you need to make sure that an
 [ad4m-executor](https://github.com/perspect3vism/ad4m-executor) is running
 on the user's machine.
 
+The easiest way to get that is to use ad4m-cli:
+```sh
+npm install @perspect3vism/ad4m-cli
+npx ad4m serve
+```
+
 Then use `Ad4mClient` to connect to and work with the running ad4m-executor like this:
 
 ```sh
