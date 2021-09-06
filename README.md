@@ -45,6 +45,8 @@ const apolloClient = new ApolloClient({
 
 
 let ad4mClient = new Ad4mClient(apolloClient)
+// To make readme code lines executable / testable:
+async function ad4mTutorial() {
 ```
 
 ### Unlocking / initializing the agent
@@ -131,6 +133,9 @@ links.forEach(async link => {
     const data = JSON.parse(expression.data)
     console.log(data) //=> "A new text note"
 })
+
+// Closing and executing ad4mTutorial() to test readme code
+}; ad4mTutorial();
 ```
 
 ## Building from source
