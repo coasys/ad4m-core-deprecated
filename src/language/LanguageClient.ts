@@ -60,24 +60,41 @@ export class LanguageClient {
         return languageWriteSettings
     }
 
-    async cloneHolochainTemplate(
-        languagePath: string,
-        dnaNick: string,
-        uid: string
+    async applyTemplateAndPublish(
+        sourceLanguageHash: string,
+        templateData: string
     ): Promise<LanguageRef> {
-        const { languageCloneHolochainTemplate } = unwrapApolloResult(await this.#apolloClient.mutate({
-            mutation: gql`mutation languageCloneHolochainTemplate(
-                $languagePath: String!,
-                $dnaNick: String!,
-                $uid: String!
+        const { languageApplyTemplateAndPublish } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation languageApplyTemplateAndPublish(
+                $sourceLanguageHash: String!,
+                $templateData: String!,
             ) {
-                languageCloneHolochainTemplate(languagePath: $languagePath, dnaNick: $dnaNick, uid: $uid) {
+                languageApplyTemplateAndPublish(sourceLanguageHash: $sourceLanguageHash, templateData: $templateData) {
                     name, address
                 }
             }`,
-            variables: { languagePath, dnaNick, uid }
+            variables: { sourceLanguageHash, templateData }
         }))
 
-        return languageCloneHolochainTemplate
+        return languageApplyTemplateAndPublish
+    }
+
+    async publish(
+        languagePath: string,
+        templateData: string
+    ): Promise<LanguageRef> {
+        const { languagePublish } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation languagePublish(
+                $languagePath: String!,
+                $templateData: String!,
+            ) {
+                languagePublish(languagePath: $languagePath, templateData: $templateData) {
+                    name, address
+                }
+            }`,
+            variables: { languagePath, templateData }
+        }))
+
+        return languagePublish
     }
 }

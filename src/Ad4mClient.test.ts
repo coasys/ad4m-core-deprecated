@@ -195,13 +195,20 @@ describe('Ad4mClient', () => {
             expect(result).toBe(true)
         })
 
-        it('cloneHolochainTemplate() smoke test', async () => {
-            const language = await ad4mClient.languages.cloneHolochainTemplate(
-                './languages/agent-language.js',
-                'agents',
-                '57398-234234-54453345-34'
+        it('applyTemplateAndPublish() smoke test', async () => {
+            const language = await ad4mClient.languages.applyTemplateAndPublish(
+                'languageHash',
+                '{"name": "test-templating"}',
             )
-            expect(language.name).toBe('agents-clone')
+            expect(language.name).toBe('languageHash-clone')
+        })
+
+        it('applyTemplateAndPublish() smoke test', async () => {
+            const language = await ad4mClient.languages.publish(
+                '/some/language/path/',
+                '{"name": "test-templating"}',
+            )
+            expect(language.name).toBe('/some/language/path/-clone')
         })
     })
 
@@ -306,8 +313,20 @@ describe('Ad4mClient', () => {
             const r = await ad4mClient.runtime.openLink('https://ad4m.dev')
             expect(r).toBeTruthy()
         })
+        
+        it('addTrustedAgents() smoke test', async () => {
+            const r = await ad4mClient.runtime.addTrustedAgents(["agentPubKey"]);
+            expect(r).toStrictEqual([ 'agentPubKey' ])
+        })
+
+        it('deleteTrustedAgents() smoke test', async () => {
+            const r = await ad4mClient.runtime.deleteTrustedAgents(["agentPubKey"]);
+            expect(r).toStrictEqual([])
+        })
+
+        it('getTrustedAgents() smoke test', async () => {
+            const r = await ad4mClient.runtime.getTrustedAgents();
+            expect(r).toStrictEqual([ 'agentPubKey' ])
+        })
     })
-
-
-
 })

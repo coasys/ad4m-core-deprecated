@@ -1,4 +1,4 @@
-import { Arg, Mutation, Resolver } from "type-graphql";
+import { Arg, Mutation, Resolver, Query } from "type-graphql";
 
 /**
  * Resolver classes are used here to define the GraphQL schema 
@@ -16,5 +16,20 @@ export default class RuntimeResolver {
     @Mutation(returns => Boolean)
     runtimeOpenLink(@Arg('url') url: string): Boolean {
         return true
+    }
+
+    @Mutation(returns => [String])
+    addTrustedAgents(@Arg("agents", type => [String]) agents: string[]): string[] {
+        return agents
+    }
+
+    @Mutation(returns => [String])
+    deleteTrustedAgents(@Arg("agents", type => [String]) agents: string[]): string[] {
+        return []
+    }
+
+    @Query(returns => [String])
+    getTrustedAgents(): string[] {
+        return ["agentPubKey"]
     }
 }
