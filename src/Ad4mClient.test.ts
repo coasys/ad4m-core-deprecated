@@ -141,7 +141,6 @@ describe('Ad4mClient', () => {
 
         it('getMany() smoke test', async () => {
             const getMany = await ad4mClient.expression.getMany(["hash1", "hash2"]);
-            console.warn("got result", getMany);
             expect(getMany.length).toBe(2);
             expect(getMany[0].author).toBe('did:ad4m:test');
             expect(getMany[0].data).toBe("{\"type\":\"test expression\",\"content\":\"test\"}");
