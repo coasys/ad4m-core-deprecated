@@ -10,6 +10,7 @@ export * from "./language/Language";
 export * from "./language/LanguageRef";
 export * from "./language/LanguageContext";
 export * from "./language/LanguageHandle";
+export * from "./language/LanguageMeta";
 export * from "./links/Links";
 export * from "./perspectives/Perspective";
 export * from "./perspectives/PerspectiveHandle";
