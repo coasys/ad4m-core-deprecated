@@ -9,25 +9,25 @@ export class LanguageMeta {
     @Field()
     address: string;
 
-    @Field()
+    @Field({nullable: true})
     description: string;
 
     @Field()
     author: string;
 
-    @Field()
+    @Field({nullable: true})
     templated: boolean
 
-    @Field()
+    @Field({nullable: true})
     templateSourceLanguageAddress?: string;
 
-    @Field()
+    @Field({nullable: true})
     templateAppliedParams?: string;
 
-    @Field(type => [String])
+    @Field(type => [String], {nullable: true})
     possibleTemplateParams?: string[];
 
-    @Field()
+    @Field({nullable: true})
     sourceCodeLink?: string;
 }
 
