@@ -2,6 +2,7 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { Icon } from "./Icon";
 import { LanguageHandle } from "./LanguageHandle";
+import { LanguageMeta, LanguageMetaInput } from "./LanguageMeta"
 import { LanguageRef } from "./LanguageRef";
 
 /**
@@ -56,9 +57,34 @@ export default class LanguageResolver {
     @Mutation()
     languagePublish(
         @Arg('languagePath') languagePath: string,
-        @Arg('templateData') templateData: string,
-    ): LanguageRef {
-        return new LanguageRef('test-address', `${languagePath}-clone`)
+        @Arg('languageMeta') languageMeta: LanguageMetaInput,
+    ): LanguageMeta {
+        let meta = new LanguageMeta()
+        meta.name = languageMeta.name
+        meta.address = "Qm12345"
+        meta.description = languageMeta.description
+        meta.author = "did:test:me"
+        meta.templated = true
+        meta.templateSourceLanguageAddress = "Qm12345"
+        meta.templateAppliedParams = JSON.stringify({uuid: 'asdfsdaf', name: 'test template'})
+        meta.possibleTemplateParams = languageMeta.possibleTemplateParams
+        meta.sourceCodeLink = languageMeta.sourceCodeLink
+        return meta
+    }
+
+    @Query()
+    languageMeta(@Arg('address') address: string): LanguageMeta {
+        let meta = new LanguageMeta()
+        meta.name = "test-language"
+        meta.address = address
+        meta.description = "Language meta for testing"
+        meta.author = "did:test:me"
+        meta.templated = true
+        meta.templateSourceLanguageAddress = "Qm12345"
+        meta.templateAppliedParams = JSON.stringify({uuid: 'asdfsdaf', name: 'test template'})
+        meta.possibleTemplateParams = ['uuid', 'name']
+        meta.sourceCodeLink = "https://github.com/perspect3vism/ad4m"
+        return meta
     }
 }
 

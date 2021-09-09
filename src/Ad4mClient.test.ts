@@ -12,6 +12,7 @@ import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 import PerspectiveResolver from "./perspectives/PerspectiveResolver";
 import RuntimeResolver from "./runtime/RuntimeResolver";
 import ExpressionResolver from "./expression/ExpressionResolver";
+import { LanguageMeta, LanguageMetaInput } from "./language/LanguageMeta";
 
 jest.setTimeout(15000)
 
@@ -202,12 +203,45 @@ describe('Ad4mClient', () => {
             expect(language.name).toBe('languageHash-clone')
         })
 
-        it('applyTemplateAndPublish() smoke test', async () => {
-            const language = await ad4mClient.languages.publish(
+        it('publish() smoke test', async () => {
+            let input = new LanguageMetaInput()
+            input.name = "test language 1"
+            input.description = "Language for smoke testing"
+            input.possibleTemplateParams = ['uuid', 'name', 'membrane']
+            input.sourceCodeLink = "https://github.com/perspect3vism/test-language"
+
+            const languageMeta = await ad4mClient.languages.publish(
                 '/some/language/path/',
-                '{"name": "test-templating"}',
+                input,
             )
-            expect(language.name).toBe('/some/language/path/-clone')
+            expect(languageMeta.name).toBe(input.name)
+            expect(languageMeta.description).toBe(input.description)
+            expect(languageMeta.possibleTemplateParams).toStrictEqual(input.possibleTemplateParams)
+            expect(languageMeta.sourceCodeLink).toBe(input.sourceCodeLink)
+            expect(languageMeta.address).toBe("Qm12345")
+            expect(languageMeta.author).toBe("did:test:me")
+            expect(languageMeta.templateSourceLanguageAddress).toBe("Qm12345")
+            expect(languageMeta.templateAppliedParams).toBe(JSON.stringify({uuid: 'asdfsdaf', name: 'test template'}))
+        })
+
+        it('meta() smoke test', async () => {
+            let input = new LanguageMetaInput()
+            input.name = "test language 1"
+            input.description = "Language for smoke testing"
+            input.possibleTemplateParams = ['uuid', 'name', 'membrane']
+            input.sourceCodeLink = "https://github.com/perspect3vism/test-language"
+
+            const languageMeta = await ad4mClient.languages.meta("Qm12345")
+
+            expect(languageMeta.name).toBe("test-language")
+            expect(languageMeta.address).toBe("Qm12345")
+            expect(languageMeta.description).toBe("Language meta for testing")
+            expect(languageMeta.author).toBe("did:test:me")
+            expect(languageMeta.templated).toBe(true)
+            expect(languageMeta.templateSourceLanguageAddress).toBe("Qm12345")
+            expect(languageMeta.templateAppliedParams).toBe(JSON.stringify({uuid: 'asdfsdaf', name: 'test template'}))
+            expect(languageMeta.possibleTemplateParams).toStrictEqual(['uuid', 'name'])
+            expect(languageMeta.sourceCodeLink).toBe("https://github.com/perspect3vism/ad4m")
         })
     })
 

@@ -1,6 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client"
 import unwrapApolloResult from "../unwrapApolloResult"
 import { LanguageHandle } from "./LanguageHandle"
+import { LanguageMeta, LanguageMetaInput } from "./LanguageMeta"
 import { LanguageRef } from "./LanguageRef"
 
 const LANGUAGE_COMPLETE = `
@@ -10,6 +11,18 @@ const LANGUAGE_COMPLETE = `
     icon { code }
     constructorIcon { code }
     settingsIcon { code }
+`
+
+const LANGUAGE_META = `
+    name
+    address
+    description
+    author
+    templated
+    templateSourceLanguageAddress
+    templateAppliedParams
+    possibleTemplateParams
+    sourceCodeLink
 `
 
 export class LanguageClient {
@@ -81,20 +94,37 @@ export class LanguageClient {
 
     async publish(
         languagePath: string,
-        templateData: string
-    ): Promise<LanguageRef> {
+        languageMeta: LanguageMetaInput
+    ): Promise<LanguageMeta> {
         const { languagePublish } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation languagePublish(
                 $languagePath: String!,
-                $templateData: String!,
+                $languageMeta: LanguageMetaInput!,
             ) {
-                languagePublish(languagePath: $languagePath, templateData: $templateData) {
-                    name, address
+                languagePublish(languagePath: $languagePath, languageMeta: $languageMeta) {
+                    ${LANGUAGE_META}
                 }
             }`,
-            variables: { languagePath, templateData }
+            variables: { languagePath, languageMeta }
         }))
 
         return languagePublish
+    }
+
+    async meta(
+        address: string,
+    ): Promise<LanguageMeta> {
+        const { languageMeta } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`query languageMeta(
+                $address: String!,
+            ) {
+                languageMeta(address: $address) {
+                    ${LANGUAGE_META}
+                }
+            }`,
+            variables: { address }
+        }))
+
+        return languageMeta
     }
 }
