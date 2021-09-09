@@ -1,4 +1,5 @@
 import { Field, InputType, ObjectType } from "type-graphql";
+import { ExpressionGeneric } from "../expression/Expression";
 
 @ObjectType()
 export class LanguageMeta {
@@ -38,9 +39,32 @@ export class LanguageMetaInput {
     @Field()
     description: string;
 
-    @Field(type => [String])
+    @Field(type => [String], {nullable: true})
     possibleTemplateParams?: string[];
 
-    @Field()
+    @Field({nullable: true})
     sourceCodeLink?: string;
+
+    constructor(name?: string, description?: string) {
+        this.name = name
+        this.description = description
+        if(!this.description) this.description = ""
+    }
+}
+
+export class LanguageMetaInternal {
+    name: string;
+    address: string;
+    description: string;
+    templateSourceLanguageAddress?: string;
+    templateAppliedParams?: string;
+    possibleTemplateParams?: string[];
+    sourceCodeLink?: string;
+}
+
+export class LanguageExpression extends ExpressionGeneric(LanguageMetaInternal) {};
+
+export class LanguageLanguageInput {
+    bundle: string;
+    meta: LanguageMetaInternal;
 }
