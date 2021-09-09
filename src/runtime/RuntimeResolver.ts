@@ -32,4 +32,34 @@ export default class RuntimeResolver {
     getTrustedAgents(): string[] {
         return ["agentPubKey"]
     }
+
+    @Query(returns => [String])
+    runtimeKnownLinkLanguageTemplates(): string[] {
+        return ["Qm12345abcdef"]
+    }
+
+    @Mutation(returns => [String])
+    runtimeAddKnownLinkLanguageTemplates(@Arg("addresses", type => [String]) addresses: string[]): string[] {
+        return addresses
+    }
+
+    @Mutation(returns => [String])
+    runtimeRemoveKnownLinkLanguageTemplates(@Arg("addresses", type => [String]) addresses: string[]): string[] {
+        return []
+    }
+
+    @Query(returns => [String])
+    runtimeFriends(): string[] {
+        return ["did:test:friend"]
+    }
+
+    @Mutation(returns => [String])
+    runtimeAddFriends(@Arg("dids", type => [String]) dids: string[]): string[] {
+        return dids
+    }
+
+    @Mutation(returns => [String])
+    runtimeRemoveFriends(@Arg("dids", type => [String]) dids: string[]): string[] {
+        return []
+    }
 }

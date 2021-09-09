@@ -54,4 +54,62 @@ export default class RuntimeClient {
         }))
         return getTrustedAgents
     }
+
+    async addKnownLinkLanguageTemplates(addresses: string[]): Promise<string[]> {
+        const { runtimeAddKnownLinkLanguageTemplates } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation runtimeAddKnownLinkLanguageTemplates($addresses: [String!]!) {
+                runtimeAddKnownLinkLanguageTemplates(addresses: $addresses)
+            }`,
+            variables: { addresses }
+        }))
+        return runtimeAddKnownLinkLanguageTemplates 
+    }
+
+    async removeKnownLinkLanguageTemplates(addresses: string[]): Promise<string[]> {
+        const { runtimeRemoveKnownLinkLanguageTemplates } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation runtimeRemoveKnownLinkLanguageTemplates($addresses: [String!]!) {
+                runtimeRemoveKnownLinkLanguageTemplates(addresses: $addresses)
+            }`,
+            variables: { addresses }
+        }))
+        return runtimeRemoveKnownLinkLanguageTemplates 
+    }
+
+    async knownLinkLanguageTemplates(): Promise<string[]> {
+        const { runtimeKnownLinkLanguageTemplates } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query runtimeKnownLinkLanguageTemplates {
+                runtimeKnownLinkLanguageTemplates
+            }`,
+        }))
+        return runtimeKnownLinkLanguageTemplates
+    }
+
+    async addFriends(dids: string[]): Promise<string[]> {
+        const { runtimeAddFriends } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation runtimeAddFriends($dids: [String!]!) {
+                runtimeAddFriends(dids: $dids)
+            }`,
+            variables: { dids }
+        }))
+        return runtimeAddFriends 
+    }
+
+    async removeFriends(dids: string[]): Promise<string[]> {
+        const { runtimeRemoveFriends } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation runtimeRemoveFriends($dids: [String!]!) {
+                runtimeRemoveFriends(dids: $dids)
+            }`,
+            variables: { dids }
+        }))
+        return runtimeRemoveFriends 
+    }
+
+    async friends(): Promise<string[]> {
+        const { runtimeFriends } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query runtimeFriends {
+                runtimeFriends
+            }`,
+        }))
+        return runtimeFriends
+    }
 }

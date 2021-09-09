@@ -361,5 +361,35 @@ describe('Ad4mClient', () => {
             const r = await ad4mClient.runtime.getTrustedAgents();
             expect(r).toStrictEqual([ 'agentPubKey' ])
         })
+
+        it('addKnownLinkLanguageTemplates() smoke test', async () => {
+            const r = await ad4mClient.runtime.addKnownLinkLanguageTemplates(["Qm1337"]);
+            expect(r).toStrictEqual([ 'Qm1337' ])
+        })
+
+        it('removeKnownLinkLanguageTemplates() smoke test', async () => {
+            const r = await ad4mClient.runtime.removeKnownLinkLanguageTemplates(["Qm12345abcdef"]);
+            expect(r).toStrictEqual([])
+        })
+
+        it('knownLinkLanguageTemplates() smoke test', async () => {
+            const r = await ad4mClient.runtime.knownLinkLanguageTemplates();
+            expect(r).toStrictEqual([ 'Qm12345abcdef' ])
+        })
+
+        it('addFriends() smoke test', async () => {
+            const r = await ad4mClient.runtime.addFriends(["did:test:another_friend"]);
+            expect(r).toStrictEqual([ 'did:test:another_friend' ])
+        })
+
+        it('removeFriends() smoke test', async () => {
+            const r = await ad4mClient.runtime.removeFriends(["did:test:friend"]);
+            expect(r).toStrictEqual([])
+        })
+
+        it('friends() smoke test', async () => {
+            const r = await ad4mClient.runtime.friends();
+            expect(r).toStrictEqual([ 'did:test:friend' ])
+        })
     })
 })
