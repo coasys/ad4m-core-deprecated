@@ -12,6 +12,7 @@ export * from "./language/LanguageContext";
 export * from "./language/LanguageHandle";
 export * from "./language/LanguageMeta";
 export * from "./links/Links";
+export * from "./Literal";
 export * from "./perspectives/Perspective";
 export * from "./perspectives/PerspectiveHandle";
 export * from "./perspectives/PerspectiveProxy";
