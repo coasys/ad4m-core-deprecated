@@ -3,6 +3,7 @@ import { Link, LinkExpression } from "../links/Links";
 import { LinkQuery } from "./LinkQuery";
 import { Neighbourhood } from "../neighbourhood/Neighbourhood";
 import { PerspectiveHandle } from './PerspectiveHandle'
+import { Perspective } from "./Perspective";
 
 export class PerspectiveProxy {
     #handle: PerspectiveHandle
@@ -51,6 +52,16 @@ export class PerspectiveProxy {
 
     async removeListener(cb: LinkCallback) {
         this.#client.addPerspectiveLinkRemovedListener(this.#handle.uuid, cb)
+    }
+
+    async snapshot() {
+        return this.#client.snapshotByUUID(this.#handle.uuid)
+    }
+
+    async loadSnapshot(snapshot: Perspective) {
+        for(const link of snapshot.links) {
+            await this.add(link.data)
+        }
     }
 
     async getSingleTarget(query: LinkQuery): Promise<string|void> {
