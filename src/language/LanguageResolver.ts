@@ -86,5 +86,10 @@ export default class LanguageResolver {
         meta.sourceCodeLink = "https://github.com/perspect3vism/ad4m"
         return meta
     }
+
+    @Query()
+    languageSource(@Arg('address') address: string): string {
+        return "var test = 'language source code'"
+    }
 }
 

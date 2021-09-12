@@ -243,6 +243,11 @@ describe('Ad4mClient', () => {
             expect(languageMeta.possibleTemplateParams).toStrictEqual(['uuid', 'name'])
             expect(languageMeta.sourceCodeLink).toBe("https://github.com/perspect3vism/ad4m")
         })
+
+        it('source() smoke test', async () => {
+            const source = await ad4mClient.languages.source("Qm12345")
+            expect(source).toBe("var test = 'language source code'")
+        })
     })
 
     describe('.neighbourhood', () => {

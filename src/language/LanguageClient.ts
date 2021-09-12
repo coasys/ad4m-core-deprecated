@@ -114,8 +114,8 @@ export class LanguageClient {
     async meta(
         address: string,
     ): Promise<LanguageMeta> {
-        const { languageMeta } = unwrapApolloResult(await this.#apolloClient.mutate({
-            mutation: gql`query languageMeta(
+        const { languageMeta } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query languageMeta(
                 $address: String!,
             ) {
                 languageMeta(address: $address) {
@@ -126,5 +126,20 @@ export class LanguageClient {
         }))
 
         return languageMeta
+    }
+
+    async source(
+        address: string,
+    ): Promise<string> {
+        const { languageSource } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query languageSource(
+                $address: String!,
+            ) {
+                languageSource(address: $address)
+            }`,
+            variables: { address }
+        }))
+
+        return languageSource
     }
 }
