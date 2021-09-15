@@ -125,7 +125,7 @@ export interface DirectMessageAdapter {
     sendP2P(message: Perspective): Promise<boolean>;
     sendInbox(message: Perspective);
 
-    setStatus(PerspectiveExpression);
+    setStatus(status: PerspectiveExpression);
     inbox(): Promise<PerspectiveExpression[]>
     addMessageCallback(callback: MessageCallback);
 }
