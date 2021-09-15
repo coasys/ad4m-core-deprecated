@@ -396,5 +396,17 @@ describe('Ad4mClient', () => {
             const r = await ad4mClient.runtime.friends();
             expect(r).toStrictEqual([ 'did:test:friend' ])
         })
+
+        it('hcAgentInfos smoke test', async () => {
+            const agentInfos = JSON.parse(await ad4mClient.runtime.hcAgentInfos())
+            expect(agentInfos.length).toBe(4)
+            expect(agentInfos[0].agent).toBeDefined()
+            expect(agentInfos[0].signature).toBeDefined()
+            expect(agentInfos[0].agent_info).toBeDefined()
+        })
+
+        it('hcAddAgentInfos smoke test', async () => {
+            await ad4mClient.runtime.hcAddAgentInfos("agent infos string")
+        })
     })
 })
