@@ -112,4 +112,23 @@ export default class RuntimeClient {
         }))
         return runtimeFriends
     }
+
+    async hcAgentInfos(): Promise<String> {
+        const { runtimeHcAgentInfos } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query runtimeHcAgentInfos {
+                runtimeHcAgentInfos
+            }`,
+        }))
+        return runtimeHcAgentInfos
+    }
+
+    async hcAddAgentInfos(agentInfos: String): Promise<void> {
+        const { runtimeHcAddAgentInfos } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation runtimeHcAddAgentInfos($agentInfos: String!) {
+                runtimeHcAddAgentInfos(agentInfos: $agentInfos)
+            }`,
+            variables: { agentInfos }
+        }))
+        return runtimeHcAddAgentInfos
+    }
 }
