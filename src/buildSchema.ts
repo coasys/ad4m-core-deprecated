@@ -31,6 +31,7 @@ module.exports = { typeDefsString }
 `
 
     fs.writeFileSync(__dirname+'/typeDefs.js', typeDefsFile)
+    fs.writeFileSync(__dirname+'/src/typeDefs.js', typeDefsFile)
 })
 
 
