@@ -121,13 +121,13 @@ export type StatusCallback = (caller: DID) => Perspective;
 export interface DirectMessageAdapter {
     recipient(): DID;
 
-    status(timeout: number): Promise<PerspectiveExpression | void>;
+    status(): Promise<PerspectiveExpression | void>;
     sendP2P(message: Perspective): Promise<boolean>;
     sendInbox(message: Perspective);
 
+    setStatus(PerspectiveExpression);
     inbox(): Promise<PerspectiveExpression[]>
     addMessageCallback(callback: MessageCallback);
-    addStatusCallback(callback: StatusCallback)
 }
 
 export interface Interaction {
