@@ -1,6 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client"
 import unwrapApolloResult from "../unwrapApolloResult"
 import { LanguageHandle } from "./LanguageHandle"
+import { LanguageMeta, LanguageMetaInput } from "./LanguageMeta"
 import { LanguageRef } from "./LanguageRef"
 
 const LANGUAGE_COMPLETE = `
@@ -10,6 +11,18 @@ const LANGUAGE_COMPLETE = `
     icon { code }
     constructorIcon { code }
     settingsIcon { code }
+`
+
+const LANGUAGE_META = `
+    name
+    address
+    description
+    author
+    templated
+    templateSourceLanguageAddress
+    templateAppliedParams
+    possibleTemplateParams
+    sourceCodeLink
 `
 
 export class LanguageClient {
@@ -60,24 +73,73 @@ export class LanguageClient {
         return languageWriteSettings
     }
 
-    async cloneHolochainTemplate(
-        languagePath: string,
-        dnaNick: string,
-        uid: string
+    async applyTemplateAndPublish(
+        sourceLanguageHash: string,
+        templateData: string
     ): Promise<LanguageRef> {
-        const { languageCloneHolochainTemplate } = unwrapApolloResult(await this.#apolloClient.mutate({
-            mutation: gql`mutation languageCloneHolochainTemplate(
-                $languagePath: String!,
-                $dnaNick: String!,
-                $uid: String!
+        const { languageApplyTemplateAndPublish } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation languageApplyTemplateAndPublish(
+                $sourceLanguageHash: String!,
+                $templateData: String!,
             ) {
-                languageCloneHolochainTemplate(languagePath: $languagePath, dnaNick: $dnaNick, uid: $uid) {
+                languageApplyTemplateAndPublish(sourceLanguageHash: $sourceLanguageHash, templateData: $templateData) {
                     name, address
                 }
             }`,
-            variables: { languagePath, dnaNick, uid }
+            variables: { sourceLanguageHash, templateData }
         }))
 
-        return languageCloneHolochainTemplate
+        return languageApplyTemplateAndPublish
+    }
+
+    async publish(
+        languagePath: string,
+        languageMeta: LanguageMetaInput
+    ): Promise<LanguageMeta> {
+        const { languagePublish } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation languagePublish(
+                $languagePath: String!,
+                $languageMeta: LanguageMetaInput!,
+            ) {
+                languagePublish(languagePath: $languagePath, languageMeta: $languageMeta) {
+                    ${LANGUAGE_META}
+                }
+            }`,
+            variables: { languagePath, languageMeta }
+        }))
+
+        return languagePublish
+    }
+
+    async meta(
+        address: string,
+    ): Promise<LanguageMeta> {
+        const { languageMeta } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query languageMeta(
+                $address: String!,
+            ) {
+                languageMeta(address: $address) {
+                    ${LANGUAGE_META}
+                }
+            }`,
+            variables: { address }
+        }))
+
+        return languageMeta
+    }
+
+    async source(
+        address: string,
+    ): Promise<string> {
+        const { languageSource } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query languageSource(
+                $address: String!,
+            ) {
+                languageSource(address: $address)
+            }`,
+            variables: { address }
+        }))
+
+        return languageSource
     }
 }

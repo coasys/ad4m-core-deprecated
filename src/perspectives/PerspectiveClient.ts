@@ -4,6 +4,7 @@ import unwrapApolloResult from "../unwrapApolloResult";
 import { LinkQuery } from "./LinkQuery";
 import { Perspective } from "./Perspective";
 import { PerspectiveHandle } from "./PerspectiveHandle";
+import { PerspectiveProxy } from './PerspectiveProxy';
 
 const LINK_EXPRESSION_FIELDS = `
 author
@@ -85,7 +86,7 @@ export default class PerspectiveClient {
         })
     }
 
-    async all(): Promise<PerspectiveHandle[]> {
+    async all(): Promise<PerspectiveProxy[]> {
         const { perspectives } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query perspectives {
                 perspectives {
@@ -94,10 +95,10 @@ export default class PerspectiveClient {
                 
             }`
         }))
-        return perspectives
+        return perspectives.map(handle => new PerspectiveProxy(handle, this))
     }
 
-    async byUUID(uuid: string): Promise<PerspectiveHandle|null> {
+    async byUUID(uuid: string): Promise<PerspectiveProxy|null> {
         const { perspective } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query perspective($uuid: String!) {
                 perspective(uuid: $uuid) {
@@ -106,7 +107,8 @@ export default class PerspectiveClient {
             }`,
             variables: { uuid }
         }))
-        return perspective
+        if(!perspective) return null
+        return new PerspectiveProxy(perspective, this)
     }
 
     async snapshotByUUID(uuid: string): Promise<Perspective|null> {
@@ -133,7 +135,7 @@ export default class PerspectiveClient {
         return perspectiveQueryLinks
     }
 
-    async add(name: string): Promise<PerspectiveHandle> {
+    async add(name: string): Promise<PerspectiveProxy> {
         const { perspectiveAdd } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation perspectiveAdd($name: String!) {
                 perspectiveAdd(name: $name) {
@@ -142,10 +144,10 @@ export default class PerspectiveClient {
             }`,
             variables: { name }
         }))
-        return perspectiveAdd
+        return new PerspectiveProxy(perspectiveAdd, this)
     }
 
-    async update(uuid: string, name: string): Promise<PerspectiveHandle> {
+    async update(uuid: string, name: string): Promise<PerspectiveProxy> {
         const { perspectiveUpdate } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation perspectiveUpdate($uuid: String!, $name: String!) {
                 perspectiveUpdate(uuid: $uuid, name: $name) {
@@ -154,7 +156,7 @@ export default class PerspectiveClient {
             }`,
             variables: { uuid, name }
         }))
-        return perspectiveUpdate
+        return new PerspectiveProxy(perspectiveUpdate, this)
     }
 
     async remove(uuid: string): Promise<{perspectiveRemove: boolean}> {
@@ -234,7 +236,7 @@ export default class PerspectiveClient {
             error: (e) => console.error(e)
         })
 
-        await new Promise<null>(resolve => setTimeout(resolve, 500))
+        await new Promise<void>(resolve => setTimeout(resolve, 500))
     }
 
     async addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback): Promise<void> {
@@ -250,6 +252,6 @@ export default class PerspectiveClient {
             error: (e) => console.error(e)
         })
 
-        await new Promise<null>(resolve => setTimeout(resolve, 500))
+        await new Promise<void>(resolve => setTimeout(resolve, 500))
     }
 }

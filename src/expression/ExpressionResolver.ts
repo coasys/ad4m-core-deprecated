@@ -21,6 +21,11 @@ export default class ExpressionResolver {
         }
     }
 
+    @Query(returns => [ExpressionRendered], {nullable: "items"})
+    expressionMany(@Arg('urls', type => [String]) urls: string[]): (ExpressionRendered | null)[] {
+        return [testExpression, null]
+    }
+
     @Query(returns => String, {nullable: true})
     expressionRaw(@Arg('url') url: string): string {
         if(url === 'neighbourhood://Qm123') {

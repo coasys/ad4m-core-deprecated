@@ -13,6 +13,7 @@ import PerspectiveResolver from "./perspectives/PerspectiveResolver";
 import RuntimeResolver from "./runtime/RuntimeResolver";
 import ExpressionResolver from "./expression/ExpressionResolver";
 import { EntanglementProofInput } from "./agent/Agent";
+import { LanguageMetaInput } from "./language/LanguageMeta";
 
 jest.setTimeout(15000)
 
@@ -166,6 +167,14 @@ describe('Ad4mClient', () => {
             expect(expression.data).toBe("{\"type\":\"test expression\",\"content\":\"test\"}")
         })
 
+        it('getMany() smoke test', async () => {
+            const getMany = await ad4mClient.expression.getMany(["hash1", "hash2"]);
+            expect(getMany.length).toBe(2);
+            expect(getMany[0].author).toBe('did:ad4m:test');
+            expect(getMany[0].data).toBe("{\"type\":\"test expression\",\"content\":\"test\"}");
+            expect(getMany[1]).toBeNull();
+        })
+
         it('getRaw() smoke test', async () => {
             const nonExisting = await ad4mClient.expression.getRaw("wrong address")
             expect(nonExisting).toBeNull()
@@ -213,13 +222,58 @@ describe('Ad4mClient', () => {
             expect(result).toBe(true)
         })
 
-        it('cloneHolochainTemplate() smoke test', async () => {
-            const language = await ad4mClient.languages.cloneHolochainTemplate(
-                './languages/agent-language.js',
-                'agents',
-                '57398-234234-54453345-34'
+        it('applyTemplateAndPublish() smoke test', async () => {
+            const language = await ad4mClient.languages.applyTemplateAndPublish(
+                'languageHash',
+                '{"name": "test-templating"}',
             )
-            expect(language.name).toBe('agents-clone')
+            expect(language.name).toBe('languageHash-clone')
+        })
+
+        it('publish() smoke test', async () => {
+            let input = new LanguageMetaInput()
+            input.name = "test language 1"
+            input.description = "Language for smoke testing"
+            input.possibleTemplateParams = ['uuid', 'name', 'membrane']
+            input.sourceCodeLink = "https://github.com/perspect3vism/test-language"
+
+            const languageMeta = await ad4mClient.languages.publish(
+                '/some/language/path/',
+                input,
+            )
+            expect(languageMeta.name).toBe(input.name)
+            expect(languageMeta.description).toBe(input.description)
+            expect(languageMeta.possibleTemplateParams).toStrictEqual(input.possibleTemplateParams)
+            expect(languageMeta.sourceCodeLink).toBe(input.sourceCodeLink)
+            expect(languageMeta.address).toBe("Qm12345")
+            expect(languageMeta.author).toBe("did:test:me")
+            expect(languageMeta.templateSourceLanguageAddress).toBe("Qm12345")
+            expect(languageMeta.templateAppliedParams).toBe(JSON.stringify({uuid: 'asdfsdaf', name: 'test template'}))
+        })
+
+        it('meta() smoke test', async () => {
+            let input = new LanguageMetaInput()
+            input.name = "test language 1"
+            input.description = "Language for smoke testing"
+            input.possibleTemplateParams = ['uuid', 'name', 'membrane']
+            input.sourceCodeLink = "https://github.com/perspect3vism/test-language"
+
+            const languageMeta = await ad4mClient.languages.meta("Qm12345")
+
+            expect(languageMeta.name).toBe("test-language")
+            expect(languageMeta.address).toBe("Qm12345")
+            expect(languageMeta.description).toBe("Language meta for testing")
+            expect(languageMeta.author).toBe("did:test:me")
+            expect(languageMeta.templated).toBe(true)
+            expect(languageMeta.templateSourceLanguageAddress).toBe("Qm12345")
+            expect(languageMeta.templateAppliedParams).toBe(JSON.stringify({uuid: 'asdfsdaf', name: 'test template'}))
+            expect(languageMeta.possibleTemplateParams).toStrictEqual(['uuid', 'name'])
+            expect(languageMeta.sourceCodeLink).toBe("https://github.com/perspect3vism/ad4m")
+        })
+
+        it('source() smoke test', async () => {
+            const source = await ad4mClient.languages.source("Qm12345")
+            expect(source).toBe("var test = 'language source code'")
         })
     })
 
@@ -324,8 +378,62 @@ describe('Ad4mClient', () => {
             const r = await ad4mClient.runtime.openLink('https://ad4m.dev')
             expect(r).toBeTruthy()
         })
+        
+        it('addTrustedAgents() smoke test', async () => {
+            const r = await ad4mClient.runtime.addTrustedAgents(["agentPubKey"]);
+            expect(r).toStrictEqual([ 'agentPubKey' ])
+        })
+
+        it('deleteTrustedAgents() smoke test', async () => {
+            const r = await ad4mClient.runtime.deleteTrustedAgents(["agentPubKey"]);
+            expect(r).toStrictEqual([])
+        })
+
+        it('getTrustedAgents() smoke test', async () => {
+            const r = await ad4mClient.runtime.getTrustedAgents();
+            expect(r).toStrictEqual([ 'agentPubKey' ])
+        })
+
+        it('addKnownLinkLanguageTemplates() smoke test', async () => {
+            const r = await ad4mClient.runtime.addKnownLinkLanguageTemplates(["Qm1337"]);
+            expect(r).toStrictEqual([ 'Qm1337' ])
+        })
+
+        it('removeKnownLinkLanguageTemplates() smoke test', async () => {
+            const r = await ad4mClient.runtime.removeKnownLinkLanguageTemplates(["Qm12345abcdef"]);
+            expect(r).toStrictEqual([])
+        })
+
+        it('knownLinkLanguageTemplates() smoke test', async () => {
+            const r = await ad4mClient.runtime.knownLinkLanguageTemplates();
+            expect(r).toStrictEqual([ 'Qm12345abcdef' ])
+        })
+
+        it('addFriends() smoke test', async () => {
+            const r = await ad4mClient.runtime.addFriends(["did:test:another_friend"]);
+            expect(r).toStrictEqual([ 'did:test:another_friend' ])
+        })
+
+        it('removeFriends() smoke test', async () => {
+            const r = await ad4mClient.runtime.removeFriends(["did:test:friend"]);
+            expect(r).toStrictEqual([])
+        })
+
+        it('friends() smoke test', async () => {
+            const r = await ad4mClient.runtime.friends();
+            expect(r).toStrictEqual([ 'did:test:friend' ])
+        })
+
+        it('hcAgentInfos smoke test', async () => {
+            const agentInfos = JSON.parse(await ad4mClient.runtime.hcAgentInfos())
+            expect(agentInfos.length).toBe(4)
+            expect(agentInfos[0].agent).toBeDefined()
+            expect(agentInfos[0].signature).toBeDefined()
+            expect(agentInfos[0].agent_info).toBeDefined()
+        })
+
+        it('hcAddAgentInfos smoke test', async () => {
+            await ad4mClient.runtime.hcAddAgentInfos("agent infos string")
+        })
     })
-
-
-
 })
