@@ -73,22 +73,22 @@ export default class AgentResolver {
     }
 
     @Mutation(returns => [EntanglementProof])
-    addEntanglementProofs(@Arg('proofs', type => [EntanglementProofInput]) proofs: EntanglementProofInput[]): EntanglementProof[] {
+    agentAddEntanglementProofs(@Arg('proofs', type => [EntanglementProofInput]) proofs: EntanglementProofInput[]): EntanglementProof[] {
         return [new EntanglementProof("did:key:hash", "ethAddr", "sig", "sig2")] 
     }
 
     @Mutation(returns => [EntanglementProof])
-    deleteEntanglementProofs(@Arg('proofs', type => [EntanglementProofInput]) proofs: EntanglementProofInput[]): EntanglementProof[] {
+    agentDeleteEntanglementProofs(@Arg('proofs', type => [EntanglementProofInput]) proofs: EntanglementProofInput[]): EntanglementProof[] {
         return [new EntanglementProof("did:key:hash", "ethAddr", "sig", "sig2")] 
     }
 
     @Query(returns => [EntanglementProof])
-    getEntanglementProofs(): EntanglementProof[] {
+    agentGetEntanglementProofs(): EntanglementProof[] {
         return [new EntanglementProof("did:key:hash", "ethAddr", "sig", "sig2")] 
     }
 
     @Mutation(returns => EntanglementProof)
-    entanglementProofPreFlight(@Arg('deviceKey') deviceKey: string): EntanglementProof {
+    agentEntanglementProofPreFlight(@Arg('deviceKey') deviceKey: string): EntanglementProof {
         return new EntanglementProof("did:key:hash", "ethAddr", "sig")
     }
 }
