@@ -19,6 +19,9 @@ export class LinkQuery {
     @Field({nullable: true})
     untilDate?: Date;
 
+    @Field({nullable: true})
+    limit?: number;
+
     constructor(obj: object) {
         if(obj) {
             // @ts-ignore
@@ -36,6 +39,11 @@ export class LinkQuery {
             if (obj.untilDate) {
                 // @ts-ignore
                 this.untilDate = obj.untilDate;
+            }
+            // @ts-ignore
+            if (obj.limit) {
+                // @ts-ignore
+                this.limit = obj.limit;
             }
         }
     }
