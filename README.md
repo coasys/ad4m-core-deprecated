@@ -73,10 +73,10 @@ providing the passphrase:
 
 ```js
 if(!isInitialized) {
-    did = (await ad4mClient.agent.generate("passphrase"))).did
+    did = (await ad4mClient.agent.generate("passphrase")).did
 } else {
     if(!isUnlocked) {
-        await ad4mClient.agent.unlock("passphrase"))
+        await ad4mClient.agent.unlock("passphrase")
     }
 }
 ```
@@ -114,7 +114,7 @@ is *Social Context* from Junto: https://github.com/juntofoundation/Social-Contex
 Let's assume we have downloaded the build files from their release directory, we can use it as
 a template to create a unique Language (with unique Holochain DNA in this case) like so:
 ```js
-const uniqueLinkLanguage = await ad4mClient.languages.cloneHolochainTemplate(path.join(__dirname, "../languages/social-context"), "social-context", "b98e53a8-5800-47b6-adb9-86d55a74871e");
+const uniqueLinkLanguage = await ad4mClient.languages.byFilter(filter.language)
 ```
 And then use this new LinkLanguage in our Neighbourhood:
 ```js
