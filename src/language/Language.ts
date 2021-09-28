@@ -126,7 +126,7 @@ export interface DirectMessageAdapter {
     sendInbox(message: Perspective);
 
     setStatus(status: PerspectiveExpression);
-    inbox(): Promise<PerspectiveExpression[]>
+    inbox(filter?: string): Promise<PerspectiveExpression[]>
     addMessageCallback(callback: MessageCallback);
 }
 
