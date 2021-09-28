@@ -1,4 +1,26 @@
-import { Arg, Mutation, Resolver, Query } from "type-graphql";
+import { Arg, Mutation, Resolver, Query, Subscription } from "type-graphql";
+import { Perspective, PerspectiveExpression, PerspectiveInput } from "../perspectives/Perspective";
+import { ExpressionProof } from "../expression/Expression";
+import { LinkExpression } from "../links/Links";
+
+const testLink = new LinkExpression()
+testLink.author = "did:ad4m:test"
+testLink.timestamp = Date.now()
+testLink.data = {
+    source: 'root',
+    target: 'neighbourhood://Qm12345'
+}
+testLink.proof = {
+    signature: '',
+    key: '',
+    valid: true
+}
+
+const testPerspectiveExpression = new PerspectiveExpression()
+testPerspectiveExpression.author = 'did:ad4m:test'
+testPerspectiveExpression.timestamp = Date.now().toString()
+testPerspectiveExpression.proof = new ExpressionProof('', '')
+testPerspectiveExpression.data = new Perspective([testLink])
 
 /**
  * Resolver classes are used here to define the GraphQL schema 
@@ -72,4 +94,39 @@ export default class RuntimeResolver {
     runtimeHcAddAgentInfos(@Arg("agentInfos", type => String) agentInfos): boolean {
         return true
     }
+
+    @Mutation()
+    runtimeSetStatus(@Arg("status", type => PerspectiveInput) status: Perspective): boolean {
+        return true
+    }
+
+    @Query({nullable: true})
+    runtimeFriendStatus(@Arg("did", type => String) did: string): PerspectiveExpression {
+        return testPerspectiveExpression
+    }
+
+    @Mutation()
+    runtimeFriendSendMessage(
+        @Arg("did", type => String) did: string, 
+        @Arg("message", type => PerspectiveInput) message: PerspectiveInput
+    ): boolean {
+        return true
+    }
+
+    @Query(returns => [PerspectiveExpression])
+    runtimeMessageInbox(@Arg("filter", type => String, {nullable: true }) filter?: string): PerspectiveExpression[] {
+        return [testPerspectiveExpression]
+    }
+
+    @Query(returns => [PerspectiveExpression])
+    runtimeMessageOutbox(@Arg("filter", type => String, {nullable: true }) filter?: string): PerspectiveExpression[] {
+        return [testPerspectiveExpression]
+    }
+
+ 
+    @Subscription({topics: "", nullable: true})
+    runtimeMessageReceived(): PerspectiveExpression {
+        return testPerspectiveExpression
+    }
+
 }
