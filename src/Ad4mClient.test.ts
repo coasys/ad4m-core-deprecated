@@ -433,7 +433,7 @@ describe('Ad4mClient', () => {
             link.timestamp = new Date().toString()
             link.data = new Link({source: 'root', target: 'perspective://Qm34589a3ccc0'})
             link.proof = { signature: 'asdfasdf', key: 'asdfasdf' }
-            await ad4mClient.runtime.friends('did:ad4m:test', new Perspective([link]))
+            await ad4mClient.runtime.friendSendMessage('did:ad4m:test', new Perspective([link]))
         })
 
         it('messageInbox smoke test', async () => {

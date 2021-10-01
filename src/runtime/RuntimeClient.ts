@@ -168,13 +168,13 @@ export default class RuntimeClient {
     }
 
     async friendSendMessage(did: string, message: Perspective): Promise<boolean> {
-        const { friendSendMessage } = unwrapApolloResult(await this.#apolloClient.mutate({
-            mutation: gql`mutation friendSendMessage($did: String, $message: PerspectiveInput!) {
-                friendSendMessage(did: $did, message: $message)
+        const { runtimeFriendSendMessage } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation runtimeFriendSendMessage($did: String!, $message: PerspectiveInput!) {
+                runtimeFriendSendMessage(did: $did, message: $message)
             }`,
             variables: { did,  message }
         }))
-        return friendSendMessage
+        return runtimeFriendSendMessage
     }
 
     async messageInbox(filter?: string): Promise<PerspectiveExpression[]> {
