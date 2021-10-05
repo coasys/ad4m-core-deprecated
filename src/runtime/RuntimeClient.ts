@@ -16,11 +16,28 @@ data {
 proof { valid, invalid, signature, key }
 `
 
+export type MessageCallback = (message: PerspectiveExpression) => null
+
 export default class RuntimeClient {
     #apolloClient: ApolloClient<any>
+    #messageReceivedCallbacks: MessageCallback[]
 
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
+        this.#messageReceivedCallbacks = []
+
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                runtimeMessageReceived { ${PERSPECTIVE_EXPRESSION_FIELDS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                this.#messageReceivedCallbacks.forEach(cb => {
+                    cb(result.data.runtimeMessageReceived)
+                })
+            },
+            error: (e) => console.error(e)
+        })
     }
 
     async quit(): Promise<Boolean> {
@@ -195,5 +212,9 @@ export default class RuntimeClient {
             variables: { filter }
         }))
         return runtimeMessageInbox
+    }
+
+    addMessageCallback(cb: MessageCallback) {
+        this.#messageReceivedCallbacks.push(cb)
     }
 }
