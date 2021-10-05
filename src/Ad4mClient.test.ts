@@ -408,5 +408,54 @@ describe('Ad4mClient', () => {
         it('hcAddAgentInfos smoke test', async () => {
             await ad4mClient.runtime.hcAddAgentInfos("agent infos string")
         })
+
+        it('setStatus smoke test', async () => {
+            const link = new LinkExpression()
+            link.author = 'did:method:12345'
+            link.timestamp = new Date().toString()
+            link.data = new Link({source: 'root', target: 'perspective://Qm34589a3ccc0'})
+            link.proof = { signature: 'asdfasdf', key: 'asdfasdf' }
+            await ad4mClient.runtime.setStatus(new Perspective([link]))
+        })
+
+        it('friendStatus smoke test', async () => {
+            const statusExpr = await ad4mClient.runtime.friendStatus("did:ad4m:test")
+            expect(statusExpr.author).toBe("did:ad4m:test")
+            const statusPersp = statusExpr.data
+            expect(statusPersp.links.length).toBe(1)
+            expect(statusPersp.links[0].data.source).toBe('root')
+            expect(statusPersp.links[0].data.target).toBe('neighbourhood://Qm12345')
+        })
+
+        it('friendSendMessage smoke test', async () => {
+            const link = new LinkExpression()
+            link.author = 'did:method:12345'
+            link.timestamp = new Date().toString()
+            link.data = new Link({source: 'root', target: 'perspective://Qm34589a3ccc0'})
+            link.proof = { signature: 'asdfasdf', key: 'asdfasdf' }
+            await ad4mClient.runtime.friendSendMessage('did:ad4m:test', new Perspective([link]))
+        })
+
+        it('messageInbox smoke test', async () => {
+            const messages = await ad4mClient.runtime.messageInbox()
+            expect(messages.length).toBe(1)
+            const message = messages[0]
+            expect(message.author).toBe("did:ad4m:test")
+            const messagePersp = message.data
+            expect(messagePersp.links.length).toBe(1)
+            expect(messagePersp.links[0].data.source).toBe('root')
+            expect(messagePersp.links[0].data.target).toBe('neighbourhood://Qm12345')
+        })
+
+        it('messageOutbox smoke test', async () => {
+            const messages = await ad4mClient.runtime.messageOutbox("did:ad4m:test")
+            expect(messages.length).toBe(1)
+            const message = messages[0]
+            expect(message.author).toBe("did:ad4m:test")
+            const messagePersp = message.data
+            expect(messagePersp.links.length).toBe(1)
+            expect(messagePersp.links[0].data.source).toBe('root')
+            expect(messagePersp.links[0].data.target).toBe('neighbourhood://Qm12345')
+        })
     })
 })

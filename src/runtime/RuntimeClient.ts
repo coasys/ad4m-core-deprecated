@@ -1,11 +1,43 @@
 import { ApolloClient, gql } from "@apollo/client"
+import { Perspective, PerspectiveExpression } from "../perspectives/Perspective"
 import unwrapApolloResult from "../unwrapApolloResult"
+
+const PERSPECTIVE_EXPRESSION_FIELDS = `
+author
+timestamp
+data { 
+    links {
+        author
+        timestamp
+        data { source, predicate, target }
+        proof { valid, invalid, signature, key }
+    }  
+}
+proof { valid, invalid, signature, key }
+`
+
+export type MessageCallback = (message: PerspectiveExpression) => null
 
 export default class RuntimeClient {
     #apolloClient: ApolloClient<any>
+    #messageReceivedCallbacks: MessageCallback[]
 
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
+        this.#messageReceivedCallbacks = []
+
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                runtimeMessageReceived { ${PERSPECTIVE_EXPRESSION_FIELDS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                this.#messageReceivedCallbacks.forEach(cb => {
+                    cb(result.data.runtimeMessageReceived)
+                })
+            },
+            error: (e) => console.error(e)
+        })
     }
 
     async quit(): Promise<Boolean> {
@@ -130,5 +162,59 @@ export default class RuntimeClient {
             variables: { agentInfos }
         }))
         return runtimeHcAddAgentInfos
+    }
+
+    async setStatus(perspective: Perspective): Promise<boolean> {
+        const { runtimeSetStatus } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation runtimeSetStatus($status: PerspectiveInput!) {
+                runtimeSetStatus(status: $status)
+            }`,
+            variables: { status: perspective }
+        }))
+        return runtimeSetStatus
+    }
+
+    async friendStatus(did: string): Promise<PerspectiveExpression> {
+        const { runtimeFriendStatus } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query runtimeFriendStatus($did: String!) {
+                runtimeFriendStatus(did: $did) { ${PERSPECTIVE_EXPRESSION_FIELDS} }
+            }`,
+            variables: { did }
+        }))
+        return runtimeFriendStatus
+    }
+
+    async friendSendMessage(did: string, message: Perspective): Promise<boolean> {
+        const { runtimeFriendSendMessage } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation runtimeFriendSendMessage($did: String!, $message: PerspectiveInput!) {
+                runtimeFriendSendMessage(did: $did, message: $message)
+            }`,
+            variables: { did,  message }
+        }))
+        return runtimeFriendSendMessage
+    }
+
+    async messageInbox(filter?: string): Promise<PerspectiveExpression[]> {
+        const { runtimeMessageInbox } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query runtimeMessageInbox($filter: String) {
+                runtimeMessageInbox(filter: $filter) { ${PERSPECTIVE_EXPRESSION_FIELDS} }
+            }`,
+            variables: { filter }
+        }))
+        return runtimeMessageInbox
+    }
+
+    async messageOutbox(filter?: string): Promise<PerspectiveExpression[]> {
+        const { runtimeMessageInbox } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query runtimeMessageInbox($filter: String) {
+                runtimeMessageInbox(filter: $filter) { ${PERSPECTIVE_EXPRESSION_FIELDS} }
+            }`,
+            variables: { filter }
+        }))
+        return runtimeMessageInbox
+    }
+
+    addMessageCallback(cb: MessageCallback) {
+        this.#messageReceivedCallbacks.push(cb)
     }
 }
