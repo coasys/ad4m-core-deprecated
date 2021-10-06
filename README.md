@@ -73,10 +73,10 @@ providing the passphrase:
 
 ```js
 if(!isInitialized) {
-    did = (await ad4mClient.agent.generate("passphrase"))).did
+    did = (await ad4mClient.agent.generate("passphrase")).did
 } else {
     if(!isUnlocked) {
-        await ad4mClient.agent.unlock("passphrase"))
+        await ad4mClient.agent.unlock("passphrase")
     }
 }
 ```
