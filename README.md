@@ -84,7 +84,7 @@ if(!isInitialized) {
 ### Languages
 For creating an expression we need to select a language that we create an expression in:
 ```js
-let languages = await ad4mClient.languages.all()
+const languages = await ad4mClient.languages.all()
 const noteIpfsAddress = languages.find(l => l.name === 'note-ipfs').address
 ```
 ### Creating an Expressions
@@ -114,7 +114,7 @@ is *Social Context* from Junto: https://github.com/juntofoundation/Social-Contex
 Let's assume we have downloaded the build files from their release directory, we can use it as
 a template to create a unique Language (with unique Holochain DNA in this case) like so:
 ```js
-const uniqueLinkLanguage = await ad4mClient.languages.getLanguageSource(language)
+const uniqueLinkLanguage = await ad4mClient.languages.byFilter(languages.filter)
 ```
 And then use this new LinkLanguage in our Neighbourhood:
 ```js
