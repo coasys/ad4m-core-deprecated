@@ -205,13 +205,13 @@ export default class RuntimeClient {
     }
 
     async messageOutbox(filter?: string): Promise<PerspectiveExpression[]> {
-        const { runtimeMessageInbox } = unwrapApolloResult(await this.#apolloClient.query({
+        const { runtimeMessageOutbox } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query runtimeMessageOutbox($filter: String) {
-                runtimeMessageInbox(filter: $filter) { ${PERSPECTIVE_EXPRESSION_FIELDS} }
+                runtimeMessageOutbox(filter: $filter) { ${PERSPECTIVE_EXPRESSION_FIELDS} }
             }`,
             variables: { filter }
         }))
-        return runtimeMessageInbox
+        return runtimeMessageOutbox
     }
 
     addMessageCallback(cb: MessageCallback) {
