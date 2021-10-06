@@ -1,5 +1,6 @@
 import type { AppSignalCb } from '@holochain/conductor-api'
 import { Expression } from "../expression/Expression";
+import type { IPFS } from 'ipfs-core-types'
 
 export interface AgentService {
     readonly did: string
@@ -12,7 +13,7 @@ export interface SignaturesService {
 
 export interface LanguageContext {
     agent: AgentService;
-    IPFS: IPFSNode;
+    IPFS: IPFS;
     signatures: SignaturesService;
     storageDirectory: string;
     customSettings: object;
@@ -31,8 +32,3 @@ export interface HolochainLanguageDelegate {
 }
 
 export type Ad4mSignalCB = (signal: any) => void
-
-export interface IPFSNode {
-    add(data: object): Promise<object>
-    cat(data: object): Promise<object>
-}

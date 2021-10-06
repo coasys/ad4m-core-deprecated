@@ -2,7 +2,7 @@ import type { Address } from '../Address'
 import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
 import type { LinkQuery }  from '../perspectives/LinkQuery'
-import { Perspective } from '../perspectives/Perspective';
+import { Perspective, PerspectiveExpression } from '../perspectives/Perspective';
 
 export interface Language {
     readonly name: string;
@@ -116,13 +116,18 @@ export interface LinksAdapter {
     addCallback(callback: NewLinksObserver);
 }
 
-// Implement this if your Langauge supports direct private messages
-// between Agents
+export type MessageCallback = (message: PerspectiveExpression) => void;
+export type StatusCallback = (caller: DID) => Perspective;
 export interface DirectMessageAdapter {
-    /// Send an expression to someone privately p2p
-    sendPrivate(to: DID, content: object);
-    /// Get private expressions sent to you
-    inbox(filterFrom?: DID[]): Promise<Expression[]>;
+    recipient(): DID;
+
+    status(): Promise<PerspectiveExpression | void>;
+    sendP2P(message: Perspective): Promise<PerspectiveExpression|void>;
+    sendInbox(message: Perspective): Promise<PerspectiveExpression|void>;
+
+    setStatus(status: PerspectiveExpression);
+    inbox(filter?: string): Promise<PerspectiveExpression[]>
+    addMessageCallback(callback: MessageCallback);
 }
 
 export interface Interaction {
