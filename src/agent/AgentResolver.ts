@@ -74,21 +74,21 @@ export default class AgentResolver {
 
     @Mutation(returns => [EntanglementProof])
     agentAddEntanglementProofs(@Arg('proofs', type => [EntanglementProofInput]) proofs: EntanglementProofInput[]): EntanglementProof[] {
-        return [new EntanglementProof("did:key:hash", "ethAddr", "sig", "sig2")] 
+        return [new EntanglementProof("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")] 
     }
 
     @Mutation(returns => [EntanglementProof])
     agentDeleteEntanglementProofs(@Arg('proofs', type => [EntanglementProofInput]) proofs: EntanglementProofInput[]): EntanglementProof[] {
-        return [new EntanglementProof("did:key:hash", "ethAddr", "sig", "sig2")] 
+        return [new EntanglementProof("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")] 
     }
 
     @Query(returns => [EntanglementProof])
     agentGetEntanglementProofs(): EntanglementProof[] {
-        return [new EntanglementProof("did:key:hash", "ethAddr", "sig", "sig2")] 
+        return [new EntanglementProof("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")] 
     }
 
     @Mutation(returns => EntanglementProof)
-    agentEntanglementProofPreFlight(@Arg('deviceKey') deviceKey: string): EntanglementProof {
-        return new EntanglementProof("did:key:hash", "ethAddr", "sig")
+    agentEntanglementProofPreFlight(@Arg('deviceKey') deviceKey: string, @Arg('deviceKeyType') deviceKeyType: string): EntanglementProof {
+        return new EntanglementProof("did:key:hash", "did-key-id", deviceKeyType, deviceKey, "sig")
     }
 }

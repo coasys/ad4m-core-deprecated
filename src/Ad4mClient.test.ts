@@ -130,26 +130,34 @@ describe('Ad4mClient', () => {
         })
 
         it('entanglementProof() smoke tests', async () => {
-            const addProof = await ad4mClient.agent.addEntanglementProofs([new EntanglementProofInput("did:key:hash", "ethAddr", "sig", "sig2")]);
+            const addProof = await ad4mClient.agent.addEntanglementProofs([new EntanglementProofInput("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")]);
             expect(addProof[0].did).toBe("did:key:hash")
+            expect(addProof[0].didSigningKeyId).toBe("did-key-id")
+            expect(addProof[0].deviceKeyType).toBe("ethereum")
             expect(addProof[0].deviceKey).toBe("ethAddr")
             expect(addProof[0].deviceKeySignedByDid).toBe("sig")
             expect(addProof[0].didSignedByDeviceKey).toBe("sig2")
 
             const getProofs = await ad4mClient.agent.getEntanglementProofs();
             expect(getProofs[0].did).toBe("did:key:hash")
+            expect(getProofs[0].didSigningKeyId).toBe("did-key-id")
+            expect(getProofs[0].deviceKeyType).toBe("ethereum")
             expect(getProofs[0].deviceKey).toBe("ethAddr")
             expect(getProofs[0].deviceKeySignedByDid).toBe("sig")
             expect(getProofs[0].didSignedByDeviceKey).toBe("sig2")
 
-            const deleteProofs = await ad4mClient.agent.deleteEntanglementProofs([new EntanglementProofInput("did:key:hash", "ethAddr", "sig", "sig2")]);
+            const deleteProofs = await ad4mClient.agent.deleteEntanglementProofs([new EntanglementProofInput("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")]);
             expect(deleteProofs[0].did).toBe("did:key:hash")
+            expect(deleteProofs[0].didSigningKeyId).toBe("did-key-id")
+            expect(deleteProofs[0].deviceKeyType).toBe("ethereum")
             expect(deleteProofs[0].deviceKey).toBe("ethAddr")
             expect(deleteProofs[0].deviceKeySignedByDid).toBe("sig")
             expect(deleteProofs[0].didSignedByDeviceKey).toBe("sig2")
 
-            const preflight = await ad4mClient.agent.entanglementProofPreFlight("ethAddr");
+            const preflight = await ad4mClient.agent.entanglementProofPreFlight("ethAddr", "ethereum");
             expect(preflight.did).toBe("did:key:hash")
+            expect(preflight.didSigningKeyId).toBe("did-key-id")
+            expect(preflight.deviceKeyType).toBe("ethereum")
             expect(preflight.deviceKey).toBe("ethAddr")
             expect(preflight.deviceKeySignedByDid).toBe("sig")
             expect(preflight.didSignedByDeviceKey).toBe(null)

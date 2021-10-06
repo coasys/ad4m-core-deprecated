@@ -29,6 +29,8 @@ const AGENT_STATUS_FIELDS =`
 
 const ENTANGLEMENT_PROOF_FIELDS = `
     did
+    didSigningKeyId
+    deviceKeyType
     deviceKey
     deviceKeySignedByDid
     didSignedByDeviceKey
@@ -231,14 +233,14 @@ export default class AgentClient {
         return agentGetEntanglementProofs
     }
 
-    async entanglementProofPreFlight(deviceKey: string): Promise<EntanglementProof> {
+    async entanglementProofPreFlight(deviceKey: string, deviceKeyType: string): Promise<EntanglementProof> {
         const { agentEntanglementProofPreFlight } = unwrapApolloResult(await this.#apolloClient.mutate({
-            mutation: gql`mutation agentEntanglementProofPreFlight($deviceKey: String!) {
-                agentEntanglementProofPreFlight(deviceKey: $deviceKey) {
+            mutation: gql`mutation agentEntanglementProofPreFlight($deviceKey: String!, $deviceKeyType: String!) {
+                agentEntanglementProofPreFlight(deviceKey: $deviceKey, deviceKeyType: $deviceKeyType) {
                     ${ENTANGLEMENT_PROOF_FIELDS}
                 }
             }`,
-            variables: { deviceKey }
+            variables: { deviceKey, deviceKeyType }
         }))
         return agentEntanglementProofPreFlight
     }

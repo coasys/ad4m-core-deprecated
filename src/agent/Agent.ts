@@ -44,6 +44,12 @@ export class EntanglementProof {
     did: string;
 
     @Field()
+    didSigningKeyId: string;
+
+    @Field()
+    deviceKeyType: string;
+
+    @Field()
     deviceKey: string;
 
     @Field()
@@ -52,8 +58,10 @@ export class EntanglementProof {
     @Field({nullable: true})
     didSignedByDeviceKey?: string;
 
-    constructor(did: string, deviceKey: string, deviceKeySignedByDid: string, didSignedByDeviceKey?: string) {
+    constructor(did: string, didSigningKeyId: string, deviceKeyType: string, deviceKey: string, deviceKeySignedByDid: string, didSignedByDeviceKey?: string) {
         this.did = did;
+        this.didSigningKeyId = didSigningKeyId;
+        this.deviceKeyType = deviceKeyType;
         this.deviceKey = deviceKey;
         this.deviceKeySignedByDid = deviceKeySignedByDid;
         this.didSignedByDeviceKey = didSignedByDeviceKey;
@@ -66,6 +74,12 @@ export class EntanglementProofInput {
     did: string;
 
     @Field()
+    didSigningKeyId: string;
+
+    @Field()
+    deviceKeyType: string;
+
+    @Field()
     deviceKey: string;
 
     @Field()
@@ -74,8 +88,10 @@ export class EntanglementProofInput {
     @Field()
     didSignedByDeviceKey: string;
 
-    constructor(did: string, deviceKey: string, deviceKeySignedByDid: string, didSignedByDeviceKey: string) {
+    constructor(did: string, didSigningKeyId: string, deviceKeyType: string, deviceKey: string, deviceKeySignedByDid: string, didSignedByDeviceKey: string) {
         this.did = did;
+        this.didSigningKeyId = didSigningKeyId;
+        this.deviceKeyType = deviceKeyType;
         this.deviceKey = deviceKey;
         this.deviceKeySignedByDid = deviceKeySignedByDid;
         this.didSignedByDeviceKey = didSignedByDeviceKey;
