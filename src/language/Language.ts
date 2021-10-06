@@ -122,8 +122,8 @@ export interface DirectMessageAdapter {
     recipient(): DID;
 
     status(): Promise<PerspectiveExpression | void>;
-    sendP2P(message: Perspective): Promise<boolean>;
-    sendInbox(message: Perspective);
+    sendP2P(message: Perspective): Promise<PerspectiveExpression|void>;
+    sendInbox(message: Perspective): Promise<PerspectiveExpression|void>;
 
     setStatus(status: PerspectiveExpression);
     inbox(filter?: string): Promise<PerspectiveExpression[]>
