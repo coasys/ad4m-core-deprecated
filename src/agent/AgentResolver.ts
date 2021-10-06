@@ -1,7 +1,6 @@
 import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
-import { LanguageRef } from "../language/LanguageRef";
 import { PerspectiveInput } from "../perspectives/Perspective";
-import { Agent } from "./Agent";
+import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 
 const TEST_AGENT_DID = "did:ad4m:test"
@@ -71,5 +70,25 @@ export default class AgentResolver {
     @Subscription({topics: "", nullable: true})
     agentUpdated(): Agent {
         return new Agent(TEST_AGENT_DID)
+    }
+
+    @Mutation(returns => [EntanglementProof])
+    agentAddEntanglementProofs(@Arg('proofs', type => [EntanglementProofInput]) proofs: EntanglementProofInput[]): EntanglementProof[] {
+        return [new EntanglementProof("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")] 
+    }
+
+    @Mutation(returns => [EntanglementProof])
+    agentDeleteEntanglementProofs(@Arg('proofs', type => [EntanglementProofInput]) proofs: EntanglementProofInput[]): EntanglementProof[] {
+        return [new EntanglementProof("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")] 
+    }
+
+    @Query(returns => [EntanglementProof])
+    agentGetEntanglementProofs(): EntanglementProof[] {
+        return [new EntanglementProof("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")] 
+    }
+
+    @Mutation(returns => EntanglementProof)
+    agentEntanglementProofPreFlight(@Arg('deviceKey') deviceKey: string, @Arg('deviceKeyType') deviceKeyType: string): EntanglementProof {
+        return new EntanglementProof("did:key:hash", "did-key-id", deviceKeyType, deviceKey, "sig")
     }
 }

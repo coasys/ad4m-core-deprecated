@@ -1,5 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
-import { LanguageRef } from "../language/LanguageRef";
+import { Field, ObjectType, InputType } from "type-graphql";
 import { Perspective } from "../perspectives/Perspective";
 import { ExpressionGeneric } from "../expression/Expression";
 
@@ -38,3 +37,63 @@ export class Agent {
 
 @ObjectType()
 export class AgentExpression extends ExpressionGeneric(Agent) {};
+
+@ObjectType()
+export class EntanglementProof {
+    @Field()
+    did: string;
+
+    @Field()
+    didSigningKeyId: string;
+
+    @Field()
+    deviceKeyType: string;
+
+    @Field()
+    deviceKey: string;
+
+    @Field()
+    deviceKeySignedByDid: string;
+
+    @Field({nullable: true})
+    didSignedByDeviceKey?: string;
+
+    constructor(did: string, didSigningKeyId: string, deviceKeyType: string, deviceKey: string, deviceKeySignedByDid: string, didSignedByDeviceKey?: string) {
+        this.did = did;
+        this.didSigningKeyId = didSigningKeyId;
+        this.deviceKeyType = deviceKeyType;
+        this.deviceKey = deviceKey;
+        this.deviceKeySignedByDid = deviceKeySignedByDid;
+        this.didSignedByDeviceKey = didSignedByDeviceKey;
+    }
+}
+
+@InputType()
+export class EntanglementProofInput {
+    @Field()
+    did: string;
+
+    @Field()
+    didSigningKeyId: string;
+
+    @Field()
+    deviceKeyType: string;
+
+    @Field()
+    deviceKey: string;
+
+    @Field()
+    deviceKeySignedByDid: string;
+
+    @Field()
+    didSignedByDeviceKey: string;
+
+    constructor(did: string, didSigningKeyId: string, deviceKeyType: string, deviceKey: string, deviceKeySignedByDid: string, didSignedByDeviceKey: string) {
+        this.did = did;
+        this.didSigningKeyId = didSigningKeyId;
+        this.deviceKeyType = deviceKeyType;
+        this.deviceKey = deviceKey;
+        this.deviceKeySignedByDid = deviceKeySignedByDid;
+        this.didSignedByDeviceKey = didSignedByDeviceKey;
+    }
+}

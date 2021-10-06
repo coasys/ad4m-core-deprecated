@@ -12,7 +12,8 @@ import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 import PerspectiveResolver from "./perspectives/PerspectiveResolver";
 import RuntimeResolver from "./runtime/RuntimeResolver";
 import ExpressionResolver from "./expression/ExpressionResolver";
-import { LanguageMeta, LanguageMetaInput } from "./language/LanguageMeta";
+import { EntanglementProofInput } from "./agent/Agent";
+import { LanguageMetaInput } from "./language/LanguageMeta";
 
 jest.setTimeout(15000)
 
@@ -126,6 +127,40 @@ describe('Ad4mClient', () => {
         it('updateDirectMessageLanguage() smoke test', async () => {
             const agent = await ad4mClient.agent.updateDirectMessageLanguage("abcd")
             expect(agent.directMessageLanguage).toBe('abcd')
+        })
+
+        it('entanglementProof() smoke tests', async () => {
+            const addProof = await ad4mClient.agent.addEntanglementProofs([new EntanglementProofInput("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")]);
+            expect(addProof[0].did).toBe("did:key:hash")
+            expect(addProof[0].didSigningKeyId).toBe("did-key-id")
+            expect(addProof[0].deviceKeyType).toBe("ethereum")
+            expect(addProof[0].deviceKey).toBe("ethAddr")
+            expect(addProof[0].deviceKeySignedByDid).toBe("sig")
+            expect(addProof[0].didSignedByDeviceKey).toBe("sig2")
+
+            const getProofs = await ad4mClient.agent.getEntanglementProofs();
+            expect(getProofs[0].did).toBe("did:key:hash")
+            expect(getProofs[0].didSigningKeyId).toBe("did-key-id")
+            expect(getProofs[0].deviceKeyType).toBe("ethereum")
+            expect(getProofs[0].deviceKey).toBe("ethAddr")
+            expect(getProofs[0].deviceKeySignedByDid).toBe("sig")
+            expect(getProofs[0].didSignedByDeviceKey).toBe("sig2")
+
+            const deleteProofs = await ad4mClient.agent.deleteEntanglementProofs([new EntanglementProofInput("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")]);
+            expect(deleteProofs[0].did).toBe("did:key:hash")
+            expect(deleteProofs[0].didSigningKeyId).toBe("did-key-id")
+            expect(deleteProofs[0].deviceKeyType).toBe("ethereum")
+            expect(deleteProofs[0].deviceKey).toBe("ethAddr")
+            expect(deleteProofs[0].deviceKeySignedByDid).toBe("sig")
+            expect(deleteProofs[0].didSignedByDeviceKey).toBe("sig2")
+
+            const preflight = await ad4mClient.agent.entanglementProofPreFlight("ethAddr", "ethereum");
+            expect(preflight.did).toBe("did:key:hash")
+            expect(preflight.didSigningKeyId).toBe("did-key-id")
+            expect(preflight.deviceKeyType).toBe("ethereum")
+            expect(preflight.deviceKey).toBe("ethAddr")
+            expect(preflight.deviceKeySignedByDid).toBe("sig")
+            expect(preflight.didSignedByDeviceKey).toBe(null)
         })
     })
 
@@ -409,6 +444,11 @@ describe('Ad4mClient', () => {
             await ad4mClient.runtime.hcAddAgentInfos("agent infos string")
         })
 
+        it('ververifyStringSignedByDid() smoke test', async () => {
+            const verify = await ad4mClient.runtime.verifyStringSignedByDid("did", "didSigningKeyId", "data", "signedData")
+            expect(verify).toBe(true)
+        })
+        
         it('setStatus smoke test', async () => {
             const link = new LinkExpression()
             link.author = 'did:method:12345'

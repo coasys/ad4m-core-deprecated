@@ -1,7 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { PerspectiveInput } from "../perspectives/Perspective";
 import unwrapApolloResult from "../unwrapApolloResult";
-import { Agent } from "./Agent";
+import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 
 const AGENT_SUBITEMS = `
@@ -26,6 +26,16 @@ const AGENT_STATUS_FIELDS =`
     did
     didDocument
 `
+
+const ENTANGLEMENT_PROOF_FIELDS = `
+    did
+    didSigningKeyId
+    deviceKeyType
+    deviceKey
+    deviceKeySignedByDid
+    didSignedByDeviceKey
+`
+
 export interface InitializeArgs {
     did: string,
     didDocument: string,
@@ -186,6 +196,53 @@ export default class AgentClient {
         const agent = new Agent(a.did, a.perspective)
         agent.directMessageLanguage = a.directMessageLanguage
         return agent
+    }
+
+    async addEntanglementProofs(proofs: EntanglementProofInput[]): Promise<EntanglementProof[]> {
+        const { agentAddEntanglementProofs } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation agentAddEntanglementProofs($proofs: [EntanglementProofInput!]!) {
+                agentAddEntanglementProofs(proofs: $proofs) {
+                    ${ENTANGLEMENT_PROOF_FIELDS}
+                }
+            }`,
+            variables: { proofs }
+        }))
+        return agentAddEntanglementProofs 
+    }
+
+    async deleteEntanglementProofs(proofs: EntanglementProofInput[]): Promise<EntanglementProof[]> {
+        const { agentDeleteEntanglementProofs } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation agentDeleteEntanglementProofs($proofs: [EntanglementProofInput!]!) {
+                agentDeleteEntanglementProofs(proofs: $proofs) {
+                    ${ENTANGLEMENT_PROOF_FIELDS}
+                }
+            }`,
+            variables: { proofs }
+        }))
+        return agentDeleteEntanglementProofs 
+    }
+
+    async getEntanglementProofs(): Promise<string[]> {
+        const { agentGetEntanglementProofs } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query agentGetEntanglementProofs {
+                agentGetEntanglementProofs {
+                    ${ENTANGLEMENT_PROOF_FIELDS}
+                }
+            }`,
+        }))
+        return agentGetEntanglementProofs
+    }
+
+    async entanglementProofPreFlight(deviceKey: string, deviceKeyType: string): Promise<EntanglementProof> {
+        const { agentEntanglementProofPreFlight } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation agentEntanglementProofPreFlight($deviceKey: String!, $deviceKeyType: String!) {
+                agentEntanglementProofPreFlight(deviceKey: $deviceKey, deviceKeyType: $deviceKeyType) {
+                    ${ENTANGLEMENT_PROOF_FIELDS}
+                }
+            }`,
+            variables: { deviceKey, deviceKeyType }
+        }))
+        return agentEntanglementProofPreFlight
     }
 
     addUpdatedListener(listener) {

@@ -165,6 +165,16 @@ export default class RuntimeClient {
         return runtimeHcAddAgentInfos
     }
 
+    async verifyStringSignedByDid(did: string, didSigningKeyId: string, data: string, signedData: string): Promise<boolean> {
+        const { runtimeVerifyStringSignedByDid } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`query runtimeVerifyStringSignedByDid($did: String!, $didSigningKeyId: String!, $data: String!, $signedData: String!) {
+                runtimeVerifyStringSignedByDid(did: $did, didSigningKeyId: $didSigningKeyId, data: $data, signedData: $signedData)
+            }`,
+            variables: { did, didSigningKeyId, data, signedData }
+        }))
+        return runtimeVerifyStringSignedByDid
+    }
+    
     async setStatus(perspective: Perspective): Promise<boolean> {
         const { runtimeSetStatus } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation runtimeSetStatus($status: PerspectiveInput!) {
