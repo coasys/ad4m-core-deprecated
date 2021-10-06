@@ -1,6 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client"
 import { Perspective, PerspectiveExpression } from "../perspectives/Perspective"
 import unwrapApolloResult from "../unwrapApolloResult"
+import { SentMessage } from "./RuntimeResolver"
 
 const PERSPECTIVE_EXPRESSION_FIELDS = `
 author
@@ -204,10 +205,15 @@ export default class RuntimeClient {
         return runtimeMessageInbox
     }
 
-    async messageOutbox(filter?: string): Promise<PerspectiveExpression[]> {
+    async messageOutbox(filter?: string): Promise<SentMessage[]> {
         const { runtimeMessageOutbox } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query runtimeMessageOutbox($filter: String) {
-                runtimeMessageOutbox(filter: $filter) { ${PERSPECTIVE_EXPRESSION_FIELDS} }
+                runtimeMessageOutbox(filter: $filter) { 
+                    recipient,
+                    message {
+                        ${PERSPECTIVE_EXPRESSION_FIELDS} 
+                    }
+                }
             }`,
             variables: { filter }
         }))

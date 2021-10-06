@@ -1,4 +1,4 @@
-import { Arg, Mutation, Resolver, Query, Subscription } from "type-graphql";
+import { Arg, Mutation, Resolver, Query, Subscription, ObjectType, Field } from "type-graphql";
 import { Perspective, PerspectiveExpression, PerspectiveInput } from "../perspectives/Perspective";
 import { ExpressionProof } from "../expression/Expression";
 import { LinkExpression } from "../links/Links";
@@ -22,6 +22,13 @@ testPerspectiveExpression.timestamp = Date.now().toString()
 testPerspectiveExpression.proof = new ExpressionProof('', '')
 testPerspectiveExpression.data = new Perspective([testLink])
 
+@ObjectType()
+export class SentMessage {
+    @Field()
+    recipient: string;
+    @Field()
+    message: PerspectiveExpression;
+}
 /**
  * Resolver classes are used here to define the GraphQL schema 
  * (through the type-graphql annotations)
@@ -118,9 +125,12 @@ export default class RuntimeResolver {
         return [testPerspectiveExpression]
     }
 
-    @Query(returns => [PerspectiveExpression])
-    runtimeMessageOutbox(@Arg("filter", type => String, {nullable: true }) filter?: string): PerspectiveExpression[] {
-        return [testPerspectiveExpression]
+    @Query(returns => [SentMessage])
+    runtimeMessageOutbox(@Arg("filter", type => String, {nullable: true }) filter?: string): SentMessage[] {
+        return [{
+            recipient: "did:test:recipient", 
+            message: testPerspectiveExpression
+        } as SentMessage]
     }
 
  

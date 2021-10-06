@@ -448,9 +448,11 @@ describe('Ad4mClient', () => {
         })
 
         it('messageOutbox smoke test', async () => {
-            const messages = await ad4mClient.runtime.messageOutbox("did:ad4m:test")
-            expect(messages.length).toBe(1)
-            const message = messages[0]
+            const sentMessages = await ad4mClient.runtime.messageOutbox("did:ad4m:test")
+            expect(sentMessages.length).toBe(1)
+            const sentMessage = sentMessages[0]
+            expect(sentMessage.recipient).toBe("did:test:recipient")
+            const message = sentMessage.message
             expect(message.author).toBe("did:ad4m:test")
             const messagePersp = message.data
             expect(messagePersp.links.length).toBe(1)
