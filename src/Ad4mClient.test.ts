@@ -443,5 +443,10 @@ describe('Ad4mClient', () => {
         it('hcAddAgentInfos smoke test', async () => {
             await ad4mClient.runtime.hcAddAgentInfos("agent infos string")
         })
+
+        it('ververifyStringSignedByDid() smoke test', async () => {
+            const verify = await ad4mClient.runtime.verifyStringSignedByDid("did", "didSigningKeyId", "data", "signedData")
+            expect(verify).toBe(true)
+        })
     })
 })

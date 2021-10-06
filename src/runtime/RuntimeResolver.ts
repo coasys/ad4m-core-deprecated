@@ -72,4 +72,13 @@ export default class RuntimeResolver {
     runtimeHcAddAgentInfos(@Arg("agentInfos", type => String) agentInfos): boolean {
         return true
     }
+
+    @Query(returns => Boolean)
+    runtimeVerifyStringSignedByDid(
+        @Arg("did", type => String) did: string, 
+        @Arg("didSigningKeyId", type => String) didSigningKeyId: string, 
+        @Arg("data", type => String) data: string, 
+        @Arg("signedData", type => String) signedData: string) {
+        return true
+    }
 }
