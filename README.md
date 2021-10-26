@@ -73,7 +73,7 @@ For creating an expression we need to select a language that we create an expres
 const languages = await ad4mClient.languages.all()
 const noteIpfsAddress = languages.find(l => l.name === 'note-ipfs').address
 ```
-### Creating an Expressions
+### Creating an Expression
 
 ```js
 const exprAddress = await ad4mClient.expression.create("A new text note", noteIpfsAddress)
@@ -139,7 +139,7 @@ npm i && npm run build
 ---
 
 ## Wait, what?! 
-The central claim of AD4M is that any single- but also specifically multi-user application can be bootstrapped out of a meta-ontology consisting of 3 quintessential entities:
+The central claim of AD4M is that any single- but also specifically multi-user application can be bootstrapped out of a meta-ontology consisting of 3 quintessential ontological units:
 * Agents
 * Languages
 * and Perspectives
@@ -150,7 +150,7 @@ This is a *meta*-ontology since it doesn't make any assumptions about the specif
 
 
 ### Agents...
-...represent humans with their devices, which is what the internet actually is. Technically **represented as Decentralized Identifier - DID**.
+...represent humans with their devices, which is what the internet actually is. Technically **represented as Decentralized Identifiers - DIDs**.
 
 
 ### Languages...
@@ -158,7 +158,7 @@ This is a *meta*-ontology since it doesn't make any assumptions about the specif
 
 
 ### Perspectives...
-...belong to a specific agent. They represent context and association between expressions. They consist of a list of RDF/semantic web like triplets (subject-predicate-obejct) called `links` because all three items are just URLs pointing to expressions. Perspectives are like Solid's pods, but they are agent-centric. There is no such thing as a Perspective that does not belong to an agent. It is like the canvas on which an agent perceives and onto which they create anything. To the next layer above (either the very general UI built in Perspectivism - or any other special purpose UI), they are like a database scope.
+...belong to a specific agent. They represent context and association between expressions. They consist of a list of RDF/semantic web like triplets (subject-predicate-object) called `links` because all three items are just URLs pointing to expressions. Perspectives are like Solid's pods, but they are agent-centric. There is no such thing as a Perspective that does not belong to an agent. It is like the canvas on which an agent perceives and onto which they create anything. To the next layer above (either the very general UI built in Perspectivism - or any other special purpose UI), they are like a database scope.
 
 ---
 ### Bootstrapping
@@ -177,6 +177,6 @@ Building an AD4M app actually means extending the AD4M ecosystem with the
 * Languages
 * and link-ontologies
 
-needed for the apps domain - and then creating expressions from those Languages and linking them inside Perspectives.
+needed for the app's domain - and then creating expressions from those Languages and linking them inside Perspectives.
 
 The latter means creating RDF/semantic web style triplets that associate expressions in order to represent app specific semantics - not too different to how Solid style linked-data would work.
