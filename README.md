@@ -93,14 +93,51 @@ await ad4mClient.perspective.addLink(
 
 ### Publishing that local Perspective by turning it into a Neighbourhood
 The back-bone of a Neighbourhood is a *LinkLanguage* - a Language that enables the sharing
-and thus synchronizing of links (see `LinksAdapter` in [Language.ts](src/language/Language.ts)). While there can and should be many different implementations
-with different trade-offs and features (like membranes etc.) the go-to implementation for now
-is *Social Context* from Junto: https://github.com/juntofoundation/Social-Context
+and thus synchronizing of links (see `LinksAdapter` in [Language.ts](src/language/Language.ts)). 
+While there can and should be many different implementations
+with different trade-offs and features (like membranes etc.),
+there currently is one fully implemented and Holochain based LinkLanguage with the name *Social Context*.
 
-Let's assume we have downloaded the build files from their release directory, we can use it as
-a template to create a unique Language (with unique Holochain DNA in this case) like so:
+It is deployed on the current test network (Language Language v0.0.5) under the address:
+`QmZ1mkoY8nLvpxY3Mizx8UkUiwUzjxJxsqSTPPdH8sHxCQ`.
+
+#### Creating our unique LinkLanguage clone through templating
+But we should not just use this publicly known Language as the back-bone for our new Neighbourhood,
+since we need a unique clone.
+So what we want is to use this existing Language as a template and create a new copy with the same code
+but different UUID and/name in order to create a fresh space for our new Neighbourhood.
+
+What parameters can we adjust when using it as template?
+Let's have a look at the Language's meta information:
+
 ```js
-const uniqueLinkLanguage = await ad4mClient.languages.cloneHolochainTemplate(path.join(__dirname, "../languages/social-context"), "social-context", "b98e53a8-5800-47b6-adb9-86d55a74871e");
+const socialContextMeta = await ad4mClient.languages.meta("QmZ1mkoY8nLvpxY3Mizx8UkUiwUzjxJxsqSTPPdH8sHxCQ") 
+
+console.log(socialContextMeta)
+```
+
+Which should yield something like this:
+```
+ {
+  name: 'social-context',
+  address: 'QmZ1mkoY8nLvpxY3Mizx8UkUiwUzjxJxsqSTPPdH8sHxCQ',
+  description: 'Holochain based LinkLanguage. First full implementation of a LinkLanguage, for collaborative Neighbourhoods where every agent can add links. No membrane. Basic template for all custom Neighbourhoods in this first iteration of the Perspect3vism test network.',
+  author: 'did:key:zQ3shkkuZLvqeFgHdgZgFMUx8VGkgVWsLA83w2oekhZxoCW2n',
+  templated: false,
+  templateSourceLanguageAddress: null,
+  templateAppliedParams: null,
+  possibleTemplateParams: [ 'uuid', 'name', 'description' ],
+  sourceCodeLink: 'https://github.com/juntofoundation/Social-Context'
+}
+```
+
+The field `possibleTemplateParams` tells us that we can set a `UUID` and override `name` and `description`.
+Let's leave description but change the name.
+The function `languages.applyTemplateAndPublish()` takes an object as JSON as second parameter like so:
+
+
+```js
+const uniqueLinkLanguage = await ad4mClient.languages.applyTemplateAndPublish("QmZ1mkoY8nLvpxY3Mizx8UkUiwUzjxJxsqSTPPdH8sHxCQ", JSON.stringify({"uuid": "84a329-77384c-1510fb", "name": "Social Context clone for demo Neighbourhood"}));
 ```
 And then use this new LinkLanguage in our Neighbourhood:
 ```js
@@ -119,9 +156,9 @@ Alice now shares the Neighbourhood's URL with Bob.
 This is what Bob does to join the Neigbourhood, access it as a (local) Perspective
 and retrieve the Expression Alice created and linked there:
 ```js
-const perspectiveHandle = await ad4mClient.neighbourhood.joinFromUrl(neighbourhoodUrl)
-const links = await ad4mClient.perspective.queryLinks(perspectiveHandle.uuid, {})
-links.forEach(link => {
+const joinedNeighbourhood = await ad4mClient.neighbourhood.joinFromUrl(neighbourhoodUrl)
+const links = await ad4mClient.perspective.queryLinks(joinedNeighbourhood.uuid, new LinkQuery({source: 'a'}))
+links.forEach(async link => {
     const address = link.data.target
     const expression = await ad4mClient.expression.get(address)
     const data = JSON.parse(expression.data)
