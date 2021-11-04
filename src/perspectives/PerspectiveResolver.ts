@@ -54,6 +54,11 @@ export default class PerspectiveResolver {
         return [testLink]
     }
 
+    @Query(returns => String)
+    perspectiveQueryProlog(@Arg('uuid') uuid: string, @Arg('query') query: String): string {
+        return `[{"X": 1}]`
+    }
+
     @Mutation(returns => PerspectiveHandle)
     perspectiveAdd(@Arg('name') name: string): PerspectiveHandle {
         return new PerspectiveHandle('00006', name)

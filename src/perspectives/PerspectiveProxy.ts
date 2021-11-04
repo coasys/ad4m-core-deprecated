@@ -34,6 +34,10 @@ export class PerspectiveProxy {
         return await this.#client.queryLinks(this.#handle.uuid, query)
     }
 
+    async infer(query: string): Promise<any> {
+        return await this.#client.queryProlog(this.#handle.uuid, query)
+    }
+
     async add(link: Link): Promise<LinkExpression> {
         return await this.#client.addLink(this.#handle.uuid, link)
     }

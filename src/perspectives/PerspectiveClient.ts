@@ -135,6 +135,17 @@ export default class PerspectiveClient {
         return perspectiveQueryLinks
     }
 
+    async queryProlog(uuid: string, query: string): Promise<any> {
+        const { perspectiveQueryProlog } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query perspectiveQueryProlog($uuid: String!, $query: String!) {
+                perspectiveQueryProlog(uuid: $uuid, query: $query)
+            }`,
+            variables: { uuid, query }
+        }))
+
+        return JSON.parse(perspectiveQueryProlog)
+    }
+
     async add(name: string): Promise<PerspectiveProxy> {
         const { perspectiveAdd } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation perspectiveAdd($name: String!) {

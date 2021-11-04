@@ -334,6 +334,17 @@ describe('Ad4mClient', () => {
             expect(links[0].data.target).toBe('neighbourhood://Qm12345')
         })
 
+        it('queryProlog() smoke test', async () => {
+            let result = await ad4mClient.perspective.queryProlog('000001', "link(X, 2).")
+            expect(result.length).toBe(1)
+            expect(result[0].X).toBe(1)
+
+            const proxy = await ad4mClient.perspective.byUUID('000001')
+            result = await proxy.infer("link(X, 2).")
+            expect(result.length).toBe(1)
+            expect(result[0].X).toBe(1)
+        })
+
         it('add() smoke test', async () => {
             const p = await ad4mClient.perspective.add('p-name')
             expect(p.uuid).toBe('00006')
