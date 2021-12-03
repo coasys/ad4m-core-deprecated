@@ -3,7 +3,7 @@ export class Literal {
     #url?: string
 
     public static fromUrl(url: string) {
-        if(!url.startsWith("literal://"))
+        if(!url || !url.startsWith("literal://"))
             throw new Error("Can't create Literal from non-literal URL")
         const l = new Literal()
         l.#url = url
