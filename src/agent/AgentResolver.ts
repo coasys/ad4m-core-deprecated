@@ -1,5 +1,5 @@
 import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
-import { PerspectiveInput } from "../perspectives/Perspective";
+import { Perspective, PerspectiveInput } from "../perspectives/Perspective";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 
@@ -56,7 +56,7 @@ export default class AgentResolver {
 
     @Mutation(returns => Agent)
     agentUpdatePublicPerspective(@Arg('perspective') perspective: PerspectiveInput): Agent {
-        const agent = new Agent(TEST_AGENT_DID, perspective)
+        const agent = new Agent(TEST_AGENT_DID, perspective as Perspective)
         return agent
     }
 
