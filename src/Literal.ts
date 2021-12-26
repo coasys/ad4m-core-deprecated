@@ -35,7 +35,7 @@ export class Literal {
                 break;
         }
 
-        return `literal://${encoded}`
+        return encodeURI(`literal://${encoded}`)
     }
 
     get(): any {
@@ -47,9 +47,9 @@ export class Literal {
 
         if(!this.#url.startsWith("literal://"))
             throw new Error("Can't render Literal from non-literal URL")
-
+        
         // get rid of "literal://"
-        const encoded = this.#url.substring(10)
+        const encoded = decodeURI(this.#url.substring(10))
 
         if(encoded.startsWith("string:")) {
             return encoded.substring(7)
