@@ -19,7 +19,7 @@ export class Literal {
     encodeSingleQuote(input: string) {
         console.log('encodeSingleQuote')
         //@ts-ignore
-        input = input.replaceAll("'", "\\'")
+        input = input.split("'").join("\\'")
         console.log(input)
         return input
     }
@@ -27,7 +27,7 @@ export class Literal {
     decodeSingleQuote(input: string) {
         console.log('decodeSingleQuote')
         //@ts-ignore
-        input = input.replaceAll("\\'", "'")
+        input = input.split("\\'").join("'")
         return input
     }
 
