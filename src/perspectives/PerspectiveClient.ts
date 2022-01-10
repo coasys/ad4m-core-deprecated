@@ -234,35 +234,39 @@ export default class PerspectiveClient {
         this.#perspectiveRemovedCallbacks.push(cb)
     }
 
-    async addPerspectiveLinkAddedListener(uuid: String, cb: LinkCallback): Promise<void> {
-        this.#apolloClient.subscribe({
-            query: gql` subscription {
-                perspectiveLinkAdded(uuid: "${uuid}") { ${LINK_EXPRESSION_FIELDS} }
-            }   
-        `}).subscribe({
-            next: result => {
-                //@ts-ignore
-                cb(result.data.perspectiveLinkAdded)
-            },
-            error: (e) => console.error(e)
-        })
+    async addPerspectiveLinkAddedListener(uuid: String, cb: LinkCallback): Promise<ZenObservable.Subscription> {
+        return await new Promise<ZenObservable.Subscription>(resolve => setTimeout(() => {
+            const subscription = this.#apolloClient.subscribe({
+                query: gql` subscription {
+                    perspectiveLinkAdded(uuid: "${uuid}") { ${LINK_EXPRESSION_FIELDS} }
+                }   
+            `}).subscribe({
+                next: result => {
+                    //@ts-ignore
+                    cb(result.data.perspectiveLinkAdded)
+                },
+                error: (e) => console.error(e)
+            });
 
-        await new Promise<void>(resolve => setTimeout(resolve, 500))
+            resolve(subscription);
+        }, 500));
     }
 
-    async addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback): Promise<void> {
-        this.#apolloClient.subscribe({
-            query: gql` subscription {
-                perspectiveLinkRemoved(uuid: "${uuid}") { ${LINK_EXPRESSION_FIELDS} }
-            }   
-        `}).subscribe({
-            next: result => {
-                //@ts-ignore
-                cb(result.data.perspectiveLinkRemoved)
-            },
-            error: (e) => console.error(e)
-        })
+    async addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback): Promise<ZenObservable.Subscription> {
+        return await new Promise<ZenObservable.Subscription>(resolve => setTimeout(() => {
+            const subscription = this.#apolloClient.subscribe({
+                query: gql` subscription {
+                    perspectiveLinkRemoved(uuid: "${uuid}") { ${LINK_EXPRESSION_FIELDS} }
+                }   
+            `}).subscribe({
+                next: result => {
+                    //@ts-ignore
+                    cb(result.data.perspectiveLinkRemoved)
+                },
+                error: (e) => console.error(e)
+            });
 
-        await new Promise<void>(resolve => setTimeout(resolve, 500))
+            resolve(subscription);
+        }, 500));
     }
 }
