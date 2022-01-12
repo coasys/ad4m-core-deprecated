@@ -41,7 +41,8 @@ describe('Ad4mClient', () => {
           })
           
 
-        const apolloClient = new ApolloClient({
+          const apolloClient = new ApolloClient({
+            // @ts-ignore
             link: ApolloLink.from([errorLink, new HttpLink({ uri: url, fetch})]),
             cache: new InMemoryCache(),
             defaultOptions: {
@@ -317,6 +318,14 @@ describe('Ad4mClient', () => {
             const p = await ad4mClient.perspective.byUUID('00004')
             expect(p.uuid).toBe('00004')
             expect(p.name).toBe('test-perspective-1')
+        })
+
+        it('fromUrl() smoke test', async () => {
+            const p1 = await ad4mClient.perspective.fromUrl('neighbourhood://Qm12345')
+            expect(p1.sharedUrl).toBe('neighbourhood://Qm12345')
+            expect(p1.name).toBe('test-perspective-2')
+            const p2 = await ad4mClient.perspective.fromUrl('neighbourhood://Qm67891')
+            expect(p2).toBeNull()
         })
 
         it('snapshotByUUID() smoke test', async () => {
