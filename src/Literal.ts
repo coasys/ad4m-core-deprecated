@@ -3,7 +3,7 @@ export class Literal {
     #url?: string
 
     public static fromUrl(url: string) {
-        if(!url.startsWith("literal://"))
+        if(!url || !url.startsWith("literal://"))
             throw new Error("Can't create Literal from non-literal URL")
         const l = new Literal()
         l.#url = url
@@ -14,6 +14,21 @@ export class Literal {
         const l = new Literal()
         l.#literal = literal
         return l
+    }
+
+    encodeSingleQuote(input: string) {
+        console.log('encodeSingleQuote')
+        //@ts-ignore
+        input = input.split("'").join("\\'")
+        console.log(input)
+        return input
+    }
+
+    decodeSingleQuote(input: string) {
+        console.log('decodeSingleQuote')
+        //@ts-ignore
+        input = input.split("\\'").join("'")
+        return input
     }
 
     toUrl(): string {
@@ -35,7 +50,7 @@ export class Literal {
                 break;
         }
 
-        return `literal://${encoded}`
+        return this.encodeSingleQuote(encodeURI(`literal://${encoded}`))
     }
 
     get(): any {
@@ -47,9 +62,9 @@ export class Literal {
 
         if(!this.#url.startsWith("literal://"))
             throw new Error("Can't render Literal from non-literal URL")
-
+        
         // get rid of "literal://"
-        const encoded = this.#url.substring(10)
+        const encoded = decodeURI(this.decodeSingleQuote(this.#url.substring(10)))
 
         if(encoded.startsWith("string:")) {
             return encoded.substring(7)

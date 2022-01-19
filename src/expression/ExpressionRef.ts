@@ -27,7 +27,15 @@ export function exprRef2String(ref: ExpressionRef): string {
 }
 
 export function parseExprUrl(url: string): ExpressionRef {
-    const URIregexp = /^([^:^\s]+):\/\/([^\s]+)$/
+    if(url.startsWith("literal://")) {
+        const languageRef = new LanguageRef()
+        languageRef.address = 'literal'
+        languageRef.name = 'literal'
+        const content = url.substring(10)
+        return new ExpressionRef(languageRef, content)
+    }
+
+    const URIregexp = /^([^:^\s]+):\/\/([\s\S]+)$/
     const URImatches = URIregexp.exec(url)
 
     if(URImatches && URImatches.length == 3) {
