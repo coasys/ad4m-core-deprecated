@@ -122,6 +122,15 @@ export default class PerspectiveClient {
         }))
         return perspectiveSnapshot
     }
+    async publishSnapshotByUUID(uuid: string): Promise<string|null> {
+        const { perspectivePublishSnapshot } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation perspectivePublishSnapshot($uuid: String!) {
+                perspectivePublishSnapshot(uuid: $uuid)
+            }`,
+            variables: { uuid }
+        }))
+        return perspectivePublishSnapshot
+    }
 
     async queryLinks(uuid: string, query: LinkQuery): Promise<LinkExpression[]> {
         const { perspectiveQueryLinks } = unwrapApolloResult(await this.#apolloClient.query({
