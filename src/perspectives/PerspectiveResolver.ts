@@ -116,11 +116,11 @@ export default class PerspectiveResolver {
 
     @Subscription({topics: "", nullable: true})
     perspectiveLinkAdded(@Arg('uuid') uuid: string): LinkExpression {
-        return new LinkExpression()
+        return testLink
     }
 
     @Subscription({topics: "", nullable: true})
     perspectiveLinkRemoved(@Arg('uuid') uuid: string): LinkExpression {
-        return new LinkExpression()
+        return testLink
     }
 }
