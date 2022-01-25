@@ -1,4 +1,4 @@
-import type { AppSignalCb } from '@holochain/conductor-api'
+import type { AppSignalCb } from '@holochain/client'
 import { Expression } from "../expression/Expression";
 import type { IPFS } from 'ipfs-core-types'
 
