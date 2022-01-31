@@ -41,7 +41,7 @@ describe('Ad4mClient', () => {
           })
           
 
-          const apolloClient = new ApolloClient({
+        const apolloClient = new ApolloClient({
             // @ts-ignore
             link: ApolloLink.from([errorLink, new HttpLink({ uri: url, fetch})]),
             cache: new InMemoryCache(),
@@ -377,6 +377,47 @@ describe('Ad4mClient', () => {
             expect(link.data.source).toBe('root')
             expect(link.data.predicate).toBe('p')
             expect(link.data.target).toBe('lang://Qm123')
+        })
+
+        it('addListener() smoke test', async () => {
+            let perspective = await ad4mClient.perspective.byUUID('00004')
+            
+            const linkAdded = jest.fn()
+            const linkRemoved = jest.fn()
+
+            await perspective.addListener('link-added', linkAdded)
+            await perspective.add({source: 'root', target: 'neighbourhood://Qm12345'})  
+
+            expect(linkAdded).toBeCalledTimes(1)
+            expect(linkRemoved).toBeCalledTimes(0)
+
+            perspective = await ad4mClient.perspective.byUUID('00004')
+
+            await perspective.addListener('link-removed', linkRemoved)
+            await perspective.add({source: 'root', target: 'neighbourhood://Qm123456'})  
+
+            expect(linkAdded).toBeCalledTimes(1)
+            expect(linkRemoved).toBeCalledTimes(1)
+        })
+
+        it('removeListener() smoke test', async () => {
+            let perspective = await ad4mClient.perspective.byUUID('00004')
+            
+            const linkAdded = jest.fn()
+
+            await perspective.addListener('link-added', linkAdded)
+            await perspective.add({source: 'root', target: 'neighbourhood://Qm12345'})  
+
+            expect(linkAdded).toBeCalledTimes(1)
+
+            linkAdded.mockClear();
+            
+            perspective = await ad4mClient.perspective.byUUID('00004')
+
+            await perspective.removeListener('link-added', linkAdded)
+            await perspective.add({source: 'root', target: 'neighbourhood://Qm123456'})  
+
+            expect(linkAdded).toBeCalledTimes(0)
         })
 
         it('updateLink() smoke test', async () => {
