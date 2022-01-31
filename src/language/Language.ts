@@ -7,6 +7,10 @@ import { Perspective, PerspectiveExpression } from '../perspectives/Perspective'
 export interface Language {
     readonly name: string;
 
+    // Flagging expressions as immutable to enable
+    // expression caching in the ad4m-executor
+    isImmutableExpression?(expression: Address): boolean;
+
     // Adapter implementations:
     // ExpressionAdapter implements means of getting an Expression
     // by address and putting an expression
