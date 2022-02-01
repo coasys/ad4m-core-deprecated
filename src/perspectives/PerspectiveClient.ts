@@ -82,10 +82,8 @@ export default class PerspectiveClient {
         `}).subscribe({
             next: result => {
                 const { link, perspective } = result.data.perspectiveLinkAdded;
-                console.log('haha 0', result.data.perspectiveLinkAdded)
 
                 const links = this.#perspectiveLinkAddedCallbacks.get(perspective.uuid);
-                console.log('haha 1', this.#perspectiveLinkAddedCallbacks)
                 if (links) {
                     links.forEach(c => {
                         c(link)
