@@ -1,4 +1,5 @@
 import { ApolloClient, gql } from "@apollo/client";
+import { InteractionCall } from "../language/Language";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { ExpressionRendered } from "./Expression";
 
@@ -70,5 +71,15 @@ export default class ExpressionClient {
             variables: { content, languageAddress }
         }))
         return expressionCreate
+    }
+
+    async interact(url: string, interactionCall: InteractionCall): Promise<string|null> {
+        const { expressionInteract } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation expressionInteract($url: String!, $interactionCall: InteractionCall!){
+                expressionInteract(url: $url, interactionCall: $interactionCall)
+            }`,
+            variables: { url, interactionCall }
+        }))
+        return expressionInteract
     }
 }

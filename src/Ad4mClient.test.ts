@@ -14,6 +14,7 @@ import RuntimeResolver from "./runtime/RuntimeResolver";
 import ExpressionResolver from "./expression/ExpressionResolver";
 import { EntanglementProofInput } from "./agent/Agent";
 import { LanguageMetaInput } from "./language/LanguageMeta";
+import { InteractionCall } from "./language/Language";
 
 jest.setTimeout(15000)
 
@@ -203,6 +204,11 @@ describe('Ad4mClient', () => {
             expect(address2.toString()).toBe("Qm1234")
         })
 
+        it('interact() smoke test', async () => {
+            const call = new InteractionCall('add_comment', { content: 'test'})
+            const result = await ad4mClient.expression.interact('Qmabcdf', call)
+            expect(result.toString()).toBe("test result")
+        })
     })
 
     describe('.langauges', () => {

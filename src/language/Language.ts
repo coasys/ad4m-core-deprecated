@@ -3,6 +3,7 @@ import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
 import type { LinkQuery }  from '../perspectives/LinkQuery'
 import { Perspective, PerspectiveExpression } from '../perspectives/Perspective';
+import { InputType, Field } from "type-graphql";
 
 export interface Language {
     readonly name: string;
@@ -138,12 +139,24 @@ export interface Interaction {
     readonly label: string;
     readonly name: string;
     readonly parameters: [string, string][];
-    execute(parameters: object);
+    execute(parameters: object): string|null;
 }
 
+@InputType()
 export class InteractionCall {
+    @Field()
     name: string;
-    parameters: object;
+    @Field()
+    parametersStringified: string;
+
+    public get parameters() {
+        return JSON.parse(this.parametersStringified)
+    }
+
+    constructor(name: string, parameters: object) {
+        this.name = name
+        this.parametersStringified = JSON.stringify(parameters)
+    }
 }
 
 export class OnlineAgent {
