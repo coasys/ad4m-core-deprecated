@@ -3,7 +3,7 @@ import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
 import type { LinkQuery }  from '../perspectives/LinkQuery'
 import { Perspective, PerspectiveExpression } from '../perspectives/Perspective';
-import { InputType, Field } from "type-graphql";
+import { InputType, Field, ObjectType } from "type-graphql";
 
 export interface Language {
     readonly name: string;
@@ -135,6 +135,26 @@ export interface DirectMessageAdapter {
     addMessageCallback(callback: MessageCallback);
 }
 
+@ObjectType()
+export class InteractionParameter {
+    @Field()
+    name: string
+
+    @Field()
+    type: string
+}
+
+@ObjectType()
+export class InteractionMeta {
+    @Field()
+    label: string;
+
+    @Field()
+    name: string;
+
+    @Field(type => [InteractionParameter])
+    parameters: InteractionParameter[]
+}
 export interface Interaction {
     readonly label: string;
     readonly name: string;
