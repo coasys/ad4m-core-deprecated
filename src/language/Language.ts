@@ -139,7 +139,7 @@ export interface Interaction {
     readonly label: string;
     readonly name: string;
     readonly parameters: [string, string][];
-    execute(parameters: object): string|null;
+    execute(parameters: object): Promise<string|null>;
 }
 
 @InputType()
