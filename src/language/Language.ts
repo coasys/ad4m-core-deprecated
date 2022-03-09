@@ -3,6 +3,7 @@ import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
 import type { LinkQuery }  from '../perspectives/LinkQuery'
 import { Perspective, PerspectiveExpression } from '../perspectives/Perspective';
+import { InputType, Field, ObjectType } from "type-graphql";
 
 export interface Language {
     readonly name: string;
@@ -134,16 +135,48 @@ export interface DirectMessageAdapter {
     addMessageCallback(callback: MessageCallback);
 }
 
+@ObjectType()
+export class InteractionParameter {
+    @Field()
+    name: string
+
+    @Field()
+    type: string
+}
+
+@ObjectType()
+export class InteractionMeta {
+    @Field()
+    label: string;
+
+    @Field()
+    name: string;
+
+    @Field(type => [InteractionParameter])
+    parameters: InteractionParameter[]
+}
 export interface Interaction {
     readonly label: string;
     readonly name: string;
     readonly parameters: [string, string][];
-    execute(parameters: object);
+    execute(parameters: object): Promise<string|null>;
 }
 
+@InputType()
 export class InteractionCall {
+    @Field()
     name: string;
-    parameters: object;
+    @Field()
+    parametersStringified: string;
+
+    public get parameters() {
+        return JSON.parse(this.parametersStringified)
+    }
+
+    constructor(name: string, parameters: object) {
+        this.name = name
+        this.parametersStringified = JSON.stringify(parameters)
+    }
 }
 
 export class OnlineAgent {

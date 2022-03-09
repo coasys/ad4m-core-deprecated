@@ -1,6 +1,7 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { LanguageRef } from "../language/LanguageRef";
 import { ExpressionProof, ExpressionRendered } from "./Expression";
+import { InteractionCall, InteractionMeta } from "../language/Language"
 
 
 const e = new ExpressionRendered()
@@ -41,5 +42,23 @@ export default class ExpressionResolver {
         @Arg('languageAddress') languageAddress: string
     ): string {
         return "Qm1234"
+    }
+
+    @Query(returns => [InteractionMeta])
+    expressionInteractions(@Arg('url') url: string): InteractionMeta[] {
+        const interaction = {
+            label: "Add a comment",
+            name: "add_comment",
+            parameters: [{name: 'comment', type: 'string'}]
+        } as InteractionMeta
+        return [interaction]
+    }
+
+    @Mutation(returns => String, {nullable: true})
+    expressionInteract(
+        @Arg('url') url: string,
+        @Arg('interactionCall') interactionCall: InteractionCall
+    ): string|null {
+        return "test result"
     }
 }
