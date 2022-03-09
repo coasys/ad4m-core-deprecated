@@ -158,7 +158,7 @@ export class InteractionMeta {
 export interface Interaction {
     readonly label: string;
     readonly name: string;
-    readonly parameters: [string, string][];
+    readonly parameters: InteractionParameter[];
     execute(parameters: object): Promise<string|null>;
 }
 
@@ -169,7 +169,7 @@ export class InteractionCall {
     @Field()
     parametersStringified: string;
 
-    public get parameters() {
+    public get parameters(): object {
         return JSON.parse(this.parametersStringified)
     }
 
