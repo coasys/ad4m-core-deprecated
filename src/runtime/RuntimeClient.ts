@@ -1,7 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client"
 import { Perspective, PerspectiveExpression } from "../perspectives/Perspective"
 import unwrapApolloResult from "../unwrapApolloResult"
-import { SentMessage } from "./RuntimeResolver"
+import { RuntimeInfo, SentMessage } from "./RuntimeResolver"
 
 const PERSPECTIVE_EXPRESSION_FIELDS = `
 author
@@ -39,6 +39,18 @@ export default class RuntimeClient {
             },
             error: (e) => console.error(e)
         })
+    }
+
+    async info(): Promise<RuntimeInfo> {
+        const { runtimeInfo } = unwrapApolloResult(await this.#apolloClient.query({
+            query: gql`query runtimeInfo {
+                runtimeInfo {
+                    ad4mExecutorVersion
+                    ad4mVersion
+                }
+            }`,
+        }));
+        return runtimeInfo
     }
 
     async quit(): Promise<Boolean> {

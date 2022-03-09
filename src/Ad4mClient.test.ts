@@ -558,5 +558,11 @@ describe('Ad4mClient', () => {
             expect(messagePersp.links[0].data.source).toBe('root')
             expect(messagePersp.links[0].data.target).toBe('neighbourhood://Qm12345')
         })
+
+        it('runtimeInfo smoke test', async () => {
+            const runtimeInfo = await ad4mClient.runtime.info();
+            expect(runtimeInfo.ad4mExecutorVersion).toBe("x.x.x")
+            expect(runtimeInfo.ad4mVersion).toBe("x.x.x")
+        })
     })
 })

@@ -29,6 +29,14 @@ export class SentMessage {
     @Field()
     message: PerspectiveExpression;
 }
+
+@ObjectType()
+export class RuntimeInfo {
+    @Field()
+    ad4mExecutorVersion: string;
+    @Field()
+    ad4mVersion: string;
+}
 /**
  * Resolver classes are used here to define the GraphQL schema 
  * (through the type-graphql annotations)
@@ -45,6 +53,14 @@ export default class RuntimeResolver {
     @Mutation(returns => Boolean)
     runtimeOpenLink(@Arg('url') url: string): Boolean {
         return true
+    }
+
+    @Query(returns => RuntimeInfo)
+    runtimeInfo(): RuntimeInfo {
+        return {
+            ad4mExecutorVersion: "x.x.x",
+            ad4mVersion: "x.x.x",
+        } as RuntimeInfo
     }
 
     @Mutation(returns => [String])
