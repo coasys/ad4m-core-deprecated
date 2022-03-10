@@ -34,8 +34,6 @@ export class SentMessage {
 export class RuntimeInfo {
     @Field()
     ad4mExecutorVersion: string;
-    @Field()
-    ad4mVersion: string;
 }
 /**
  * Resolver classes are used here to define the GraphQL schema 
@@ -59,7 +57,6 @@ export default class RuntimeResolver {
     runtimeInfo(): RuntimeInfo {
         return {
             ad4mExecutorVersion: "x.x.x",
-            ad4mVersion: "x.x.x",
         } as RuntimeInfo
     }
 

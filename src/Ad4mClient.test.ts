@@ -562,7 +562,6 @@ describe('Ad4mClient', () => {
         it('runtimeInfo smoke test', async () => {
             const runtimeInfo = await ad4mClient.runtime.info();
             expect(runtimeInfo.ad4mExecutorVersion).toBe("x.x.x")
-            expect(runtimeInfo.ad4mVersion).toBe("x.x.x")
         })
     })
 })

@@ -46,7 +46,6 @@ export default class RuntimeClient {
             query: gql`query runtimeInfo {
                 runtimeInfo {
                     ad4mExecutorVersion
-                    ad4mVersion
                 }
             }`,
         }));
