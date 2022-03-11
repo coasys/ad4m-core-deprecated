@@ -328,6 +328,12 @@ describe('Ad4mClient', () => {
             expect(ps.links[0].data.target).toBe('neighbourhood://Qm12345')
         })
 
+        it('publishSnapshotByUUID() smoke test', async () => {
+            const snapshotUrl = await ad4mClient.perspective.publishSnapshotByUUID('00004')
+            expect(snapshotUrl).toBe('perspective://Qm12345')
+
+        })
+
         it('queryLinks() smoke test', async () => {
             const links = await ad4mClient.perspective.queryLinks('000001', {source: 'root'})
             expect(links.length).toBe(1)

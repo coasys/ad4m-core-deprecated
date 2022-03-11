@@ -50,6 +50,11 @@ export default class PerspectiveResolver {
         return new Perspective([testLink])
     }
 
+    @Mutation(returns => String, {nullable: true})
+    perspectivePublishSnapshot(@Arg('uuid') uuid: string): String|null {
+        return 'perspective://Qm12345'
+    }
+
     @Query(returns => [LinkExpression], {nullable: true})
     perspectiveQueryLinks(@Arg('uuid') uuid: string, @Arg('query') query: LinkQuery): LinkExpression[] {
         return [testLink]
