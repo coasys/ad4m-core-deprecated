@@ -1,7 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client"
 import { Perspective, PerspectiveExpression } from "../perspectives/Perspective"
 import unwrapApolloResult from "../unwrapApolloResult"
-import { SentMessage } from "./RuntimeResolver"
+import { ErrorMessage, SentMessage } from "./RuntimeResolver"
 
 const PERSPECTIVE_EXPRESSION_FIELDS = `
 author
@@ -18,10 +18,12 @@ proof { valid, invalid, signature, key }
 `
 
 export type MessageCallback = (message: PerspectiveExpression) => null
+export type ErrorCallback = (message: ErrorMessage) => null
 
 export default class RuntimeClient {
     #apolloClient: ApolloClient<any>
     #messageReceivedCallbacks: MessageCallback[]
+    #errorOccurredCallbacks: ErrorCallback[]
 
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
@@ -35,6 +37,23 @@ export default class RuntimeClient {
             next: result => {
                 this.#messageReceivedCallbacks.forEach(cb => {
                     cb(result.data.runtimeMessageReceived)
+                })
+            },
+            error: (e) => console.error(e)
+        })
+
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                errorOccurred {
+                    title
+                    message
+                    error
+                }
+            }`
+        }).subscribe({
+            next: result => {
+                this.#errorOccurredCallbacks.forEach(cb => {
+                    cb(result.data.errorOccurred)
                 })
             },
             error: (e) => console.error(e)
@@ -232,5 +251,9 @@ export default class RuntimeClient {
 
     addMessageCallback(cb: MessageCallback) {
         this.#messageReceivedCallbacks.push(cb)
+    }
+
+    addErrorCallback(cb: ErrorCallback) {
+        this.#errorOccurredCallbacks.push(cb)
     }
 }

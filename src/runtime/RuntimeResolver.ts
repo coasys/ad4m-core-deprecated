@@ -29,6 +29,17 @@ export class SentMessage {
     @Field()
     message: PerspectiveExpression;
 }
+
+@ObjectType()
+export class ErrorMessage {
+    @Field()
+    title: string;
+    @Field()
+    message: string;
+    @Field()
+    error: any;
+}
+
 /**
  * Resolver classes are used here to define the GraphQL schema 
  * (through the type-graphql annotations)
@@ -146,5 +157,14 @@ export default class RuntimeResolver {
     @Subscription({topics: "", nullable: true})
     runtimeMessageReceived(): PerspectiveExpression {
         return testPerspectiveExpression
+    }
+
+    @Subscription({topics: "", nullable: true})
+    errorOccurred(): ErrorMessage {
+        return {
+            title: "Test error title",
+            message: "Test error message",
+            error: "Error details",
+        }
     }
 }
