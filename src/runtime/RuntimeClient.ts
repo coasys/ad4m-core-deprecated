@@ -28,6 +28,7 @@ export default class RuntimeClient {
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
         this.#messageReceivedCallbacks = []
+        this.#errorOccurredCallbacks = []
 
         this.#apolloClient.subscribe({
             query: gql` subscription {
@@ -47,7 +48,6 @@ export default class RuntimeClient {
                 errorOccurred {
                     title
                     message
-                    error
                 }
             }`
         }).subscribe({

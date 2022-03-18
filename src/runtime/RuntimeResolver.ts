@@ -36,8 +36,6 @@ export class ErrorMessage {
     title: string;
     @Field()
     message: string;
-    @Field()
-    error: any;
 }
 
 /**
@@ -164,7 +162,6 @@ export default class RuntimeResolver {
         return {
             title: "Test error title",
             message: "Test error message",
-            error: "Error details",
         }
     }
 }
