@@ -69,8 +69,8 @@ export interface ExpressionAdapter {
 // of Expressions.
 // See ExpressionAdapter
 export interface PublicSharing {
-    // Creates and Expression and shares it.
-    // Returns the Expression's address.
+    // Create an Expression and shares it.
+    // Return the Expression's address.
     // * content is the object created by the constructorIcon component
     createPublic(content: object): Promise<Address>;
 }
@@ -94,7 +94,7 @@ export interface GetByAuthorAdapter {
     getByAuthor(author: DID, count: number, page: number): Promise<Expression[] | null>;
 }
 
-// Implement this if your Language supports retrievel of all Expressions
+// Implement this if your Language supports retrieval of all Expressions
 // stored in the space of that Language.
 // Might not be trivial (without trade-off) for Holochain or DHTs
 // in general - hence not a required interface.
