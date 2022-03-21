@@ -48,6 +48,8 @@ export default class RuntimeClient {
                 exceptionOccurred {
                     title
                     message
+                    type
+                    addon
                 }
             }`
         }).subscribe({

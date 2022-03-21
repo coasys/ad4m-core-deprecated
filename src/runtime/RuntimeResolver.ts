@@ -1,7 +1,9 @@
-import { Arg, Mutation, Resolver, Query, Subscription, ObjectType, Field, registerEnumType } from "type-graphql";
+import 'reflect-metadata'
+import { Arg, Mutation, Resolver, Query, Subscription, ObjectType, Field } from "type-graphql";
 import { Perspective, PerspectiveExpression, PerspectiveInput } from "../perspectives/Perspective";
 import { ExpressionProof } from "../expression/Expression";
 import { LinkExpression } from "../links/Links";
+import { ExceptionType } from "../Exception";
 
 const testLink = new LinkExpression()
 testLink.author = "did:ad4m:test"
@@ -30,24 +32,13 @@ export class SentMessage {
     message: PerspectiveExpression;
 }
 
-export enum ExceptionType {
-    LanguageIsNotLoaded,
-    ExpressionIsNotVerified,
-    AgentIsUntrusted,
-}
-
-registerEnumType(ExceptionType, {
-    name: "ExceptionType",
-    description: "The type of exceptions",
-});
-
 @ObjectType()
 export class ExceptionInfo {
     @Field()
     title: string;
     @Field()
     message: string;
-    @Field(type => ExceptionType)
+    @Field()
     type: ExceptionType;
     @Field({ nullable: true })
     addon?: string;
@@ -175,8 +166,8 @@ export default class RuntimeResolver {
     @Subscription({topics: "", nullable: true})
     exceptionOccurred(): ExceptionInfo {
         return {
-            title: "Test error title",
-            message: "Test error message",
+            title: "Test title",
+            message: "Test message",
             type: ExceptionType.LanguageIsNotLoaded,
         }
     }
