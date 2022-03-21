@@ -1,4 +1,4 @@
-import { Arg, Mutation, Resolver, Query, Subscription, ObjectType, Field } from "type-graphql";
+import { Arg, Mutation, Resolver, Query, Subscription, ObjectType, Field, registerEnumType } from "type-graphql";
 import { Perspective, PerspectiveExpression, PerspectiveInput } from "../perspectives/Perspective";
 import { ExpressionProof } from "../expression/Expression";
 import { LinkExpression } from "../links/Links";
@@ -30,12 +30,27 @@ export class SentMessage {
     message: PerspectiveExpression;
 }
 
+export enum ExceptionType {
+    LanguageIsNotLoaded,
+    ExpressionIsNotVerified,
+    AgentIsUntrusted,
+}
+
+registerEnumType(ExceptionType, {
+    name: "ExceptionType",
+    description: "The type of exceptions",
+});
+
 @ObjectType()
-export class ErrorMessage {
+export class ExceptionInfo {
     @Field()
     title: string;
     @Field()
     message: string;
+    @Field(type => ExceptionType)
+    type: ExceptionType;
+    @Field({ nullable: true })
+    addon?: string;
 }
 
 /**
@@ -158,10 +173,11 @@ export default class RuntimeResolver {
     }
 
     @Subscription({topics: "", nullable: true})
-    errorOccurred(): ErrorMessage {
+    exceptionOccurred(): ExceptionInfo {
         return {
             title: "Test error title",
             message: "Test error message",
+            type: ExceptionType.LanguageIsNotLoaded,
         }
     }
 }
