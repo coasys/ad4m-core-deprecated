@@ -3,6 +3,7 @@ import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
 import type { LinkQuery }  from '../perspectives/LinkQuery'
 import { Perspective, PerspectiveExpression } from '../perspectives/Perspective';
+import { InputType, Field, ObjectType } from "type-graphql";
 
 export interface Language {
     readonly name: string;
@@ -68,8 +69,8 @@ export interface ExpressionAdapter {
 // of Expressions.
 // See ExpressionAdapter
 export interface PublicSharing {
-    // Creates and Expression and shares it.
-    // Returns the Expression's address.
+    // Create an Expression and shares it.
+    // Return the Expression's address.
     // * content is the object created by the constructorIcon component
     createPublic(content: object): Promise<Address>;
 }
@@ -93,7 +94,7 @@ export interface GetByAuthorAdapter {
     getByAuthor(author: DID, count: number, page: number): Promise<Expression[] | null>;
 }
 
-// Implement this if your Language supports retrievel of all Expressions
+// Implement this if your Language supports retrieval of all Expressions
 // stored in the space of that Language.
 // Might not be trivial (without trade-off) for Holochain or DHTs
 // in general - hence not a required interface.
@@ -134,16 +135,48 @@ export interface DirectMessageAdapter {
     addMessageCallback(callback: MessageCallback);
 }
 
+@ObjectType()
+export class InteractionParameter {
+    @Field()
+    name: string
+
+    @Field()
+    type: string
+}
+
+@ObjectType()
+export class InteractionMeta {
+    @Field()
+    label: string;
+
+    @Field()
+    name: string;
+
+    @Field(type => [InteractionParameter])
+    parameters: InteractionParameter[]
+}
 export interface Interaction {
     readonly label: string;
     readonly name: string;
-    readonly parameters: [string, string][];
-    execute(parameters: object);
+    readonly parameters: InteractionParameter[];
+    execute(parameters: object): Promise<string|null>;
 }
 
+@InputType()
 export class InteractionCall {
+    @Field()
     name: string;
-    parameters: object;
+    @Field()
+    parametersStringified: string;
+
+    public get parameters(): object {
+        return JSON.parse(this.parametersStringified)
+    }
+
+    constructor(name: string, parameters: object) {
+        this.name = name
+        this.parametersStringified = JSON.stringify(parameters)
+    }
 }
 
 export class OnlineAgent {

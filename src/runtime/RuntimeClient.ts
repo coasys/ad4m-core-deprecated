@@ -1,7 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client"
 import { Perspective, PerspectiveExpression } from "../perspectives/Perspective"
 import unwrapApolloResult from "../unwrapApolloResult"
-import { RuntimeInfo, SentMessage } from "./RuntimeResolver"
+import { RuntimeInfo, ExceptionInfo, SentMessage } from "./RuntimeResolver"
 
 const PERSPECTIVE_EXPRESSION_FIELDS = `
 author
@@ -18,14 +18,17 @@ proof { valid, invalid, signature, key }
 `
 
 export type MessageCallback = (message: PerspectiveExpression) => null
+export type ExceptionCallback = (info: ExceptionInfo) => null
 
 export default class RuntimeClient {
     #apolloClient: ApolloClient<any>
     #messageReceivedCallbacks: MessageCallback[]
+    #exceptionOccurredCallbacks: ExceptionCallback[]
 
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
         this.#messageReceivedCallbacks = []
+        this.#exceptionOccurredCallbacks = []
 
         this.#apolloClient.subscribe({
             query: gql` subscription {
@@ -35,6 +38,24 @@ export default class RuntimeClient {
             next: result => {
                 this.#messageReceivedCallbacks.forEach(cb => {
                     cb(result.data.runtimeMessageReceived)
+                })
+            },
+            error: (e) => console.error(e)
+        })
+
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                exceptionOccurred {
+                    title
+                    message
+                    type
+                    addon
+                }
+            }`
+        }).subscribe({
+            next: result => {
+                this.#exceptionOccurredCallbacks.forEach(cb => {
+                    cb(result.data.exceptionOccurred)
                 })
             },
             error: (e) => console.error(e)
@@ -243,5 +264,9 @@ export default class RuntimeClient {
 
     addMessageCallback(cb: MessageCallback) {
         this.#messageReceivedCallbacks.push(cb)
+    }
+
+    addExceptionCallback(cb: ExceptionCallback) {
+        this.#exceptionOccurredCallbacks.push(cb)
     }
 }

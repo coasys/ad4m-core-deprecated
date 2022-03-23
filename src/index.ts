@@ -3,6 +3,7 @@ export * from "./Ad4mClient"
 export * from "./Address";
 export * from "./agent/Agent";
 export * from "./agent/AgentStatus";
+export * from "./Exception";
 export * from "./expression/Expression";
 export * from "./expression/ExpressionRef";
 export * from "./language/Icon";

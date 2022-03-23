@@ -1,7 +1,9 @@
+import 'reflect-metadata'
 import { Arg, Mutation, Resolver, Query, Subscription, ObjectType, Field } from "type-graphql";
 import { Perspective, PerspectiveExpression, PerspectiveInput } from "../perspectives/Perspective";
 import { ExpressionProof } from "../expression/Expression";
 import { LinkExpression } from "../links/Links";
+import { ExceptionType } from "../Exception";
 
 const testLink = new LinkExpression()
 testLink.author = "did:ad4m:test"
@@ -35,6 +37,18 @@ export class RuntimeInfo {
     @Field()
     ad4mExecutorVersion: string;
 }
+
+export class ExceptionInfo {
+    @Field()
+    title: string;
+    @Field()
+    message: string;
+    @Field()
+    type: ExceptionType;
+    @Field({ nullable: true })
+    addon?: string;
+}
+
 /**
  * Resolver classes are used here to define the GraphQL schema 
  * (through the type-graphql annotations)
@@ -159,5 +173,14 @@ export default class RuntimeResolver {
     @Subscription({topics: "", nullable: true})
     runtimeMessageReceived(): PerspectiveExpression {
         return testPerspectiveExpression
+    }
+
+    @Subscription({topics: "", nullable: true})
+    exceptionOccurred(): ExceptionInfo {
+        return {
+            title: "Test title",
+            message: "Test message",
+            type: ExceptionType.LanguageIsNotLoaded,
+        }
     }
 }
