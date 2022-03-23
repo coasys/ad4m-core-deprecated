@@ -38,6 +38,7 @@ export class RuntimeInfo {
     ad4mExecutorVersion: string;
 }
 
+@ObjectType()
 export class ExceptionInfo {
     @Field()
     title: string;
