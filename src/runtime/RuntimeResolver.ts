@@ -33,6 +33,12 @@ export class SentMessage {
 }
 
 @ObjectType()
+export class RuntimeInfo {
+    @Field()
+    ad4mExecutorVersion: string;
+}
+
+@ObjectType()
 export class ExceptionInfo {
     @Field()
     title: string;
@@ -60,6 +66,13 @@ export default class RuntimeResolver {
     @Mutation(returns => Boolean)
     runtimeOpenLink(@Arg('url') url: string): Boolean {
         return true
+    }
+
+    @Query(returns => RuntimeInfo)
+    runtimeInfo(): RuntimeInfo {
+        return {
+            ad4mExecutorVersion: "x.x.x",
+        } as RuntimeInfo
     }
 
     @Mutation(returns => [String])
