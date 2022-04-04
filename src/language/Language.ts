@@ -3,6 +3,7 @@ import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
 import type { LinkQuery }  from '../perspectives/LinkQuery'
 import { Perspective, PerspectiveExpression } from '../perspectives/Perspective';
+import { PerspectiveDiff } from '../perspectives/PerspectiveDiff';
 import { InputType, Field, ObjectType } from "type-graphql";
 
 export interface Language {
@@ -103,22 +104,36 @@ export interface GetAllAdapter {
     getAll(filter: any, count: number, page: number): Promise<Expression[] | null>;
 }
 
-export type NewLinksObserver = (added: Expression[], removed: Expression[])=>void;
+export type NewDiffObserver = (diff: PerspectiveDiff, revision: string)=>void;
 
-// Implement this if your Language can share Links between Agents' Perspectives
-export interface LinksAdapter {
+// Interface for "Link Languages" that facilitate the synchronization
+// between agents' local Perspectives inside a Neighbourhood.
+// The assumption is that every version of the shared Perspective
+// is labeled with a unique revision string.
+// Changes are committed and retrieved through diffs.
+// Think of a LinkSyncAdapter as a git branch to which agents commit
+// their changes to and pull diffs from their current revision
+// to the latest one.
+export interface LinkSyncAdapter {
     writable(): boolean;
     public(): boolean;
     others(): Promise<DID[]>;
 
-    addLink(linkExpression: Expression);
-    updateLink(oldLinkExpression: Expression, newLinkExpression: Expression);
-    removeLink(link: Expression);
+    // Call this to check if there are new changes
+    // (compare returned revision with last one that was pulled)
+    latestRevision(): string;
 
-    getLinks(query: LinkQuery): Promise<Expression[]>;
+    // Aggregates all changes/diffs between the given revisions and
+    // render into one diff that the executor applies to the local
+    // perspective cache.
+    pullDiff(fromRev: string, toRev: string): Promise<PerspectiveDiff>;
 
-    // Get push notified by added links
-    addCallback(callback: NewLinksObserver);
+    // Publish changes.
+    // Returns new revision after adding diff.
+    commit(diff: PerspectiveDiff): Promise<string>;
+
+    // Get push notification when a diff got published
+    addCallback(callback: NewDiffObserver);
 }
 
 export type MessageCallback = (message: PerspectiveExpression) => void;
