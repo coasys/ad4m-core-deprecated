@@ -131,7 +131,7 @@ export interface LinkSyncAdapter {
     // 
     // TEMP pseudo code for Holochain implementation (remove before merging into main):
     // if(latestRevision != currentRevision) {
-    //   if(currentRevision included in latestRevision) {
+    //   if(currentRevision is ancestor of latestRevision) {
     //     "fast-forward" -> get all diffs in between and merge them -> return diff
     //     currentRevision = latestRevision
     //   } else {
