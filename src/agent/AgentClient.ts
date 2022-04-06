@@ -25,6 +25,7 @@ const AGENT_STATUS_FIELDS =`
     isUnlocked
     did
     didDocument
+    error
 `
 
 const ENTANGLEMENT_PROOF_FIELDS = `
