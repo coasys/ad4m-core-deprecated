@@ -91,4 +91,16 @@ export default class AgentResolver {
     agentEntanglementProofPreFlight(@Arg('deviceKey') deviceKey: string, @Arg('deviceKeyType') deviceKeyType: string): EntanglementProof {
         return new EntanglementProof("did:key:hash", "did-key-id", deviceKeyType, deviceKey, "sig")
     }
+
+    @Mutation(returns => String)
+    agentRequestAuth(
+        @Arg('appName') appName: string, @Arg('appDesc') appDesc: string, @Arg('appUrl') appUrl: string
+    ): String {
+        return "test-token"
+    }
+
+    @Mutation(returns => Boolean)
+    agentPermitAuth(@Arg('auth') auth: string): Boolean {
+        return true
+    }
 }
