@@ -2,6 +2,7 @@ import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
 import { Perspective, PerspectiveInput } from "../perspectives/Perspective";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
+import { AuthStatus } from "./Auth";
 
 const TEST_AGENT_DID = "did:ad4m:test"
 
@@ -94,13 +95,16 @@ export default class AgentResolver {
 
     @Mutation(returns => String)
     agentRequestAuth(
-        @Arg('appName') appName: string, @Arg('appDesc') appDesc: string, @Arg('appUrl') appUrl: string
+        @Arg('appName') appName: string,
+        @Arg('appDesc') appDesc: string,
+        @Arg('appUrl') appUrl: string,
+        @Arg('requestCapabilities', type => [String]) requestCapabilities: string[]
     ): String {
         return "test-token"
     }
 
-    @Mutation(returns => Boolean)
-    agentPermitAuth(@Arg('auth') auth: string): Boolean {
-        return true
+    @Mutation(returns => AuthStatus)
+    agentPermitAuth(@Arg('auth') auth: string): AuthStatus {
+        return new AuthStatus(true, 123)
     }
 }
