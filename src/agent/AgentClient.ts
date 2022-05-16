@@ -253,7 +253,7 @@ export default class AgentClient {
 
     async requestAuth(appName: string, appDesc: string, appUrl: string, requestCapabilities: string[]): Promise<string> {
         const { agentRequestAuth } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentRequestAuth($appName: String!, $appDesc: String!, $appUrl: String!, $requestCapabilities: String[]!) {
+            mutation: gql`mutation agentRequestAuth($appName: String!, $appDesc: String!, $appUrl: String!, $requestCapabilities: [String!]!) {
                 agentRequestAuth(appName: $appName, appDesc: $appDesc, appUrl: $appUrl, requestCapabilities: $requestCapabilities)
             }`,
             variables: { appName, appDesc, appUrl, requestCapabilities }
@@ -272,5 +272,15 @@ export default class AgentClient {
             variables: { auth }
         }))
         return agentPermitAuth
+    }
+
+    async generateJwt(requestId: string, rand: string): Promise<string> {
+        const { agentGenerateJwt } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation agentGenerateJwt($requestId: String!, $rand: String!) {
+                agentGenerateJwt(requestId: $requestId, rand: $rand)
+            }`,
+            variables: { requestId, rand }
+        }))
+        return agentGenerateJwt
     }
 }

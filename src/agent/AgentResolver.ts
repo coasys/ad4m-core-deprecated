@@ -105,6 +105,11 @@ export default class AgentResolver {
 
     @Mutation(returns => AuthStatus)
     agentPermitAuth(@Arg('auth') auth: string): AuthStatus {
-        return new AuthStatus(true, 123)
+        return new AuthStatus(true, "123")
+    }
+
+    @Mutation(returns => String)
+    agentGenerateJwt(@Arg('requestId') requestId: string, @Arg('rand') rand: string): String {
+        return "test-jwt"
     }
 }

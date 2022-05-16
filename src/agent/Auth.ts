@@ -6,9 +6,9 @@ export class AuthStatus {
     isPermitted: boolean
 
     @Field({nullable: true})
-    rand?: number
+    rand?: string
 
-    constructor(isPermitted: boolean, rand?: number) {
+    constructor(isPermitted: boolean, rand?: string) {
         this.isPermitted = isPermitted
         this.rand = rand
     }
