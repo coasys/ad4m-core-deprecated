@@ -3,7 +3,6 @@ import { PerspectiveInput } from "../perspectives/Perspective";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
-import { AuthStatus } from "./Auth"
 
 const AGENT_SUBITEMS = `
     did
@@ -251,9 +250,9 @@ export default class AgentClient {
         this.#updatedCallbacks.push(listener)
     }
 
-    async requestAuth(appName: string, appDesc: string, appUrl: string, requestCapabilities: string[]): Promise<string> {
+    async requestAuth(appName: string, appDesc: string, appUrl: string, requestCapabilities: string): Promise<string> {
         const { agentRequestAuth } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentRequestAuth($appName: String!, $appDesc: String!, $appUrl: String!, $requestCapabilities: [String!]!) {
+            mutation: gql`mutation agentRequestAuth($appName: String!, $appDesc: String!, $appUrl: String!, $requestCapabilities: String!) {
                 agentRequestAuth(appName: $appName, appDesc: $appDesc, appUrl: $appUrl, requestCapabilities: $requestCapabilities)
             }`,
             variables: { appName, appDesc, appUrl, requestCapabilities }
@@ -261,13 +260,10 @@ export default class AgentClient {
         return agentRequestAuth
     }
 
-    async permitAuth(auth: string): Promise<AuthStatus> {
+    async permitAuth(auth: string): Promise<string> {
         const { agentPermitAuth } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentPermitAuth($auth: String!) {
-                agentPermitAuth(auth: $auth) {
-                    isPermitted
-                    rand
-                }
+                agentPermitAuth(auth: $auth)
             }`,
             variables: { auth }
         }))
