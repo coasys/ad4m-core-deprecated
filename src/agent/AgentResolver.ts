@@ -93,17 +93,17 @@ export default class AgentResolver {
     }
 
     @Mutation(returns => String)
-    agentRequestAuth(
+    agentRequestCapability(
         @Arg('appName') appName: string,
         @Arg('appDesc') appDesc: string,
         @Arg('appUrl') appUrl: string,
-        @Arg('requestCapabilities') requestCapabilities: string
+        @Arg('capabilities') capabilities: string
     ): String {
         return "test-token"
     }
 
     @Mutation(returns => String)
-    agentPermitAuth(@Arg('auth') auth: string): String {
+    agentPermitCapability(@Arg('auth') auth: string): String {
         return "123"
     }
 

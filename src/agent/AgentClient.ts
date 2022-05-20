@@ -250,24 +250,24 @@ export default class AgentClient {
         this.#updatedCallbacks.push(listener)
     }
 
-    async requestAuth(appName: string, appDesc: string, appUrl: string, requestCapabilities: string): Promise<string> {
-        const { agentRequestAuth } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentRequestAuth($appName: String!, $appDesc: String!, $appUrl: String!, $requestCapabilities: String!) {
-                agentRequestAuth(appName: $appName, appDesc: $appDesc, appUrl: $appUrl, requestCapabilities: $requestCapabilities)
+    async requestCapability(appName: string, appDesc: string, appUrl: string, capabilities: string): Promise<string> {
+        const { agentRequestCapability } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentRequestCapability($appName: String!, $appDesc: String!, $appUrl: String!, $capabilities: String!) {
+                agentRequestCapability(appName: $appName, appDesc: $appDesc, appUrl: $appUrl, capabilities: $capabilities)
             }`,
-            variables: { appName, appDesc, appUrl, requestCapabilities }
+            variables: { appName, appDesc, appUrl, capabilities }
         }))
-        return agentRequestAuth
+        return agentRequestCapability
     }
 
-    async permitAuth(auth: string): Promise<string> {
-        const { agentPermitAuth } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentPermitAuth($auth: String!) {
-                agentPermitAuth(auth: $auth)
+    async permitCapability(auth: string): Promise<string> {
+        const { agentPermitCapability } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentPermitCapability($auth: String!) {
+                agentPermitCapability(auth: $auth)
             }`,
             variables: { auth }
         }))
-        return agentPermitAuth
+        return agentPermitCapability
     }
 
     async generateJwt(requestId: string, rand: string): Promise<string> {
