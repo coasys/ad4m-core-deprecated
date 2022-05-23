@@ -99,7 +99,7 @@ export default class AgentResolver {
         @Arg('appUrl') appUrl: string,
         @Arg('capabilities') capabilities: string
     ): String {
-        return "test-token"
+        return "test-request-id"
     }
 
     @Mutation(returns => String)
