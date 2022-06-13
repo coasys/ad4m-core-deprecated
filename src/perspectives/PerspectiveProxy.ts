@@ -22,8 +22,8 @@ export class PerspectiveProxy {
         this.#client.addPerspectiveLinkAddedListener(this.#handle.uuid, this.#perspectiveLinkAddedCallbacks)
         this.#client.addPerspectiveLinkRemovedListener(this.#handle.uuid, this.#perspectiveLinkRemovedCallbacks)
 
-        this.#executeAction = async (action, expression) => {
-            console.log("execute:", action.code)
+        this.#executeAction = async (actions, expression) => {
+            console.log("execute:", actions)
     
             const replaceThis = (input: string|undefined) => {
                 if(input)
@@ -32,7 +32,7 @@ export class PerspectiveProxy {
                     return undefined
             }
     
-            for(let command of action.code) {
+            for(let command of actions) {
                 switch(command.action) {
                     case 'addLink':
                         await this.add(new Link({
@@ -42,7 +42,13 @@ export class PerspectiveProxy {
                         }))
                         break;
                     case 'removeLink':
-                        await this.remove(command.linkExpression)
+                        const linkExpressions = await this.get(new LinkQuery({
+                            source: replaceThis(command.source), 
+                            predicate: replaceThis(command.predicate), 
+                            target: replaceThis(command.target)}))
+                        for (const linkExpression of linkExpressions) {
+                            await this.remove(linkExpression)
+                        }
                         break;
                 }
             }
@@ -148,7 +154,7 @@ export class PerspectiveProxy {
     async startFlow(flowName: string, exprAddr: string) {
         let startAction = await this.infer(`start_action(Action, F), register_sdna_flow("${flowName}", F)`)
         // should always return one solution...
-        startAction = startAction[0].Action
+        startAction = eval(startAction[0].Action)
         await this.#executeAction(startAction, exprAddr)
     }
 
@@ -174,7 +180,7 @@ export class PerspectiveProxy {
     async runFlowAction(flowName: string, exprAddr: string, actionName: string) {
         let action = await this.infer(`register_sdna_flow("${flowName}", Flow), flow_state("${exprAddr}", State, Flow), action(State, "${actionName}", _, Action)`)
         // should find only one
-        action = action[0].Action
+        action = eval(action[0].Action)
         await this.#executeAction(action, exprAddr)
     }
 
