@@ -1,6 +1,6 @@
-import { Field, ObjectType, InputType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import { ExpressionGeneric } from "../expression/Expression";
-import { LinkExpression, LinkExpressionInput } from "../links/Links";
+import { LinkExpression } from "../links/Links";
 
 @ObjectType()
 export class PerspectiveDiff {

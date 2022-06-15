@@ -17,6 +17,7 @@ export * from "./Literal";
 export * from "./perspectives/Perspective";
 export * from "./perspectives/PerspectiveHandle";
 export * from "./perspectives/PerspectiveProxy";
+export * from "./perspectives/PerspectiveDiff";
 export * from "./perspectives/LinkQuery";
 export * from "./neighbourhood/Neighbourhood";
 export * from "./typeDefs";

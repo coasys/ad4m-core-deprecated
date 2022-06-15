@@ -1,7 +1,6 @@
 import type { Address } from '../Address'
 import { DID } from '../DID';
 import type { Expression } from '../expression/Expression'
-import type { LinkQuery }  from '../perspectives/LinkQuery'
 import { Perspective, PerspectiveExpression } from '../perspectives/Perspective';
 import { PerspectiveDiff } from '../perspectives/PerspectiveDiff';
 import { InputType, Field, ObjectType } from "type-graphql";
@@ -28,7 +27,7 @@ export interface Language {
     // Optional adapter for direct messaging between agents
     readonly directMessageAdapter?: DirectMessageAdapter;
     // Optional adpater for sharing links
-    readonly linksAdapter?: LinksAdapter;
+    readonly linksAdapter?: LinkSyncAdapter;
 
     readonly expressionUI?: ExpressionUI;
     readonly settingsUI?: SettingsUI;
