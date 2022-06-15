@@ -164,6 +164,21 @@ describe('Ad4mClient', () => {
             expect(preflight.deviceKeySignedByDid).toBe("sig")
             expect(preflight.didSignedByDeviceKey).toBe(null)
         })
+
+        it('requestCapability() smoke tests', async () => {
+            const requestId = await ad4mClient.agent.requestCapability("demo-app", "demo-desc", "https://demo-link", '[{"with":{"domain":"agent","pointers":["*"]},"can":["QUERY"]}]')
+            expect(requestId).toBe("test-request-id")
+        })
+
+        it('agentPermitCapability() smoke tests', async () => {
+            const rand = await ad4mClient.agent.permitCapability('{"requestId":"4f30e2e2-d307-4f2b-b0a0-6dac4ca4af26","auth":{"appName":"demo-app","appDesc":"demo-desc","appUrl":"demo-url","capabilities":[{"with":{"domain":"agent","pointers":["*"]},"can":["QUERY"]}]}}')
+            expect(rand).toBe("123")
+        })
+
+        it('agentGenerateJwt() smoke tests', async () => {
+            const jwt = await ad4mClient.agent.generateJwt("test-request-id", "123")
+            expect(jwt).toBe("test-jwt")
+        })
     })
 
     describe('.expression', () => {

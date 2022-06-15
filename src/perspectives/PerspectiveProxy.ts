@@ -12,6 +12,7 @@ export class PerspectiveProxy {
     #client: PerspectiveClient
     #perspectiveLinkAddedCallbacks: PerspectiveHandleCallback[]
     #perspectiveLinkRemovedCallbacks: PerspectiveHandleCallback[]
+    #executeAction
 
     constructor(handle: PerspectiveHandle, ad4m: PerspectiveClient) {
         this.#perspectiveLinkAddedCallbacks = []
@@ -20,6 +21,38 @@ export class PerspectiveProxy {
         this.#client = ad4m
         this.#client.addPerspectiveLinkAddedListener(this.#handle.uuid, this.#perspectiveLinkAddedCallbacks)
         this.#client.addPerspectiveLinkRemovedListener(this.#handle.uuid, this.#perspectiveLinkRemovedCallbacks)
+
+        this.#executeAction = async (actions, expression) => {
+            console.log("execute:", actions)
+    
+            const replaceThis = (input: string|undefined) => {
+                if(input)
+                    return input.replace('this', expression)
+                else
+                    return undefined
+            }
+    
+            for(let command of actions) {
+                switch(command.action) {
+                    case 'addLink':
+                        await this.add(new Link({
+                            source: replaceThis(command.source),
+                            predicate: replaceThis(command.predicate),
+                            target: replaceThis(command.target)
+                        }))
+                        break;
+                    case 'removeLink':
+                        const linkExpressions = await this.get(new LinkQuery({
+                            source: replaceThis(command.source), 
+                            predicate: replaceThis(command.predicate), 
+                            target: replaceThis(command.target)}))
+                        for (const linkExpression of linkExpressions) {
+                            await this.remove(linkExpression)
+                        }
+                        break;
+                }
+            }
+        }
     }
 
     get uuid(): string {
@@ -104,4 +137,51 @@ export class PerspectiveProxy {
             await this.remove(l)
         await this.add(link)
     }
+
+    // Returns all the SDNA flows defined in this perspective
+    async sdnaFlows(): Promise<string[]> {
+        const allFlows = await this.infer("register_sdna_flow(X, _)")
+        return allFlows.map(x => x.X)
+    }
+
+    // Returns all SDNA flows that can be started from the given expression
+    async availableFlows(exprAddr: string): Promise<string[]> {
+        const availableFlows = await this.infer(`flowable("${exprAddr}", F), register_sdna_flow(X, F)`)
+        return availableFlows.map(x => x.X)
+    }
+
+    // Starts a new flow
+    async startFlow(flowName: string, exprAddr: string) {
+        let startAction = await this.infer(`start_action(Action, F), register_sdna_flow("${flowName}", F)`)
+        // should always return one solution...
+        startAction = eval(startAction[0].Action)
+        await this.#executeAction(startAction, exprAddr)
+    }
+
+    // Returns all expressions in the given state of given flow
+    async expressionsInFlowState(flowName: string, flowState: number): Promise<string[]> {
+        let expressions = await this.infer(`register_sdna_flow("${flowName}", F), flow_state(X, ${flowState}, F)`)
+        return expressions.map(r => r.X)
+    }
+
+    // Returns the given expression's flow state with regard to given flow
+    async flowState(flowName: string, exprAddr: string): Promise<number> {
+        let state = await this.infer(`register_sdna_flow("${flowName}", F), flow_state("${exprAddr}", X, F)`)
+        return state[0].X
+    }
+
+    // Returns available action names, with regard to flow and expression's flow state
+    async flowActions(flowName: string, exprAddr: string): Promise<string[]> {
+        let actionNames = await this.infer(`register_sdna_flow("${flowName}", Flow), flow_state("${exprAddr}", State, Flow), action(State, Name, _, _)`)
+        return actionNames.map(r => r.Name)
+    }
+
+    // Runs given action
+    async runFlowAction(flowName: string, exprAddr: string, actionName: string) {
+        let action = await this.infer(`register_sdna_flow("${flowName}", Flow), flow_state("${exprAddr}", State, Flow), action(State, "${actionName}", _, Action)`)
+        // should find only one
+        action = eval(action[0].Action)
+        await this.#executeAction(action, exprAddr)
+    }
+
 }

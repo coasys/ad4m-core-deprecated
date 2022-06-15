@@ -91,4 +91,24 @@ export default class AgentResolver {
     agentEntanglementProofPreFlight(@Arg('deviceKey') deviceKey: string, @Arg('deviceKeyType') deviceKeyType: string): EntanglementProof {
         return new EntanglementProof("did:key:hash", "did-key-id", deviceKeyType, deviceKey, "sig")
     }
+
+    @Mutation(returns => String)
+    agentRequestCapability(
+        @Arg('appName') appName: string,
+        @Arg('appDesc') appDesc: string,
+        @Arg('appUrl') appUrl: string,
+        @Arg('capabilities') capabilities: string
+    ): String {
+        return "test-request-id"
+    }
+
+    @Mutation(returns => String)
+    agentPermitCapability(@Arg('auth') auth: string): String {
+        return "123"
+    }
+
+    @Mutation(returns => String)
+    agentGenerateJwt(@Arg('requestId') requestId: string, @Arg('rand') rand: string): String {
+        return "test-jwt"
+    }
 }

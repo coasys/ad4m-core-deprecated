@@ -25,6 +25,7 @@ const AGENT_STATUS_FIELDS =`
     isUnlocked
     did
     didDocument
+    error
 `
 
 const ENTANGLEMENT_PROOF_FIELDS = `
@@ -247,5 +248,35 @@ export default class AgentClient {
 
     addUpdatedListener(listener) {
         this.#updatedCallbacks.push(listener)
+    }
+
+    async requestCapability(appName: string, appDesc: string, appUrl: string, capabilities: string): Promise<string> {
+        const { agentRequestCapability } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentRequestCapability($appName: String!, $appDesc: String!, $appUrl: String!, $capabilities: String!) {
+                agentRequestCapability(appName: $appName, appDesc: $appDesc, appUrl: $appUrl, capabilities: $capabilities)
+            }`,
+            variables: { appName, appDesc, appUrl, capabilities }
+        }))
+        return agentRequestCapability
+    }
+
+    async permitCapability(auth: string): Promise<string> {
+        const { agentPermitCapability } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentPermitCapability($auth: String!) {
+                agentPermitCapability(auth: $auth)
+            }`,
+            variables: { auth }
+        }))
+        return agentPermitCapability
+    }
+
+    async generateJwt(requestId: string, rand: string): Promise<string> {
+        const { agentGenerateJwt } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation agentGenerateJwt($requestId: String!, $rand: String!) {
+                agentGenerateJwt(requestId: $requestId, rand: $rand)
+            }`,
+            variables: { requestId, rand }
+        }))
+        return agentGenerateJwt
     }
 }
