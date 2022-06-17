@@ -48,15 +48,3 @@ export function linkEqual(l1: LinkExpression, l2: LinkExpression): boolean {
 export function isLink(l: any): boolean {
     return l && l.source && l.target
 }
-
-export function hashLinkExpression(link: LinkExpression): number {
-    const mash = JSON.stringify(link.data, Object.keys(link.data).sort()) +
-                JSON.stringify(link.author) + link.timestamp
-    let hash = 0, i, chr;
-    for (i = 0; i < mash.length; i++) {
-        chr   = mash.charCodeAt(i);
-        hash  = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-}

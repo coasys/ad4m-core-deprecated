@@ -120,50 +120,18 @@ export interface LinkSyncAdapter {
 
     // Call this to check if there are new changes
     // (compare returned revision with last one that was pulled)
-    latestRevision(): string;
+    latestRevision(): Promise<string>;
 
     // What revision are we on now -> what changes are included in output of render()
-    currentRevision(): string;
+    currentRevision(): Promise<string>;
 
     // Check for and get new changes.
-    // Updates `currentRevision` so we know which changes we have seen already.
-    // 
-    // TEMP pseudo code for Holochain implementation (remove before merging into main):
-    // if(latestRevision != currentRevision) {
-    //   if(currentRevision is ancestor of latestRevision) {
-    //     "fast-forward" -> get all diffs in between and merge them -> return diff
-    //     currentRevision = latestRevision
-    //   } else {
-    //     "we're forked" -> commit merge entry and calculate diff between branches
-    //     -> return branch diff
-    //     currentRevision = merge entry hash 
-    //   }
-    //   return empty diff
-    // }
     pull(): Promise<PerspectiveDiff>;
 
     // Returns the full, rendered Perspective at currentRevision,
-    // applying all diffs until this point.
-    //
-    // TEMP comment for Holochain implementation:
-    // Rendering the full perspective means traversing the chain backwards
-    // until:
-    //   1. We reach the first diff entry (no parent)
-    //   2. We find an entry with attached snapshot
-    // Then we walk back up again and apply all diffs.
     render(): Promise<Perspective>;
 
     // Publish changes.
-    // Returns new revision after adding diff.
-    //
-    // TEMP:
-    // 0. if(currentRevision != currentRevision) pull()
-    // 1. new_diff = create new diff entry with currentRevision as parent
-    // 2. time_index_add_now(new_diff)
-    // 3. if(entries since last snapshot > n) {
-    //      s = render snapshot
-    //      create_link(new_diff, s, "snapshot")
-    //    }
     commit(diff: PerspectiveDiff): Promise<string>;
 
     // Get push notification when a diff got published
