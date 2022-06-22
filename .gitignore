@@ -2,3 +2,7 @@ node_modules
 Links.test.js
 lib/*
 coverage
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
