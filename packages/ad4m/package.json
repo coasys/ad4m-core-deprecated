@@ -7,13 +7,15 @@
     "test": "jest --forceExit"
   },
   "dependencies": {
-    "type-graphql": "^1.1.1",
-    "ipfs-core-types": "0.10.1"
+    "@holochain/client": "0.3.2",
+    "ipfs-core-types": "0.10.1",
+    "type-graphql": "^1.1.1"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.5",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
+    "@types/jest": "^27.0.1",
     "jest": "^27.0.4",
     "rollup": "^2.56.3",
     "ts-jest": "^27.0.3",
