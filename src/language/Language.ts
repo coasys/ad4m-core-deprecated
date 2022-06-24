@@ -103,7 +103,7 @@ export interface GetAllAdapter {
     getAll(filter: any, count: number, page: number): Promise<Expression[] | null>;
 }
 
-export type NewDiffObserver = (diff: PerspectiveDiff, revision: string)=>void;
+export type PerspectiveDiffObserver = (diff: PerspectiveDiff)=>void;
 
 // Interface for "Link Languages" that facilitate the synchronization
 // between agents' local Perspectives inside a Neighbourhood.
@@ -135,7 +135,7 @@ export interface LinkSyncAdapter {
     commit(diff: PerspectiveDiff): Promise<string>;
 
     // Get push notification when a diff got published
-    addCallback(callback: NewDiffObserver);
+    addCallback(callback: PerspectiveDiffObserver);
 }
 
 export type MessageCallback = (message: PerspectiveExpression) => void;
