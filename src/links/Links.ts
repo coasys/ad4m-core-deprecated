@@ -32,7 +32,19 @@ export class LinkInput {
 }
 
 @ObjectType()
-export class LinkExpression extends ExpressionGeneric(Link) {};
+export class LinkExpression extends ExpressionGeneric(Link) {
+    hash(): number {
+        const mash = JSON.stringify(this.data, Object.keys(this.data).sort()) +
+        JSON.stringify(this.author) + this.timestamp
+        let hash = 0, i, chr;
+        for (i = 0; i < mash.length; i++) {
+        chr   = mash.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
+    }
+};
 
 @InputType()
 export class LinkExpressionInput extends ExpressionGenericInput(LinkInput) {};
