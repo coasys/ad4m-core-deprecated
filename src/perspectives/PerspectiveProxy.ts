@@ -10,8 +10,8 @@ type PerspectiveListenerTypes = "link-added" | "link-removed"
 export class PerspectiveProxy {
     #handle: PerspectiveHandle
     #client: PerspectiveClient
-    #perspectiveLinkAddedCallbacks: PerspectiveHandleCallback[]
-    #perspectiveLinkRemovedCallbacks: PerspectiveHandleCallback[]
+    #perspectiveLinkAddedCallbacks: LinkCallback[]
+    #perspectiveLinkRemovedCallbacks: LinkCallback[]
     #executeAction
 
     constructor(handle: PerspectiveHandle, ad4m: PerspectiveClient) {
