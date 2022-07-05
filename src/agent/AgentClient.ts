@@ -45,6 +45,7 @@ export interface InitializeArgs {
 }
 
 export type AgentUpdatedCallback = (agent: Agent) => null
+export type AgentStatusChangedCallback = (agent: Agent) => null
 /**
  * Provides access to all functions regarding the local agent,
  * such as generating, locking, unlocking, importing the DID keystore,
@@ -53,10 +54,12 @@ export type AgentUpdatedCallback = (agent: Agent) => null
 export default class AgentClient {
     #apolloClient: ApolloClient<any>
     #updatedCallbacks: AgentUpdatedCallback[]
+    #agentStatusChangedCallbacks: AgentStatusChangedCallback[]
     
     constructor(client: ApolloClient<any>) {
         this.#apolloClient = client
         this.#updatedCallbacks = []
+        this.#agentStatusChangedCallbacks = []
 
         this.#apolloClient.subscribe({
             query: gql` subscription {
@@ -66,6 +69,21 @@ export default class AgentClient {
             next: result => {
                 const agent = result.data.agentUpdated
                 this.#updatedCallbacks.forEach(cb => {
+                    cb(agent)
+                })
+            },
+            error: (e) => console.error(e)
+        })
+
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                agentStatusChanged { ${AGENT_STATUS_FIELDS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                const agent = result.data.agentStatusChanged
+                this.#agentStatusChangedCallbacks.forEach(cb => {
+                    console.log("Agent status changed: ", agent)
                     cb(agent)
                 })
             },
@@ -248,6 +266,10 @@ export default class AgentClient {
 
     addUpdatedListener(listener) {
         this.#updatedCallbacks.push(listener)
+    }
+
+    addAgentStatusChangedListener(listener) {
+        this.#agentStatusChangedCallbacks.push(listener)
     }
 
     async requestCapability(appName: string, appDesc: string, appUrl: string, capabilities: string): Promise<string> {

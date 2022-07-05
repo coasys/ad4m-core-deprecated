@@ -72,6 +72,11 @@ export default class AgentResolver {
         return new Agent(TEST_AGENT_DID)
     }
 
+    @Subscription({topics: "", nullable: true})
+    agentStatusChanged(): AgentStatus {
+        return new AgentStatus({isInitialized: true, did: TEST_AGENT_DID})
+    }
+
     @Mutation(returns => [EntanglementProof])
     agentAddEntanglementProofs(@Arg('proofs', type => [EntanglementProofInput]) proofs: EntanglementProofInput[]): EntanglementProof[] {
         return [new EntanglementProof("did:key:hash", "did-key-id", "ethereum", "ethAddr", "sig", "sig2")] 
