@@ -33,7 +33,7 @@ export class Ad4mClient {
         this.#languageClient = new LanguageClient(client)
         this.#neighbourhoodClient = new NeighbourhoodClient(client)
         this.#perspectiveClient = new PerspectiveClient(client, subscribe)
-        this.#runtimeClient = new RuntimeClient(client)
+        this.#runtimeClient = new RuntimeClient(client, subscribe)
     }
 
     get agent(): AgentClient {
