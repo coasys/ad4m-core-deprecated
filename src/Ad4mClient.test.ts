@@ -410,13 +410,14 @@ describe('Ad4mClient', () => {
             expect(link.data.target).toBe('lang://Qm123')
         })
 
-        it('addListener() smoke test', async () => {
+        it('addPerspectiveLinkAddedListener() smoke test', async () => {
             let perspective = await ad4mClient.perspective.byUUID('00004')
             
             const linkAdded = jest.fn()
             const linkRemoved = jest.fn()
 
-            await perspective.addListener('link-added', linkAdded)
+            ad4mClient.perspective.addPerspectiveLinkAddedListener(linkAdded)
+            ad4mClient.perspective.subscribePerspectiveLinkAdded('00004')
             await perspective.add({source: 'root', target: 'neighbourhood://Qm12345'})  
 
             expect(linkAdded).toBeCalledTimes(1)
@@ -424,19 +425,21 @@ describe('Ad4mClient', () => {
 
             perspective = await ad4mClient.perspective.byUUID('00004')
 
-            await perspective.addListener('link-removed', linkRemoved)
+            ad4mClient.perspective.addPerspectiveLinkRemovedListener(linkRemoved)
+            ad4mClient.perspective.subscribePerspectiveLinkRemoved('00004')
             await perspective.add({source: 'root', target: 'neighbourhood://Qm123456'})  
 
             expect(linkAdded).toBeCalledTimes(1)
             expect(linkRemoved).toBeCalledTimes(1)
         })
 
-        it('removeListener() smoke test', async () => {
+        it('removePerspectiveLinkAddedListener() smoke test', async () => {
             let perspective = await ad4mClient.perspective.byUUID('00004')
             
             const linkAdded = jest.fn()
 
-            await perspective.addListener('link-added', linkAdded)
+            ad4mClient.perspective.addPerspectiveLinkAddedListener(linkAdded)
+            ad4mClient.perspective.subscribePerspectiveLinkAdded('00004')
             await perspective.add({source: 'root', target: 'neighbourhood://Qm12345'})  
 
             expect(linkAdded).toBeCalledTimes(1)
@@ -444,8 +447,7 @@ describe('Ad4mClient', () => {
             linkAdded.mockClear();
             
             perspective = await ad4mClient.perspective.byUUID('00004')
-
-            await perspective.removeListener('link-added', linkAdded)
+            ad4mClient.perspective.removePerspectiveLinkAddedListener(linkAdded)
             await perspective.add({source: 'root', target: 'neighbourhood://Qm123456'})  
 
             expect(linkAdded).toBeCalledTimes(0)
