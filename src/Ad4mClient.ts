@@ -32,7 +32,7 @@ export class Ad4mClient {
         this.#expressionClient = new ExpressionClient(client)
         this.#languageClient = new LanguageClient(client)
         this.#neighbourhoodClient = new NeighbourhoodClient(client)
-        this.#perspectiveClient = new PerspectiveClient(client)
+        this.#perspectiveClient = new PerspectiveClient(client, subscribe)
         this.#runtimeClient = new RuntimeClient(client)
     }
 
