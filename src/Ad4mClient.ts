@@ -26,9 +26,9 @@ export class Ad4mClient {
     #runtimeClient: RuntimeClient
 
 
-    constructor(client: ApolloClient<any>) {
+    constructor(client: ApolloClient<any>, subscribe: boolean) {
         this.#apolloClient = client
-        this.#agentClient = new AgentClient(client)
+        this.#agentClient = new AgentClient(client, subscribe)
         this.#expressionClient = new ExpressionClient(client)
         this.#languageClient = new LanguageClient(client)
         this.#neighbourhoodClient = new NeighbourhoodClient(client)

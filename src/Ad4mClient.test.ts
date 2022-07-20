@@ -56,7 +56,7 @@ describe('Ad4mClient', () => {
 
         console.log("GraphQL client connected")
 
-        ad4mClient = new Ad4mClient(apolloClient)
+        ad4mClient = new Ad4mClient(apolloClient, true)
     })
 
     describe('.agent', () => {
