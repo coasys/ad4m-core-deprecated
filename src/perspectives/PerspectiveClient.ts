@@ -39,16 +39,16 @@ export default class PerspectiveClient {
     #perspectiveAddedCallbacks: PerspectiveHandleCallback[]
     #perspectiveUpdatedCallbacks: PerspectiveHandleCallback[]
     #perspectiveRemovedCallbacks: UuidCallback[]
-    #perspectiveLinkAddedCallbacks: LinkCallback[]
-    #perspectiveLinkRemovedCallbacks: LinkCallback[]
+    #perspectiveLinkAddedCallbacks: Map<String, LinkCallback[]>
+    #perspectiveLinkRemovedCallbacks: Map<String, LinkCallback[]>
 
     constructor(client: ApolloClient<any>, subscribe: boolean) {
         this.#apolloClient = client
         this.#perspectiveAddedCallbacks = []
         this.#perspectiveUpdatedCallbacks = []
         this.#perspectiveRemovedCallbacks = []
-        this.#perspectiveLinkAddedCallbacks = []
-        this.#perspectiveLinkRemovedCallbacks = []
+        this.#perspectiveLinkAddedCallbacks = new Map()
+        this.#perspectiveLinkRemovedCallbacks = new Map()
 
         if(subscribe) {
             this.subscribePerspectiveAdded()
@@ -258,13 +258,19 @@ export default class PerspectiveClient {
         })
     }
 
-    addPerspectiveLinkAddedListener(cb: LinkCallback) {
-        this.#perspectiveLinkAddedCallbacks.push(cb)
+    addPerspectiveLinkAddedListener(uuid: String, cb: LinkCallback) {
+        let callbacks = this.#perspectiveLinkAddedCallbacks.get(uuid) || []
+        callbacks.push(cb)
+        this.#perspectiveLinkAddedCallbacks.set(uuid, callbacks)
     }
 
-    removePerspectiveLinkAddedListener(cb: LinkCallback) {
-        const index = this.#perspectiveLinkAddedCallbacks.indexOf(cb);
-        this.#perspectiveLinkAddedCallbacks.splice(index, 1);
+    removePerspectiveLinkAddedListener(uuid: String, cb: LinkCallback) {
+        let callbacks = this.#perspectiveLinkAddedCallbacks.get(uuid) || []
+
+        const index = callbacks.indexOf(cb);
+        callbacks.splice(index, 1);
+
+        this.#perspectiveLinkAddedCallbacks.set(uuid, callbacks)
     }
 
     subscribePerspectiveLinkAdded(uuid: String) {
@@ -274,7 +280,7 @@ export default class PerspectiveClient {
             }   
         `}).subscribe({
             next: result => {
-                this.#perspectiveLinkAddedCallbacks.forEach(cb => {
+                this.#perspectiveLinkAddedCallbacks.get(uuid).forEach(cb => {
                     cb(result.data.perspectiveLinkAdded)
                 })
             },
@@ -282,13 +288,19 @@ export default class PerspectiveClient {
         })
     }
 
-    addPerspectiveLinkRemovedListener(cb: LinkCallback) {
-        this.#perspectiveLinkRemovedCallbacks.push(cb)
+    addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback) {
+        let callbacks = this.#perspectiveLinkRemovedCallbacks.get(uuid) || []
+        callbacks.push(cb)
+        this.#perspectiveLinkRemovedCallbacks.set(uuid, callbacks)
     }
 
-    removePerspectiveLinkRemovedListener(cb: LinkCallback) {
-        const index = this.#perspectiveLinkRemovedCallbacks.indexOf(cb);
-        this.#perspectiveLinkRemovedCallbacks.splice(index, 1);
+    removePerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback) {
+        let callbacks = this.#perspectiveLinkRemovedCallbacks.get(uuid) || []
+
+        const index = callbacks.indexOf(cb);
+        callbacks.splice(index, 1);
+
+        this.#perspectiveLinkRemovedCallbacks.set(uuid, callbacks)
     }
 
     subscribePerspectiveLinkRemoved(uuid: String) {
@@ -298,7 +310,7 @@ export default class PerspectiveClient {
             }   
         `}).subscribe({
             next: result => {
-                this.#perspectiveLinkRemovedCallbacks.forEach(cb => {
+                this.#perspectiveLinkRemovedCallbacks.get(uuid).forEach(cb => {
                     cb(result.data.perspectiveLinkRemoved)
                 })
             },
