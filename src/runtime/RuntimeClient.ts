@@ -25,7 +25,7 @@ export default class RuntimeClient {
     #messageReceivedCallbacks: MessageCallback[]
     #exceptionOccurredCallbacks: ExceptionCallback[]
 
-    constructor(client: ApolloClient<any>, subscribe: boolean) {
+    constructor(client: ApolloClient<any>, subscribe: boolean = true) {
         this.#apolloClient = client
         this.#messageReceivedCallbacks = []
         this.#exceptionOccurredCallbacks = []

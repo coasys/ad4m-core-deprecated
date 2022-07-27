@@ -56,7 +56,7 @@ export default class AgentClient {
     #updatedCallbacks: AgentUpdatedCallback[]
     #agentStatusChangedCallbacks: AgentStatusChangedCallback[]
     
-    constructor(client: ApolloClient<any>, subscribe: boolean) {
+    constructor(client: ApolloClient<any>, subscribe: boolean = true) {
         this.#apolloClient = client
         this.#updatedCallbacks = []
         this.#agentStatusChangedCallbacks = []

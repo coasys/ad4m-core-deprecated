@@ -39,16 +39,12 @@ export default class PerspectiveClient {
     #perspectiveAddedCallbacks: PerspectiveHandleCallback[]
     #perspectiveUpdatedCallbacks: PerspectiveHandleCallback[]
     #perspectiveRemovedCallbacks: UuidCallback[]
-    #perspectiveLinkAddedCallbacks: Map<String, LinkCallback[]>
-    #perspectiveLinkRemovedCallbacks: Map<String, LinkCallback[]>
 
-    constructor(client: ApolloClient<any>, subscribe: boolean) {
+    constructor(client: ApolloClient<any>, subscribe: boolean = true) {
         this.#apolloClient = client
         this.#perspectiveAddedCallbacks = []
         this.#perspectiveUpdatedCallbacks = []
         this.#perspectiveRemovedCallbacks = []
-        this.#perspectiveLinkAddedCallbacks = new Map()
-        this.#perspectiveLinkRemovedCallbacks = new Map()
 
         if(subscribe) {
             this.subscribePerspectiveAdded()
@@ -258,63 +254,37 @@ export default class PerspectiveClient {
         })
     }
 
-    addPerspectiveLinkAddedListener(uuid: String, cb: LinkCallback) {
-        let callbacks = this.#perspectiveLinkAddedCallbacks.get(uuid) || []
-        callbacks.push(cb)
-        this.#perspectiveLinkAddedCallbacks.set(uuid, callbacks)
-    }
-
-    removePerspectiveLinkAddedListener(uuid: String, cb: LinkCallback) {
-        let callbacks = this.#perspectiveLinkAddedCallbacks.get(uuid) || []
-
-        const index = callbacks.indexOf(cb);
-        callbacks.splice(index, 1);
-
-        this.#perspectiveLinkAddedCallbacks.set(uuid, callbacks)
-    }
-
-    subscribePerspectiveLinkAdded(uuid: String) {
+    async addPerspectiveLinkAddedListener(uuid: String, cb: LinkCallback[]): Promise<void> {
         this.#apolloClient.subscribe({
             query: gql` subscription {
                 perspectiveLinkAdded(uuid: "${uuid}") { ${LINK_EXPRESSION_FIELDS} }
             }   
         `}).subscribe({
             next: result => {
-                this.#perspectiveLinkAddedCallbacks.get(uuid).forEach(cb => {
-                    cb(result.data.perspectiveLinkAdded)
+                cb.forEach(c => {
+                    c(result.data.perspectiveLinkAdded)
                 })
             },
             error: (e) => console.error(e)
         })
+
+        await new Promise<void>(resolve => setTimeout(resolve, 500))
     }
 
-    addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback) {
-        let callbacks = this.#perspectiveLinkRemovedCallbacks.get(uuid) || []
-        callbacks.push(cb)
-        this.#perspectiveLinkRemovedCallbacks.set(uuid, callbacks)
-    }
-
-    removePerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback) {
-        let callbacks = this.#perspectiveLinkRemovedCallbacks.get(uuid) || []
-
-        const index = callbacks.indexOf(cb);
-        callbacks.splice(index, 1);
-
-        this.#perspectiveLinkRemovedCallbacks.set(uuid, callbacks)
-    }
-
-    subscribePerspectiveLinkRemoved(uuid: String) {
+    async addPerspectiveLinkRemovedListener(uuid: String, cb: LinkCallback[]): Promise<void> {
         this.#apolloClient.subscribe({
             query: gql` subscription {
                 perspectiveLinkRemoved(uuid: "${uuid}") { ${LINK_EXPRESSION_FIELDS} }
             }   
         `}).subscribe({
             next: result => {
-                this.#perspectiveLinkRemovedCallbacks.get(uuid).forEach(cb => {
-                    cb(result.data.perspectiveLinkRemoved)
+                cb.forEach(c => {
+                    c(result.data.perspectiveLinkRemoved)
                 })
             },
             error: (e) => console.error(e)
         })
+
+        await new Promise<void>(resolve => setTimeout(resolve, 500))
     }
 }
