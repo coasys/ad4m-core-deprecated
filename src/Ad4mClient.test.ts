@@ -599,67 +599,175 @@ describe('Ad4mClient', () => {
         })
     })
 
-    describe('construct Ad4mClient without subscriptions', () => {
-        let ad4mClientWithoutSubscription
-        
-        beforeAll(() => {
-            ad4mClientWithoutSubscription = new Ad4mClient(apolloClient, false)
+    describe('Ad4mClient subscriptions', () => {
+        describe('ad4mClient without subscription', () => {
+            let ad4mClientWithoutSubscription
+
+            beforeEach(() => {
+                ad4mClientWithoutSubscription = new Ad4mClient(apolloClient, false)
+            })
+
+            it('agent subscribeAgentUpdated smoke test', async () => {
+                const agentUpdatedCallback = jest.fn()
+                ad4mClientWithoutSubscription.agent.addUpdatedListener(agentUpdatedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(agentUpdatedCallback).toBeCalledTimes(0)
+                
+                ad4mClientWithoutSubscription.agent.subscribeAgentUpdated()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(agentUpdatedCallback).toBeCalledTimes(1)
+            })
+            
+            it('agent subscribeAgentStatusChanged smoke test', async () => {
+                const agentStatusChangedCallback = jest.fn()
+                ad4mClientWithoutSubscription.agent.addAgentStatusChangedListener(agentStatusChangedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(agentStatusChangedCallback).toBeCalledTimes(0)
+    
+                ad4mClientWithoutSubscription.agent.subscribeAgentStatusChanged()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(agentStatusChangedCallback).toBeCalledTimes(1)
+            })
+    
+            it('perspective subscribePerspectiveAdded smoke test', async () => {
+                const perspectiveAddedCallback = jest.fn()
+                ad4mClientWithoutSubscription.perspective.addPerspectiveAddedListener(perspectiveAddedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveAddedCallback).toBeCalledTimes(0)
+
+                ad4mClientWithoutSubscription.perspective.subscribePerspectiveAdded()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveAddedCallback).toBeCalledTimes(1)
+            })
+    
+            it('perspective subscribePerspectiveUpdated smoke test', async () => {
+                const perspectiveUpdatedCallback = jest.fn()
+                ad4mClientWithoutSubscription.perspective.addPerspectiveUpdatedListener(perspectiveUpdatedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveUpdatedCallback).toBeCalledTimes(0)
+
+                ad4mClientWithoutSubscription.perspective.subscribePerspectiveUpdated()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveUpdatedCallback).toBeCalledTimes(1)
+            })
+    
+            it('perspective subscribePerspectiveRemoved smoke test', async () => {
+                const perspectiveRemovedCallback = jest.fn()
+                ad4mClientWithoutSubscription.perspective.addPerspectiveRemovedListener(perspectiveRemovedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveRemovedCallback).toBeCalledTimes(0)
+
+                ad4mClientWithoutSubscription.perspective.subscribePerspectiveRemoved()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveRemovedCallback).toBeCalledTimes(1)
+            })
+    
+            it('runtime subscribeMessageReceived smoke test', async () => {
+                const msgReceivedCallback = jest.fn()
+                ad4mClientWithoutSubscription.runtime.addMessageCallback(msgReceivedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(msgReceivedCallback).toBeCalledTimes(0)
+
+                ad4mClientWithoutSubscription.runtime.subscribeMessageReceived()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(msgReceivedCallback).toBeCalledTimes(1)
+            })
+    
+            it('runtime subscribeExceptionOccurred smoke test', async () => {
+                const exceptionCallback = jest.fn()
+                ad4mClientWithoutSubscription.runtime.addExceptionCallback(exceptionCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(exceptionCallback).toBeCalledTimes(0)
+
+                ad4mClientWithoutSubscription.runtime.subscribeExceptionOccurred()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(exceptionCallback).toBeCalledTimes(1)
+            })
         })
 
-        it('agent subscribeAgentUpdated smoke test', async () => {
-            const agentUpdatedCallback = jest.fn()
-            ad4mClientWithoutSubscription.agent.addUpdatedListener(agentUpdatedCallback)
-            ad4mClientWithoutSubscription.agent.subscribeAgentUpdated()
-            await new Promise<void>(resolve => setTimeout(resolve, 100))
-            expect(agentUpdatedCallback).toBeCalledTimes(1)
-        })
-        
-        it('agent subscribeAgentStatusChanged smoke test', async () => {
-            const agentStatusChangedCallback = jest.fn()
-            ad4mClientWithoutSubscription.agent.addAgentStatusChangedListener(agentStatusChangedCallback)
-            ad4mClientWithoutSubscription.agent.subscribeAgentStatusChanged()
-            await new Promise<void>(resolve => setTimeout(resolve, 100))
-            expect(agentStatusChangedCallback).toBeCalledTimes(1)
-        })
+        describe('ad4mClient with subscription', () => {
+            let ad4mClientWithSubscription
+            
+            beforeEach(() => {
+                ad4mClientWithSubscription = new Ad4mClient(apolloClient, true)
+            })
 
-        it('perspective subscribePerspectiveAdded smoke test', async () => {
-            const perspectiveAddedCallback = jest.fn()
-            ad4mClientWithoutSubscription.perspective.addPerspectiveAddedListener(perspectiveAddedCallback)
-            ad4mClientWithoutSubscription.perspective.subscribePerspectiveAdded()
-            await new Promise<void>(resolve => setTimeout(resolve, 100))
-            expect(perspectiveAddedCallback).toBeCalledTimes(1)
-        })
+            it('agent subscribeAgentUpdated smoke test', async () => {
+                const agentUpdatedCallback = jest.fn()
+                ad4mClientWithSubscription.agent.addUpdatedListener(agentUpdatedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(agentUpdatedCallback).toBeCalledTimes(1)
+                
+                ad4mClientWithSubscription.agent.subscribeAgentUpdated()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(agentUpdatedCallback).toBeCalledTimes(2)
+            })
+            
+            it('agent subscribeAgentStatusChanged smoke test', async () => {
+                const agentStatusChangedCallback = jest.fn()
+                ad4mClientWithSubscription.agent.addAgentStatusChangedListener(agentStatusChangedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(agentStatusChangedCallback).toBeCalledTimes(1)
+    
+                ad4mClientWithSubscription.agent.subscribeAgentStatusChanged()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(agentStatusChangedCallback).toBeCalledTimes(2)
+            })
+    
+            it('perspective subscribePerspectiveAdded smoke test', async () => {
+                const perspectiveAddedCallback = jest.fn()
+                ad4mClientWithSubscription.perspective.addPerspectiveAddedListener(perspectiveAddedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveAddedCallback).toBeCalledTimes(1)
 
-        it('perspective subscribePerspectiveUpdated smoke test', async () => {
-            const perspectiveUpdatedCallback = jest.fn()
-            ad4mClientWithoutSubscription.perspective.addPerspectiveUpdatedListener(perspectiveUpdatedCallback)
-            ad4mClientWithoutSubscription.perspective.subscribePerspectiveUpdated()
-            await new Promise<void>(resolve => setTimeout(resolve, 100))
-            expect(perspectiveUpdatedCallback).toBeCalledTimes(1)
-        })
+                ad4mClientWithSubscription.perspective.subscribePerspectiveAdded()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveAddedCallback).toBeCalledTimes(2)
+            })
+    
+            it('perspective subscribePerspectiveUpdated smoke test', async () => {
+                const perspectiveUpdatedCallback = jest.fn()
+                ad4mClientWithSubscription.perspective.addPerspectiveUpdatedListener(perspectiveUpdatedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveUpdatedCallback).toBeCalledTimes(1)
 
-        it('perspective subscribePerspectiveRemoved smoke test', async () => {
-            const perspectiveRemovedCallback = jest.fn()
-            ad4mClientWithoutSubscription.perspective.addPerspectiveRemovedListener(perspectiveRemovedCallback)
-            ad4mClientWithoutSubscription.perspective.subscribePerspectiveRemoved()
-            await new Promise<void>(resolve => setTimeout(resolve, 100))
-            expect(perspectiveRemovedCallback).toBeCalledTimes(1)
-        })
+                ad4mClientWithSubscription.perspective.subscribePerspectiveUpdated()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveUpdatedCallback).toBeCalledTimes(2)
+            })
+    
+            it('perspective subscribePerspectiveRemoved smoke test', async () => {
+                const perspectiveRemovedCallback = jest.fn()
+                ad4mClientWithSubscription.perspective.addPerspectiveRemovedListener(perspectiveRemovedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveRemovedCallback).toBeCalledTimes(1)
+                
+                ad4mClientWithSubscription.perspective.subscribePerspectiveRemoved()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveRemovedCallback).toBeCalledTimes(2)
+            })
+    
+            it('runtime subscribeMessageReceived smoke test', async () => {
+                const msgReceivedCallback = jest.fn()
+                ad4mClientWithSubscription.runtime.addMessageCallback(msgReceivedCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(msgReceivedCallback).toBeCalledTimes(1)
 
-        it('runtime subscribeMessageReceived smoke test', async () => {
-            const msgReceivedCallback = jest.fn()
-            ad4mClientWithoutSubscription.runtime.addMessageCallback(msgReceivedCallback)
-            ad4mClientWithoutSubscription.runtime.subscribeMessageReceived()
-            await new Promise<void>(resolve => setTimeout(resolve, 100))
-            expect(msgReceivedCallback).toBeCalledTimes(1)
-        })
+                ad4mClientWithSubscription.runtime.subscribeMessageReceived()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(msgReceivedCallback).toBeCalledTimes(2)
+            })
+    
+            it('runtime subscribeExceptionOccurred smoke test', async () => {
+                const exceptionCallback = jest.fn()
+                ad4mClientWithSubscription.runtime.addExceptionCallback(exceptionCallback)
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(exceptionCallback).toBeCalledTimes(1)
 
-        it('runtime subscribeExceptionOccurred smoke test', async () => {
-            const exceptionCallback = jest.fn()
-            ad4mClientWithoutSubscription.runtime.addExceptionCallback(exceptionCallback)
-            ad4mClientWithoutSubscription.runtime.subscribeExceptionOccurred()
-            await new Promise<void>(resolve => setTimeout(resolve, 100))
-            expect(exceptionCallback).toBeCalledTimes(1)
+                ad4mClientWithSubscription.runtime.subscribeExceptionOccurred()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(exceptionCallback).toBeCalledTimes(2)
+            })
         })
     })
 })
