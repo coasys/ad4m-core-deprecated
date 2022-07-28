@@ -17,15 +17,12 @@ export class Literal {
     }
 
     encodeSingleQuote(input: string) {
-        console.log('encodeSingleQuote')
         //@ts-ignore
         input = input.split("'").join("\\'")
-        console.log(input)
         return input
     }
 
     decodeSingleQuote(input: string) {
-        console.log('decodeSingleQuote')
         //@ts-ignore
         input = input.split("\\'").join("'")
         return input
