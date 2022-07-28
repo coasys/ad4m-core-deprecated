@@ -40,50 +40,17 @@ export default class PerspectiveClient {
     #perspectiveUpdatedCallbacks: PerspectiveHandleCallback[]
     #perspectiveRemovedCallbacks: UuidCallback[]
 
-    constructor(client: ApolloClient<any>) {
+    constructor(client: ApolloClient<any>, subscribe: boolean = true) {
         this.#apolloClient = client
         this.#perspectiveAddedCallbacks = []
         this.#perspectiveUpdatedCallbacks = []
         this.#perspectiveRemovedCallbacks = []
 
-        this.#apolloClient.subscribe({
-            query: gql` subscription {
-                perspectiveAdded { ${PERSPECTIVE_HANDLE_FIELDS} }
-            }   
-        `}).subscribe({
-            next: result => {
-                this.#perspectiveAddedCallbacks.forEach(cb => {
-                    cb(result.data.perspectiveAdded)
-                })
-            },
-            error: (e) => console.error(e)
-        })
-
-        this.#apolloClient.subscribe({
-            query: gql` subscription {
-                perspectiveUpdated { ${PERSPECTIVE_HANDLE_FIELDS} }
-            }   
-        `}).subscribe({
-            next: result => {
-                this.#perspectiveUpdatedCallbacks.forEach(cb => {
-                    cb(result.data.perspectiveUpdated)
-                })
-            },
-            error: (e) => console.error(e)
-        })
-
-        this.#apolloClient.subscribe({
-            query: gql` subscription {
-                perspectiveRemoved
-            }   
-        `}).subscribe({
-            next: result => {
-                this.#perspectiveRemovedCallbacks.forEach(cb => {
-                    cb(result.data.perspectiveRemoved)
-                })
-            },
-            error: (e) => console.error(e)
-        })
+        if(subscribe) {
+            this.subscribePerspectiveAdded()
+            this.subscribePerspectiveUpdated()
+            this.subscribePerspectiveRemoved()
+        }
     }
 
     async all(): Promise<PerspectiveProxy[]> {
@@ -229,18 +196,62 @@ export default class PerspectiveClient {
         }))
     }
 
-
     // Subscriptions:
     addPerspectiveAddedListener(cb: PerspectiveHandleCallback) {
         this.#perspectiveAddedCallbacks.push(cb)
+    }
+
+    subscribePerspectiveAdded() {
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                perspectiveAdded { ${PERSPECTIVE_HANDLE_FIELDS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                this.#perspectiveAddedCallbacks.forEach(cb => {
+                    cb(result.data.perspectiveAdded)
+                })
+            },
+            error: (e) => console.error(e)
+        })
     }
 
     addPerspectiveUpdatedListener(cb: PerspectiveHandleCallback) {
         this.#perspectiveUpdatedCallbacks.push(cb)
     }
 
+    subscribePerspectiveUpdated() {
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                perspectiveUpdated { ${PERSPECTIVE_HANDLE_FIELDS} }
+            }   
+        `}).subscribe({
+            next: result => {
+                this.#perspectiveUpdatedCallbacks.forEach(cb => {
+                    cb(result.data.perspectiveUpdated)
+                })
+            },
+            error: (e) => console.error(e)
+        })
+    }
+
     addPerspectiveRemovedListener(cb: UuidCallback) {
         this.#perspectiveRemovedCallbacks.push(cb)
+    }
+
+    subscribePerspectiveRemoved() {
+        this.#apolloClient.subscribe({
+            query: gql` subscription {
+                perspectiveRemoved
+            }   
+        `}).subscribe({
+            next: result => {
+                this.#perspectiveRemovedCallbacks.forEach(cb => {
+                    cb(result.data.perspectiveRemoved)
+                })
+            },
+            error: (e) => console.error(e)
+        })
     }
 
     async addPerspectiveLinkAddedListener(uuid: String, cb: LinkCallback[]): Promise<void> {

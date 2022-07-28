@@ -102,7 +102,7 @@ export class PerspectiveProxy {
     async removeListener(type: PerspectiveListenerTypes, cb: LinkCallback) {
         if (type === 'link-added') {
             const index = this.#perspectiveLinkAddedCallbacks.indexOf(cb);
-    
+
             this.#perspectiveLinkAddedCallbacks.splice(index, 1);
         } else if (type === 'link-removed') {
             const index = this.#perspectiveLinkRemovedCallbacks.indexOf(cb);
