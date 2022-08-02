@@ -1,8 +1,23 @@
 import { buildSchema } from "type-graphql"
-import { ApolloServer } from 'apollo-server'
-import { ApolloClient, ApolloLink, InMemoryCache, HttpLink } from "@apollo/client";
+
+import { createServer } from 'http';
+import {
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageLocalDefault,
+} from "apollo-server-core";
+import { ApolloServer } from "apollo-server";
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
+
+import { ApolloClient, ApolloLink, InMemoryCache, HttpLink, split } from "@apollo/client/core";
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import fetch from 'cross-fetch'
-import { onError } from '@apollo/link-error'
+import Websocket from "ws";
+import { onError } from "@apollo/client/link/error";
+import express from 'express';
+
 import AgentResolver from "./agent/AgentResolver"
 import { Ad4mClient } from "./Ad4mClient";
 import { Perspective } from "./perspectives/Perspective";
@@ -18,41 +33,106 @@ import { InteractionCall } from "./language/Language";
 
 jest.setTimeout(15000)
 
+async function createGqlServer(): Promise<{url: string, port: string | number}> {
+    const schema = await buildSchema({
+        resolvers: [
+            AgentResolver, 
+            ExpressionResolver,
+            LanguageResolver, 
+            NeighbourhoodResolver,
+            PerspectiveResolver,
+            RuntimeResolver
+        ]
+    })
+
+    const app = express();
+    const httpServer = createServer(app);
+
+    // Creating the WebSocket server
+    const wsServer = new WebSocketServer({
+        // This is the `httpServer` we created in a previous step.
+        server: httpServer,
+        // Pass a different path here if your ApolloServer serves at
+        // a different path.
+        path: '/subscriptions',
+    });
+
+    // Hand in the schema we just created and have the
+    // WebSocketServer start listening.
+    const serverCleanup = useServer({ schema }, wsServer);
+
+    const server = new ApolloServer({
+        schema,
+        csrfPrevention: true,
+        cache: "bounded",
+        plugins: [
+          // Proper shutdown for the HTTP server.
+          ApolloServerPluginDrainHttpServer({ httpServer }),
+    
+          // Proper shutdown for the WebSocket server.
+          {
+            async serverWillStart() {
+              return {
+                async drainServer() {
+                  await serverCleanup.dispose();
+                },
+              };
+            },
+          },
+          ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+        ],
+    });
+
+    await httpServer.listen()
+    const {url, port} = await server.listen()
+    return {url, port}
+}
+
 describe('Ad4mClient', () => {
     let ad4mClient
     let apolloClient
     
     beforeAll(async () => {
-        const schema = await buildSchema({
-            resolvers: [
-                AgentResolver, 
-                ExpressionResolver,
-                LanguageResolver, 
-                NeighbourhoodResolver,
-                PerspectiveResolver,
-                RuntimeResolver
-            ]
-        })
-        const server = new ApolloServer({ schema })
-        const { url, subscriptionsUrl } = await server.listen()
+        const {url, port} = await createGqlServer();
 
         console.log("GraphQL server listening at:", url)
 
-        const errorLink = onError(({ graphQLErrors }) => {
+        const errorLink = onError(({ graphQLErrors, networkError }) => {
             if (graphQLErrors) graphQLErrors.map(({ message }) => console.error(`GraphQL Error: ${message}`))
-          })
-          
+            if (networkError) console.error(`GraphQL Network Error: ${networkError}`)
+        })
+        
+        const httpLink = new HttpLink({
+            uri: `http://localhost:${port}/graphql`,
+            fetch
+        });
+        
+        const wsLink = new GraphQLWsLink(createClient({
+            url: `ws://localhost:${port}/subscriptions`,
+            webSocketImpl: Websocket
+        }));
+
+        const splitLink = split(
+            ({ query }) => {
+              const definition = getMainDefinition(query);
+              return (
+                definition.kind === 'OperationDefinition' &&
+                definition.operation === 'subscription'
+              );
+            },
+            wsLink,
+            httpLink,
+        );
 
         apolloClient = new ApolloClient({
-            // @ts-ignore
-            link: ApolloLink.from([errorLink, new HttpLink({ uri: url, fetch})]),
+            link: ApolloLink.from([errorLink, splitLink]),
             cache: new InMemoryCache(),
             defaultOptions: {
                 watchQuery: {
                     fetchPolicy: 'network-only',
                     nextFetchPolicy: 'network-only'
                 },
-            },
+            }
         });
 
         console.log("GraphQL client connected")

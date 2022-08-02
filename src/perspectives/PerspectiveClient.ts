@@ -1,4 +1,4 @@
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql } from "@apollo/client/core";
 import { Link, LinkExpressionInput, LinkExpression, LinkInput } from "../links/Links";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { LinkQuery } from "./LinkQuery";

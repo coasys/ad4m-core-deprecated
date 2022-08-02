@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloQueryResult, gql } from "@apollo/client"
+import { ApolloClient, ApolloQueryResult, gql } from "@apollo/client/core"
 import { Address } from "../Address"
 import { Perspective } from "../perspectives/Perspective"
 import { PerspectiveHandle } from "../perspectives/PerspectiveHandle"

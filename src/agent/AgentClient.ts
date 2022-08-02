@@ -1,4 +1,4 @@
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql } from "@apollo/client/core";
 import { PerspectiveInput } from "../perspectives/Perspective";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
