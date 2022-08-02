@@ -1,7 +1,8 @@
-import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
+import { Arg, Mutation, Query, Resolver, Subscription, PubSub } from "type-graphql";
 import { Perspective, PerspectiveInput } from "../perspectives/Perspective";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
+import { AGENT_STATUS_CHANGED, AGENT_UPDATED } from "../PubSub";
 
 const TEST_AGENT_DID = "did:ad4m:test"
 
@@ -19,9 +20,12 @@ export default class AgentResolver {
 
     @Mutation(returns => AgentStatus)
     agentGenerate(
-        @Arg('passphrase') passphrase: string
+        @Arg('passphrase') passphrase: string,
+        @PubSub() pubSub: any
     ): AgentStatus {
-        return new AgentStatus({did: TEST_AGENT_DID, didDocument: "did document", isInitialized: true, isUnlocked: true})
+        const status = new AgentStatus({did: TEST_AGENT_DID, didDocument: "did document", isInitialized: true, isUnlocked: true})
+        pubSub.publish(AGENT_STATUS_CHANGED, { status })
+        return status
     }
 
     @Mutation(returns => AgentStatus)
@@ -36,16 +40,22 @@ export default class AgentResolver {
 
     @Mutation(returns => AgentStatus)
     agentLock(
-        @Arg('passphrase') passphrase: string
+        @Arg('passphrase') passphrase: string,
+        @PubSub() pubSub: any
     ): AgentStatus {
-        return new AgentStatus({isInitialized: true, did: TEST_AGENT_DID})
+        const status = new AgentStatus({isInitialized: true, did: TEST_AGENT_DID})
+        pubSub.publish(AGENT_STATUS_CHANGED, { status })
+        return status
     }
 
     @Mutation(returns => AgentStatus)
     agentUnlock(
-        @Arg('passphrase') passphrase: string
+        @Arg('passphrase') passphrase: string,
+        @PubSub() pubSub: any
     ): AgentStatus {
-        return new AgentStatus({isInitialized: true, isUnlocked: true, did: TEST_AGENT_DID})
+        const status = new AgentStatus({isInitialized: true, isUnlocked: true, did: TEST_AGENT_DID})
+        pubSub.publish(AGENT_STATUS_CHANGED, { status })
+        return status
     }
 
 
@@ -55,24 +65,27 @@ export default class AgentResolver {
     }
 
     @Mutation(returns => Agent)
-    agentUpdatePublicPerspective(@Arg('perspective') perspective: PerspectiveInput): Agent {
+    agentUpdatePublicPerspective(@Arg('perspective') perspective: PerspectiveInput, @PubSub() pubSub: any): Agent {
         const agent = new Agent(TEST_AGENT_DID, perspective as Perspective)
+        agent.directMessageLanguage = "lang://test";
+        pubSub.publish(AGENT_UPDATED, { agent })
         return agent
     }
 
     @Mutation(returns => Agent)
-    agentUpdateDirectMessageLanguage(@Arg('directMessageLanguage') directMessageLanguage: string): Agent {
-        const agent = new Agent(TEST_AGENT_DID)
+    agentUpdateDirectMessageLanguage(@Arg('directMessageLanguage') directMessageLanguage: string, @PubSub() pubSub: any): Agent {
+        const agent = new Agent(TEST_AGENT_DID, new Perspective())
         agent.directMessageLanguage = directMessageLanguage;
+        pubSub.publish(AGENT_UPDATED, { agent })
         return agent
     }
 
-    @Subscription({topics: "", nullable: true})
+    @Subscription({topics: AGENT_UPDATED, nullable: true})
     agentUpdated(): Agent {
         return new Agent(TEST_AGENT_DID)
     }
 
-    @Subscription({topics: "", nullable: true})
+    @Subscription({topics: AGENT_STATUS_CHANGED, nullable: true})
     agentStatusChanged(): AgentStatus {
         return new AgentStatus({isInitialized: true, did: TEST_AGENT_DID})
     }

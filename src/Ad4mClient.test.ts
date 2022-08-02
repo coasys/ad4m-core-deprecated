@@ -6,13 +6,10 @@ import { ApolloServer } from "apollo-server-express";
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 
-import { ApolloClient, ApolloLink, InMemoryCache, HttpLink, split } from "@apollo/client/core";
+import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
-import { getMainDefinition } from '@apollo/client/utilities';
-import fetch from 'cross-fetch'
 import Websocket from "ws";
-import { onError } from "@apollo/client/link/error";
 import express from 'express';
 
 import AgentResolver from "./agent/AgentResolver"
@@ -89,35 +86,13 @@ describe('Ad4mClient', () => {
 
         console.log(`GraphQL server listening at: http://localhost:${port}/graphql`)
 
-        const errorLink = onError(({ graphQLErrors, networkError }) => {
-            if (graphQLErrors) graphQLErrors.map(({ message }) => console.error(`GraphQL Error: ${message}`))
-            if (networkError) console.error(`GraphQL Network Error: ${networkError}`)
-        })
-        
-        const httpLink = new HttpLink({
-            uri: `http://localhost:${port}/graphql`,
-            fetch
-        });
-        
         const wsLink = new GraphQLWsLink(createClient({
             url: `ws://localhost:${port}/graphql`,
             webSocketImpl: Websocket
         }));
 
-        const splitLink = split(
-            ({ query }) => {
-              const definition = getMainDefinition(query);
-              return (
-                definition.kind === 'OperationDefinition' &&
-                definition.operation === 'subscription'
-              );
-            },
-            wsLink,
-            httpLink,
-        );
-
         apolloClient = new ApolloClient({
-            link: ApolloLink.from([errorLink, splitLink]),
+            link: wsLink,
             cache: new InMemoryCache(),
             defaultOptions: {
                 watchQuery: {
@@ -498,7 +473,7 @@ describe('Ad4mClient', () => {
             perspective = await ad4mClient.perspective.byUUID('00004')
 
             await perspective.addListener('link-removed', linkRemoved)
-            await perspective.add({source: 'root', target: 'neighbourhood://Qm123456'})  
+            await perspective.remove({source: 'root', target: 'neighbourhood://Qm123456'})  
 
             expect(linkAdded).toBeCalledTimes(1)
             expect(linkRemoved).toBeCalledTimes(1)
@@ -684,8 +659,9 @@ describe('Ad4mClient', () => {
                 ad4mClientWithoutSubscription.agent.addUpdatedListener(agentUpdatedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(agentUpdatedCallback).toBeCalledTimes(0)
-                
+
                 ad4mClientWithoutSubscription.agent.subscribeAgentUpdated()
+                await ad4mClientWithoutSubscription.agent.updateDirectMessageLanguage("lang://test");
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(agentUpdatedCallback).toBeCalledTimes(1)
             })
@@ -696,6 +672,7 @@ describe('Ad4mClient', () => {
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(agentStatusChangedCallback).toBeCalledTimes(0)
     
+                await ad4mClientWithoutSubscription.agent.unlock("test");
                 ad4mClientWithoutSubscription.agent.subscribeAgentStatusChanged()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(agentStatusChangedCallback).toBeCalledTimes(1)
