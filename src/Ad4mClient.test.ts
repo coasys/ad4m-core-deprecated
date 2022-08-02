@@ -75,7 +75,8 @@ async function createGqlServer(port: number) {
     serverCleanup = useServer({ schema }, wsServer);
 
     await server.start()
-    await httpServer.listen({ port })
+    server.applyMiddleware({ app });
+    httpServer.listen({ port })
     return port
 }
 
