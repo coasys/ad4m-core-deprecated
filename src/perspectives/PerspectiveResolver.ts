@@ -74,33 +74,40 @@ export default class PerspectiveResolver {
 
     @Mutation(returns => PerspectiveHandle, {nullable: true})
     perspectiveUpdate(@Arg('uuid') uuid: string, @Arg('name') name: string, @PubSub() pubSub: any): PerspectiveHandle {
-        const perspective = new PerspectiveHandle('00006', name);
-        pubSub.publish(PERSPECTIVE_ADDED_TOPIC, { perspective })
+        const perspective = new PerspectiveHandle(uuid, name);
+        pubSub.publish(PERSPECTIVE_UPDATED_TOPIC, { perspective })
         return new PerspectiveHandle(uuid, name)
     }
 
     @Mutation(returns => Boolean)
-    perspectiveRemove(@Arg('uuid') uuid: string): boolean {
+    perspectiveRemove(@Arg('uuid') uuid: string, @PubSub() pubSub: any): boolean {
+        const perspective = new PerspectiveHandle(uuid);
+        pubSub.publish(PERSPECTIVE_REMOVED_TOPIC, { perspective })
         return true
     }
 
     @Mutation(returns => LinkExpression)
-    perspectiveAddLink(@Arg('uuid') uuid: string, @Arg('link') link: LinkInput): LinkExpression {
+    perspectiveAddLink(@Arg('uuid') uuid: string, @Arg('link') link: LinkInput, @PubSub() pubSub: any): LinkExpression {
         const l = new LinkExpression()
         l.author = 'did:ad4m:test'
         l.timestamp = Date.now()
         l.proof = testLink.proof
         l.data = link
+
+        pubSub.publish(LINK_ADDED_TOPIC, { link: l })
         return l
     }
  
     @Mutation(returns => LinkExpression)
-    perspectiveUpdateLink(@Arg('uuid') uuid: string, @Arg('oldLink') oldlink: LinkExpressionInput, @Arg('newLink') newlink: LinkInput): LinkExpression {
+    perspectiveUpdateLink(@Arg('uuid') uuid: string, @Arg('oldLink') oldlink: LinkExpressionInput, @Arg('newLink') newlink: LinkInput, @PubSub() pubSub: any): LinkExpression {
         const l = new LinkExpression()
         l.author = 'did:ad4m:test'
         l.timestamp = Date.now()
         l.proof = testLink.proof
         l.data = newlink
+
+        pubSub.publish(LINK_REMOVED_TOPIC, { link: l })
+
         return l    
     }
 
