@@ -112,7 +112,8 @@ export default class PerspectiveResolver {
     }
 
     @Mutation(returns => Boolean)
-    perspectiveRemoveLink(@Arg('uuid') uuid: string, @Arg('link') link: LinkExpressionInput): Boolean {
+    perspectiveRemoveLink(@Arg('uuid') uuid: string, @Arg('link') link: LinkExpressionInput, @PubSub() pubSub: any): Boolean {
+        pubSub.publish(LINK_REMOVED_TOPIC)
         return true
     }
 

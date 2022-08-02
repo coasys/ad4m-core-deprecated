@@ -461,6 +461,19 @@ describe('Ad4mClient', () => {
         it('addListener() smoke test', async () => {
             let perspective = await ad4mClient.perspective.byUUID('00004')
             
+            const testLink = new LinkExpression()
+            testLink.author = "did:ad4m:test"
+            testLink.timestamp = Date.now().toString()
+            testLink.data = {
+                source: 'root',
+                target: 'neighbourhood://Qm12345'
+            }
+            testLink.proof = {
+                signature: '',
+                key: '',
+                valid: true
+            }
+
             const linkAdded = jest.fn()
             const linkRemoved = jest.fn()
 
@@ -476,7 +489,7 @@ describe('Ad4mClient', () => {
             perspective = await ad4mClient.perspective.byUUID('00004')
 
             await perspective.addListener('link-removed', linkRemoved)
-            await perspective.remove(link)  
+            await perspective.remove(testLink)  
 
             expect(linkAdded).toBeCalledTimes(1)
             expect(linkRemoved).toBeCalledTimes(1)
