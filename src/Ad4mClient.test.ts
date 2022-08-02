@@ -4,10 +4,10 @@ import { createServer } from 'http';
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-express";
 import { WebSocketServer } from 'ws';
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { useServer } from 'graphql-ws/lib/use/ws';
 
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import Websocket from "ws";
 import express from 'express';
@@ -64,7 +64,7 @@ async function createGqlServer(port: number) {
         server: httpServer,
         // Pass a different path here if your ApolloServer serves at
         // a different path.
-        path: server.graphqlPath,
+        path: '/subscriptions',
     });
 
     // Hand in the schema we just created and have the
@@ -87,7 +87,7 @@ describe('Ad4mClient', () => {
         console.log(`GraphQL server listening at: http://localhost:${port}/graphql`)
 
         const wsLink = new GraphQLWsLink(createClient({
-            url: `ws://localhost:${port}/graphql`,
+            url: `ws://localhost:${port}/subscriptions`,
             webSocketImpl: Websocket
         }));
 
@@ -648,7 +648,7 @@ describe('Ad4mClient', () => {
 
     describe('Ad4mClient subscriptions', () => {
         describe('ad4mClient without subscription', () => {
-            let ad4mClientWithoutSubscription
+            let ad4mClientWithoutSubscription: Ad4mClient
 
             beforeEach(() => {
                 ad4mClientWithoutSubscription = new Ad4mClient(apolloClient, false)
@@ -686,6 +686,8 @@ describe('Ad4mClient', () => {
 
                 ad4mClientWithoutSubscription.perspective.subscribePerspectiveAdded()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
+                await ad4mClientWithoutSubscription.perspective.add('p-name-1');
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(perspectiveAddedCallback).toBeCalledTimes(1)
             })
     
@@ -697,6 +699,8 @@ describe('Ad4mClient', () => {
 
                 ad4mClientWithoutSubscription.perspective.subscribePerspectiveUpdated()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
+                await ad4mClientWithoutSubscription.perspective.update('00006', 'p-test2');
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(perspectiveUpdatedCallback).toBeCalledTimes(1)
             })
     
@@ -707,6 +711,8 @@ describe('Ad4mClient', () => {
                 expect(perspectiveRemovedCallback).toBeCalledTimes(0)
 
                 ad4mClientWithoutSubscription.perspective.subscribePerspectiveRemoved()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                await ad4mClientWithoutSubscription.perspective.remove('00006');
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(perspectiveRemovedCallback).toBeCalledTimes(1)
             })
@@ -767,33 +773,36 @@ describe('Ad4mClient', () => {
                 const perspectiveAddedCallback = jest.fn()
                 ad4mClientWithSubscription.perspective.addPerspectiveAddedListener(perspectiveAddedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveAddedCallback).toBeCalledTimes(1)
+                expect(perspectiveAddedCallback).toBeCalledTimes(0)
 
-                ad4mClientWithSubscription.perspective.subscribePerspectiveAdded()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveAddedCallback).toBeCalledTimes(2)
+                await ad4mClientWithSubscription.perspective.add('p-name-1');
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveAddedCallback).toBeCalledTimes(1)
             })
     
             it('perspective subscribePerspectiveUpdated smoke test', async () => {
                 const perspectiveUpdatedCallback = jest.fn()
                 ad4mClientWithSubscription.perspective.addPerspectiveUpdatedListener(perspectiveUpdatedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveUpdatedCallback).toBeCalledTimes(1)
+                expect(perspectiveUpdatedCallback).toBeCalledTimes(0)
 
-                ad4mClientWithSubscription.perspective.subscribePerspectiveUpdated()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveUpdatedCallback).toBeCalledTimes(2)
+                await ad4mClientWithSubscription.perspective.update('00006', 'p-test2');
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveUpdatedCallback).toBeCalledTimes(1)
             })
     
             it('perspective subscribePerspectiveRemoved smoke test', async () => {
                 const perspectiveRemovedCallback = jest.fn()
                 ad4mClientWithSubscription.perspective.addPerspectiveRemovedListener(perspectiveRemovedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveRemovedCallback).toBeCalledTimes(1)
+                expect(perspectiveRemovedCallback).toBeCalledTimes(0)
                 
-                ad4mClientWithSubscription.perspective.subscribePerspectiveRemoved()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveRemovedCallback).toBeCalledTimes(2)
+                await ad4mClientWithSubscription.perspective.remove('00006');
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveRemovedCallback).toBeCalledTimes(1)
             })
     
             it('runtime subscribeMessageReceived smoke test', async () => {
