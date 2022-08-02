@@ -64,7 +64,7 @@ async function createGqlServer(port: number) {
         server: httpServer,
         // Pass a different path here if your ApolloServer serves at
         // a different path.
-        path: '/subscriptions',
+        path: '/graphql',
     });
 
     // Hand in the schema we just created and have the
@@ -87,7 +87,7 @@ describe('Ad4mClient', () => {
         console.log(`GraphQL server listening at: http://localhost:${port}/graphql`)
 
         const wsLink = new GraphQLWsLink(createClient({
-            url: `ws://localhost:${port}/subscriptions`,
+            url: `ws://localhost:${port}/graphql`,
             webSocketImpl: Websocket
         }));
 

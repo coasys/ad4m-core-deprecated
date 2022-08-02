@@ -272,7 +272,6 @@ export default class AgentClient {
             next: result => {
                 const agent = result.data.agentStatusChanged
                 this.#agentStatusChangedCallbacks.forEach(cb => {
-                    console.log("Agent status changed: ", agent)
                     cb(agent)
                 })
             },
