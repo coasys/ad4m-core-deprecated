@@ -1,4 +1,4 @@
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql } from "@apollo/client/core";
 import { InteractionCall, InteractionMeta } from "../language/Language";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { ExpressionRendered } from "./Expression";

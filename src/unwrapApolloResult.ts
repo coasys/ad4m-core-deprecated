@@ -1,4 +1,4 @@
-import { ApolloQueryResult, FetchResult } from "@apollo/client"
+import { ApolloQueryResult, FetchResult } from "@apollo/client/core"
 
 export default function unwrapApolloResult(result: ApolloQueryResult<any> | FetchResult<any>) {
     //console.debug('GQL result:', result)

@@ -21,30 +21,34 @@ ad4m executor run &
 Then use `Ad4mClient` to connect to and work with the running ad4m-executor like this:
 ```
 npm install --save @perspect3vism/ad4m
-npm install --save-exact @apollo/client@3.3.20
-npm install --save subscriptions-transport-ws@0.9.19
+npm install --save-exact @apollo/client@3.6.9
+npm install --save graphql-ws
+npm install --save ws
 ```
+
 In your code:
 ```js
 import { Ad4mClient } from '@perspect3vism/ad4m'
-import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
-import { WebSocketLink } from '@apollo/client/link/ws';
-import ws from "ws"
+import { ApolloClient, InMemoryCache } from "@apollo/client/core";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from 'graphql-ws';
+import Websocket from "ws";
 
-const uri = 'http://localhost:4000/graphql'
+const wsLink = new GraphQLWsLink(createClient({
+    url: `ws://localhost:4000/graphql`,
+    webSocketImpl: Websocket
+}));
+
 const apolloClient = new ApolloClient({
-    link: new WebSocketLink({
-        uri,
-        options: { reconnect: true },
-        webSocketImpl: ws,
-    }),
-    cache: new InMemoryCache({resultCaching: false, addTypename: false}),
+    link: wsLink,
+    cache: new InMemoryCache(),
     defaultOptions: {
-        watchQuery: { fetchPolicy: "no-cache" },
-        query: { fetchPolicy: "no-cache" }
-    },
+        watchQuery: {
+            fetchPolicy: 'network-only',
+            nextFetchPolicy: 'network-only'
+        },
+    }
 });
-
 
 ad4mClient = new Ad4mClient(apolloClient)
 ```

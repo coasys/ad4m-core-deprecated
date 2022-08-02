@@ -64,6 +64,7 @@ export const Root: typeof src.Root = dummyDecorator;
 export const Subscription: typeof src.Subscription = dummyDecorator;
 export const createUnionType: typeof src.createUnionType = dummyFn as any;
 export const UseMiddleware: typeof src.UseMiddleware = dummyDecorator;
+export const PubSubEngine: typeof src.PubSubEngine = dummyDecorator as any;
 
 export class ClassType<t> {}
 export const Int: typeof src.Int = dummyValue as any;

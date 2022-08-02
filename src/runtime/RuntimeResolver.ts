@@ -4,6 +4,7 @@ import { Perspective, PerspectiveExpression, PerspectiveInput } from "../perspec
 import { ExpressionProof } from "../expression/Expression";
 import { LinkExpression } from "../links/Links";
 import { ExceptionType } from "../Exception";
+import { DIRECT_MESSAGE_RECEIVED, EXCEPTION_OCCURRED_TOPIC } from '../PubSub';
 
 const testLink = new LinkExpression()
 testLink.author = "did:ad4m:test"
@@ -171,12 +172,12 @@ export default class RuntimeResolver {
     }
 
  
-    @Subscription({topics: "", nullable: true})
+    @Subscription({topics: DIRECT_MESSAGE_RECEIVED, nullable: true})
     runtimeMessageReceived(): PerspectiveExpression {
         return testPerspectiveExpression
     }
 
-    @Subscription({topics: "", nullable: true})
+    @Subscription({topics: EXCEPTION_OCCURRED_TOPIC, nullable: true})
     exceptionOccurred(): ExceptionInfo {
         return {
             title: "Test title",

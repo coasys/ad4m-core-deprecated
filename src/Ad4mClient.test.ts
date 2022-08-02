@@ -1,12 +1,21 @@
 import { buildSchema } from "type-graphql"
-import { ApolloServer } from 'apollo-server'
-import { ApolloClient, ApolloLink, InMemoryCache, HttpLink } from "@apollo/client";
-import fetch from 'cross-fetch'
-import { onError } from '@apollo/link-error'
+
+import { createServer } from 'http';
+import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
+import { ApolloServer } from "apollo-server-express";
+import { WebSocketServer } from 'ws';
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { useServer } from 'graphql-ws/lib/use/ws';
+
+import { ApolloClient, InMemoryCache } from "@apollo/client/core";
+import { createClient } from 'graphql-ws';
+import Websocket from "ws";
+import express from 'express';
+
 import AgentResolver from "./agent/AgentResolver"
 import { Ad4mClient } from "./Ad4mClient";
 import { Perspective } from "./perspectives/Perspective";
-import { Link, LinkExpression } from "./links/Links";
+import { Link, LinkExpression, LinkExpressionInput, LinkInput } from "./links/Links";
 import LanguageResolver from "./language/LanguageResolver";
 import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 import PerspectiveResolver from "./perspectives/PerspectiveResolver";
@@ -18,41 +27,79 @@ import { InteractionCall } from "./language/Language";
 
 jest.setTimeout(15000)
 
+async function createGqlServer(port: number) {
+    const schema = await buildSchema({
+        resolvers: [
+            AgentResolver, 
+            ExpressionResolver,
+            LanguageResolver, 
+            NeighbourhoodResolver,
+            PerspectiveResolver,
+            RuntimeResolver
+        ]
+    })
+
+    const app = express();
+    const httpServer = createServer(app);
+
+    let serverCleanup: any;
+    const server = new ApolloServer({
+        schema,
+        plugins: [
+            ApolloServerPluginDrainHttpServer({ httpServer }),
+            {
+                async serverWillStart() {
+                    return {
+                            async drainServer() {
+                                await serverCleanup.dispose();
+                        },
+                    };
+                },
+            },
+        ]
+    });
+    // Creating the WebSocket server
+    const wsServer = new WebSocketServer({
+        // This is the `httpServer` we created in a previous step.
+        server: httpServer,
+        // Pass a different path here if your ApolloServer serves at
+        // a different path.
+        path: '/graphql',
+    });
+
+    // Hand in the schema we just created and have the
+    // WebSocketServer start listening.
+    serverCleanup = useServer({ schema }, wsServer);
+
+    await server.start()
+    server.applyMiddleware({ app });
+    httpServer.listen({ port })
+    return port
+}
+
 describe('Ad4mClient', () => {
     let ad4mClient
     let apolloClient
     
     beforeAll(async () => {
-        const schema = await buildSchema({
-            resolvers: [
-                AgentResolver, 
-                ExpressionResolver,
-                LanguageResolver, 
-                NeighbourhoodResolver,
-                PerspectiveResolver,
-                RuntimeResolver
-            ]
-        })
-        const server = new ApolloServer({ schema })
-        const { url, subscriptionsUrl } = await server.listen()
+        let port = await createGqlServer(4000);
 
-        console.log("GraphQL server listening at:", url)
+        console.log(`GraphQL server listening at: http://localhost:${port}/graphql`)
 
-        const errorLink = onError(({ graphQLErrors }) => {
-            if (graphQLErrors) graphQLErrors.map(({ message }) => console.error(`GraphQL Error: ${message}`))
-          })
-          
+        const wsLink = new GraphQLWsLink(createClient({
+            url: `ws://localhost:${port}/graphql`,
+            webSocketImpl: Websocket
+        }));
 
         apolloClient = new ApolloClient({
-            // @ts-ignore
-            link: ApolloLink.from([errorLink, new HttpLink({ uri: url, fetch})]),
+            link: wsLink,
             cache: new InMemoryCache(),
             defaultOptions: {
                 watchQuery: {
                     fetchPolicy: 'network-only',
                     nextFetchPolicy: 'network-only'
                 },
-            },
+            }
         });
 
         console.log("GraphQL client connected")
@@ -414,11 +461,27 @@ describe('Ad4mClient', () => {
         it('addListener() smoke test', async () => {
             let perspective = await ad4mClient.perspective.byUUID('00004')
             
+            const testLink = new LinkExpression()
+            testLink.author = "did:ad4m:test"
+            testLink.timestamp = Date.now().toString()
+            testLink.data = {
+                source: 'root',
+                target: 'neighbourhood://Qm12345'
+            }
+            testLink.proof = {
+                signature: '',
+                key: '',
+                valid: true
+            }
+
             const linkAdded = jest.fn()
             const linkRemoved = jest.fn()
 
             await perspective.addListener('link-added', linkAdded)
-            await perspective.add({source: 'root', target: 'neighbourhood://Qm12345'})  
+            const link = new LinkExpressionInput()
+            link.source = 'root'
+            link.target = 'perspective://Qm34589a3ccc0'
+            await perspective.add(link)  
 
             expect(linkAdded).toBeCalledTimes(1)
             expect(linkRemoved).toBeCalledTimes(0)
@@ -426,7 +489,7 @@ describe('Ad4mClient', () => {
             perspective = await ad4mClient.perspective.byUUID('00004')
 
             await perspective.addListener('link-removed', linkRemoved)
-            await perspective.add({source: 'root', target: 'neighbourhood://Qm123456'})  
+            await perspective.remove(testLink)  
 
             expect(linkAdded).toBeCalledTimes(1)
             expect(linkRemoved).toBeCalledTimes(1)
@@ -449,7 +512,7 @@ describe('Ad4mClient', () => {
             await perspective.removeListener('link-added', linkAdded)
             await perspective.add({source: 'root', target: 'neighbourhood://Qm123456'})  
 
-            expect(linkAdded).toBeCalledTimes(0)
+            expect(linkAdded).toBeCalledTimes(1)
         })
 
         it('updateLink() smoke test', async () => {
@@ -601,7 +664,7 @@ describe('Ad4mClient', () => {
 
     describe('Ad4mClient subscriptions', () => {
         describe('ad4mClient without subscription', () => {
-            let ad4mClientWithoutSubscription
+            let ad4mClientWithoutSubscription: Ad4mClient
 
             beforeEach(() => {
                 ad4mClientWithoutSubscription = new Ad4mClient(apolloClient, false)
@@ -612,9 +675,10 @@ describe('Ad4mClient', () => {
                 ad4mClientWithoutSubscription.agent.addUpdatedListener(agentUpdatedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(agentUpdatedCallback).toBeCalledTimes(0)
-                
+
                 ad4mClientWithoutSubscription.agent.subscribeAgentUpdated()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
+                await ad4mClientWithoutSubscription.agent.updateDirectMessageLanguage("lang://test");
                 expect(agentUpdatedCallback).toBeCalledTimes(1)
             })
             
@@ -626,6 +690,7 @@ describe('Ad4mClient', () => {
     
                 ad4mClientWithoutSubscription.agent.subscribeAgentStatusChanged()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
+                await ad4mClientWithoutSubscription.agent.unlock("test");
                 expect(agentStatusChangedCallback).toBeCalledTimes(1)
             })
     
@@ -636,6 +701,8 @@ describe('Ad4mClient', () => {
                 expect(perspectiveAddedCallback).toBeCalledTimes(0)
 
                 ad4mClientWithoutSubscription.perspective.subscribePerspectiveAdded()
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                await ad4mClientWithoutSubscription.perspective.add('p-name-1');
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(perspectiveAddedCallback).toBeCalledTimes(1)
             })
@@ -648,6 +715,8 @@ describe('Ad4mClient', () => {
 
                 ad4mClientWithoutSubscription.perspective.subscribePerspectiveUpdated()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
+                await ad4mClientWithoutSubscription.perspective.update('00006', 'p-test2');
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(perspectiveUpdatedCallback).toBeCalledTimes(1)
             })
     
@@ -659,29 +728,9 @@ describe('Ad4mClient', () => {
 
                 ad4mClientWithoutSubscription.perspective.subscribePerspectiveRemoved()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
+                await ad4mClientWithoutSubscription.perspective.remove('00006');
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
                 expect(perspectiveRemovedCallback).toBeCalledTimes(1)
-            })
-    
-            it('runtime subscribeMessageReceived smoke test', async () => {
-                const msgReceivedCallback = jest.fn()
-                ad4mClientWithoutSubscription.runtime.addMessageCallback(msgReceivedCallback)
-                await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(msgReceivedCallback).toBeCalledTimes(0)
-
-                ad4mClientWithoutSubscription.runtime.subscribeMessageReceived()
-                await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(msgReceivedCallback).toBeCalledTimes(1)
-            })
-    
-            it('runtime subscribeExceptionOccurred smoke test', async () => {
-                const exceptionCallback = jest.fn()
-                ad4mClientWithoutSubscription.runtime.addExceptionCallback(exceptionCallback)
-                await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(exceptionCallback).toBeCalledTimes(0)
-
-                ad4mClientWithoutSubscription.runtime.subscribeExceptionOccurred()
-                await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(exceptionCallback).toBeCalledTimes(1)
             })
         })
 
@@ -696,77 +745,58 @@ describe('Ad4mClient', () => {
                 const agentUpdatedCallback = jest.fn()
                 ad4mClientWithSubscription.agent.addUpdatedListener(agentUpdatedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(agentUpdatedCallback).toBeCalledTimes(1)
+                expect(agentUpdatedCallback).toBeCalledTimes(0)
                 
-                ad4mClientWithSubscription.agent.subscribeAgentUpdated()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(agentUpdatedCallback).toBeCalledTimes(2)
+                await ad4mClientWithSubscription.agent.updateDirectMessageLanguage("lang://test");
+                expect(agentUpdatedCallback).toBeCalledTimes(1)
             })
             
             it('agent subscribeAgentStatusChanged smoke test', async () => {
                 const agentStatusChangedCallback = jest.fn()
                 ad4mClientWithSubscription.agent.addAgentStatusChangedListener(agentStatusChangedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(agentStatusChangedCallback).toBeCalledTimes(1)
+                expect(agentStatusChangedCallback).toBeCalledTimes(0)
     
-                ad4mClientWithSubscription.agent.subscribeAgentStatusChanged()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(agentStatusChangedCallback).toBeCalledTimes(2)
+                await ad4mClientWithSubscription.agent.unlock("test");
+                expect(agentStatusChangedCallback).toBeCalledTimes(1)
             })
     
             it('perspective subscribePerspectiveAdded smoke test', async () => {
                 const perspectiveAddedCallback = jest.fn()
                 ad4mClientWithSubscription.perspective.addPerspectiveAddedListener(perspectiveAddedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveAddedCallback).toBeCalledTimes(1)
+                expect(perspectiveAddedCallback).toBeCalledTimes(0)
 
-                ad4mClientWithSubscription.perspective.subscribePerspectiveAdded()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveAddedCallback).toBeCalledTimes(2)
+                await ad4mClientWithSubscription.perspective.add('p-name-1');
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveAddedCallback).toBeCalledTimes(1)
             })
     
             it('perspective subscribePerspectiveUpdated smoke test', async () => {
                 const perspectiveUpdatedCallback = jest.fn()
                 ad4mClientWithSubscription.perspective.addPerspectiveUpdatedListener(perspectiveUpdatedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveUpdatedCallback).toBeCalledTimes(1)
+                expect(perspectiveUpdatedCallback).toBeCalledTimes(0)
 
-                ad4mClientWithSubscription.perspective.subscribePerspectiveUpdated()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveUpdatedCallback).toBeCalledTimes(2)
+                await ad4mClientWithSubscription.perspective.update('00006', 'p-test2');
+                await new Promise<void>(resolve => setTimeout(resolve, 100))
+                expect(perspectiveUpdatedCallback).toBeCalledTimes(1)
             })
     
             it('perspective subscribePerspectiveRemoved smoke test', async () => {
                 const perspectiveRemovedCallback = jest.fn()
                 ad4mClientWithSubscription.perspective.addPerspectiveRemovedListener(perspectiveRemovedCallback)
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveRemovedCallback).toBeCalledTimes(1)
+                expect(perspectiveRemovedCallback).toBeCalledTimes(0)
                 
-                ad4mClientWithSubscription.perspective.subscribePerspectiveRemoved()
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(perspectiveRemovedCallback).toBeCalledTimes(2)
-            })
-    
-            it('runtime subscribeMessageReceived smoke test', async () => {
-                const msgReceivedCallback = jest.fn()
-                ad4mClientWithSubscription.runtime.addMessageCallback(msgReceivedCallback)
+                await ad4mClientWithSubscription.perspective.remove('00006');
                 await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(msgReceivedCallback).toBeCalledTimes(1)
-
-                ad4mClientWithSubscription.runtime.subscribeMessageReceived()
-                await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(msgReceivedCallback).toBeCalledTimes(2)
-            })
-    
-            it('runtime subscribeExceptionOccurred smoke test', async () => {
-                const exceptionCallback = jest.fn()
-                ad4mClientWithSubscription.runtime.addExceptionCallback(exceptionCallback)
-                await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(exceptionCallback).toBeCalledTimes(1)
-
-                ad4mClientWithSubscription.runtime.subscribeExceptionOccurred()
-                await new Promise<void>(resolve => setTimeout(resolve, 100))
-                expect(exceptionCallback).toBeCalledTimes(2)
+                expect(perspectiveRemovedCallback).toBeCalledTimes(1)
             })
         })
     })

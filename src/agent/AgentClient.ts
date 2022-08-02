@@ -1,4 +1,4 @@
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql } from "@apollo/client/core";
 import { PerspectiveInput } from "../perspectives/Perspective";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
@@ -272,7 +272,6 @@ export default class AgentClient {
             next: result => {
                 const agent = result.data.agentStatusChanged
                 this.#agentStatusChangedCallbacks.forEach(cb => {
-                    console.log("Agent status changed: ", agent)
                     cb(agent)
                 })
             },

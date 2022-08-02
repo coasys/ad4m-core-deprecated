@@ -1,4 +1,4 @@
-import { ApolloClient, gql } from "@apollo/client"
+import { ApolloClient, gql } from "@apollo/client/core"
 import unwrapApolloResult from "../unwrapApolloResult"
 import { LanguageHandle } from "./LanguageHandle"
 import { LanguageMeta, LanguageMetaInput } from "./LanguageMeta"
