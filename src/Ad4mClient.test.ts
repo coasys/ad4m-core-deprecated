@@ -1,11 +1,8 @@
 import { buildSchema } from "type-graphql"
 
 import { createServer } from 'http';
-import {
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageLocalDefault,
-} from "apollo-server-core";
-import { ApolloServer } from "apollo-server";
+import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
+import { ApolloServer } from "apollo-server-express";
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 
@@ -33,7 +30,7 @@ import { InteractionCall } from "./language/Language";
 
 jest.setTimeout(15000)
 
-async function createGqlServer(): Promise<{url: string, port: string | number}> {
+async function createGqlServer(port: number) {
     const schema = await buildSchema({
         resolvers: [
             AgentResolver, 
@@ -48,44 +45,38 @@ async function createGqlServer(): Promise<{url: string, port: string | number}> 
     const app = express();
     const httpServer = createServer(app);
 
+    let serverCleanup: any;
+    const server = new ApolloServer({
+        schema,
+        plugins: [
+            ApolloServerPluginDrainHttpServer({ httpServer }),
+            {
+                async serverWillStart() {
+                    return {
+                            async drainServer() {
+                                await serverCleanup.dispose();
+                        },
+                    };
+                },
+            },
+        ]
+    });
     // Creating the WebSocket server
     const wsServer = new WebSocketServer({
         // This is the `httpServer` we created in a previous step.
         server: httpServer,
         // Pass a different path here if your ApolloServer serves at
         // a different path.
-        path: '/subscriptions',
+        path: server.graphqlPath,
     });
 
     // Hand in the schema we just created and have the
     // WebSocketServer start listening.
-    const serverCleanup = useServer({ schema }, wsServer);
+    serverCleanup = useServer({ schema }, wsServer);
 
-    const server = new ApolloServer({
-        schema,
-        csrfPrevention: true,
-        cache: "bounded",
-        plugins: [
-          // Proper shutdown for the HTTP server.
-          ApolloServerPluginDrainHttpServer({ httpServer }),
-    
-          // Proper shutdown for the WebSocket server.
-          {
-            async serverWillStart() {
-              return {
-                async drainServer() {
-                  await serverCleanup.dispose();
-                },
-              };
-            },
-          },
-          ApolloServerPluginLandingPageLocalDefault({ embed: true }),
-        ],
-    });
-
-    await httpServer.listen()
-    const {url, port} = await server.listen()
-    return {url, port}
+    await server.start()
+    await httpServer.listen({ port })
+    return port
 }
 
 describe('Ad4mClient', () => {
@@ -93,9 +84,9 @@ describe('Ad4mClient', () => {
     let apolloClient
     
     beforeAll(async () => {
-        const {url, port} = await createGqlServer();
+        let port = await createGqlServer(4000);
 
-        console.log("GraphQL server listening at:", url)
+        console.log(`GraphQL server listening at: http://localhost:${port}/graphql`)
 
         const errorLink = onError(({ graphQLErrors, networkError }) => {
             if (graphQLErrors) graphQLErrors.map(({ message }) => console.error(`GraphQL Error: ${message}`))
@@ -108,7 +99,7 @@ describe('Ad4mClient', () => {
         });
         
         const wsLink = new GraphQLWsLink(createClient({
-            url: `ws://localhost:${port}/subscriptions`,
+            url: `ws://localhost:${port}/graphql`,
             webSocketImpl: Websocket
         }));
 
