@@ -1,9 +1,10 @@
-import { Arg, Mutation, Query, Resolver, Subscription } from "type-graphql";
+import { Arg, Mutation, PubSub, PubSubEngine, Query, Resolver, Subscription } from "type-graphql";
 import { LinkExpression, LinkExpressionInput, LinkInput } from "../links/Links";
 import { Neighbourhood } from "../neighbourhood/Neighbourhood";
 import { LinkQuery } from "./LinkQuery";
 import { Perspective } from "./Perspective";
 import { PerspectiveHandle } from "./PerspectiveHandle";
+import { LINK_ADDED_TOPIC, LINK_REMOVED_TOPIC, PERSPECTIVE_ADDED_TOPIC, PERSPECTIVE_REMOVED_TOPIC, PERSPECTIVE_UPDATED_TOPIC } from '../PubSub'
 
 const testLink = new LinkExpression()
 testLink.author = "did:ad4m:test"
@@ -65,12 +66,16 @@ export default class PerspectiveResolver {
     }
 
     @Mutation(returns => PerspectiveHandle)
-    perspectiveAdd(@Arg('name') name: string): PerspectiveHandle {
+    perspectiveAdd(@Arg('name') name: string, @PubSub() pubSub: any): PerspectiveHandle {
+        const perspective = new PerspectiveHandle('00006', name);
+        pubSub.publish(PERSPECTIVE_ADDED_TOPIC, { perspective })
         return new PerspectiveHandle('00006', name)
     }
 
     @Mutation(returns => PerspectiveHandle, {nullable: true})
-    perspectiveUpdate(@Arg('uuid') uuid: string, @Arg('name') name: string): PerspectiveHandle {
+    perspectiveUpdate(@Arg('uuid') uuid: string, @Arg('name') name: string, @PubSub() pubSub: any): PerspectiveHandle {
+        const perspective = new PerspectiveHandle('00006', name);
+        pubSub.publish(PERSPECTIVE_ADDED_TOPIC, { perspective })
         return new PerspectiveHandle(uuid, name)
     }
 
@@ -104,27 +109,28 @@ export default class PerspectiveResolver {
         return true
     }
 
-    @Subscription({topics: "", nullable: true})
+    @Subscription({topics: PERSPECTIVE_ADDED_TOPIC, nullable: true})
     perspectiveAdded(): PerspectiveHandle {
-        return new PerspectiveHandle('00001', 'New Perspective')
+        const perspective = new PerspectiveHandle('00001', 'New Perspective');
+        return perspective
     }
 
-    @Subscription({topics: "", nullable: true})
+    @Subscription({topics: PERSPECTIVE_UPDATED_TOPIC, nullable: true})
     perspectiveUpdated(): PerspectiveHandle {
         return new PerspectiveHandle('00001', 'New Perspective')
     }
 
-    @Subscription({topics: "", nullable: true})
+    @Subscription({topics: PERSPECTIVE_REMOVED_TOPIC, nullable: true})
     perspectiveRemoved(): string {
         return '00006'
     }
 
-    @Subscription({topics: "", nullable: true})
+    @Subscription({topics: LINK_ADDED_TOPIC, nullable: true})
     perspectiveLinkAdded(@Arg('uuid') uuid: string): LinkExpression {
         return testLink
     }
 
-    @Subscription({topics: "", nullable: true})
+    @Subscription({topics: LINK_REMOVED_TOPIC, nullable: true})
     perspectiveLinkRemoved(@Arg('uuid') uuid: string): LinkExpression {
         return testLink
     }
