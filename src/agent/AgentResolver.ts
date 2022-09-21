@@ -129,4 +129,9 @@ export default class AgentResolver {
     agentGenerateJwt(@Arg('requestId') requestId: string, @Arg('rand') rand: string): String {
         return "test-jwt"
     }
+
+    @Query(returns => Boolean)
+    agentIsLocked(): Boolean {
+        return false
+    }
 }

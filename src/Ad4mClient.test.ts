@@ -227,6 +227,11 @@ describe('Ad4mClient', () => {
             const jwt = await ad4mClient.agent.generateJwt("test-request-id", "123")
             expect(jwt).toBe("test-jwt")
         })
+
+        it('agentIsLocked() smoke tests', async () => {
+            const status = await ad4mClient.agent.isLocked()
+            expect(status).toBe(false)
+        })
     })
 
     describe('.expression', () => {

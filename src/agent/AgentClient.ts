@@ -308,4 +308,13 @@ export default class AgentClient {
         }))
         return agentGenerateJwt
     }
+
+    async isLocked(): Promise<boolean> {
+        const { agentIsLocked } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`query agentIsLocked {
+                agentIsLocked
+            }`,
+        }))
+        return agentIsLocked
+    }
 }
