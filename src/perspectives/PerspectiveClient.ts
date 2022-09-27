@@ -168,6 +168,9 @@ export default class PerspectiveClient {
     }
  
     async updateLink(uuid: string, oldLink: LinkExpressionInput, newLink: LinkInput): Promise<LinkExpression> {
+        delete oldLink.__typename
+        delete oldLink.data.__typename
+        delete oldLink.proof.__typename
         const { perspectiveUpdateLink } = unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation perspectiveUpdateLink(
                 $uuid: String!, 
@@ -188,6 +191,9 @@ export default class PerspectiveClient {
     }
 
     async removeLink(uuid: string, link: LinkExpressionInput): Promise<{perspectiveRemoveLink: boolean}> {
+        delete link.__typename
+        delete link.data.__typename
+        delete link.proof.__typename
         return unwrapApolloResult(await this.#apolloClient.mutate({
             mutation: gql`mutation perspectiveRemoveLink($link: LinkExpressionInput!, $uuid: String!) {
                 perspectiveRemoveLink(link: $link, uuid: $uuid)
