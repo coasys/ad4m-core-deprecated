@@ -163,21 +163,6 @@ export default class AgentClient {
         return agentByDID as Agent
     }
 
-    async updatePublicPerspective(perspective: PerspectiveInput): Promise<Agent> {
-        const { agentUpdatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentUpdatePublicPerspective($perspective: PerspectiveInput!) {
-                agentUpdatePublicPerspective(perspective: $perspective) {
-                    ${AGENT_SUBITEMS}
-                }
-            }`,
-            variables: { perspective: perspective }
-        }))
-        const a = agentUpdatePublicPerspective
-        const agent = new Agent(a.did, a.perspective)
-        agent.directMessageLanguage = a.directMessageLanguage
-        return agent
-    }
-
     async mutatePublicPerspective(mutations: LinkMutations): Promise<Agent> {
         const { agentMutatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentMutatePublicPerspective($mutations: LinkMutations!) {

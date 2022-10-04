@@ -66,14 +66,6 @@ export default class AgentResolver {
     }
 
     @Mutation(returns => Agent)
-    agentUpdatePublicPerspective(@Arg('perspective') perspective: PerspectiveInput, @PubSub() pubSub: any): Agent {
-        const agent = new Agent(TEST_AGENT_DID, perspective as Perspective)
-        agent.directMessageLanguage = "lang://test";
-        pubSub.publish(AGENT_UPDATED, { agent })
-        return agent
-    }
-
-    @Mutation(returns => Agent)
     agentMutatePublicPerspective(@Arg('mutations') mutations: LinkMutations, @PubSub() pubSub: any): Agent {
         const perspective = new Perspective();
         //@ts-ignore
