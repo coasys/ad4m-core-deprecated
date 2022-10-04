@@ -142,4 +142,19 @@ export class LanguageClient {
 
         return languageSource
     }
+
+    async remove(
+        address: string
+    ): Promise<Boolean> {
+        const { languageRemove } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation languageRemove(
+                $address: String!,
+            ) {
+                languageRemove(address: $address)
+            }`,
+            variables: { address }
+        }))
+
+        return languageRemove
+    }
 }
