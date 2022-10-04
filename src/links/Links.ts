@@ -20,6 +20,15 @@ export class Link {
 }
 
 @InputType()
+export class LinkMutations {
+    @Field(type => [LinkInput])
+    additions: LinkInput[];
+
+    @Field(type => [LinkExpression])
+    removals: LinkExpression[];
+}
+
+@InputType()
 export class LinkInput {
     @Field()
     source: string;
