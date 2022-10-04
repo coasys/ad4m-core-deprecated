@@ -164,13 +164,39 @@ export default class AgentClient {
         return agentByDID as Agent
     }
 
+    async updatePublicPerspective(perspective: PerspectiveInput): Promise<Agent> {
+        const cleanedPerspective = JSON.parse(JSON.stringify(perspective));
+        delete cleanedPerspective.__typename;
+        cleanedPerspective.links.forEach(link => {
+           delete link.__typename;
+           delete link.data.__typename;
+           delete link.proof.__typename;
+        });
+
+        const { agentUpdatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentUpdatePublicPerspective($perspective: PerspectiveInput!) {
+                agentUpdatePublicPerspective(perspective: $perspective) {
+                    ${AGENT_SUBITEMS}
+                }
+            }`,
+            variables: { perspective: cleanedPerspective }
+        }))
+        const a = agentUpdatePublicPerspective
+        const agent = new Agent(a.did, a.perspective)
+        agent.directMessageLanguage = a.directMessageLanguage
+        return agent
+    }
+
     async mutatePublicPerspective(mutations: LinkMutations): Promise<Agent> {
-        //Get the proxy perspective
         const perspectiveClient = new PerspectiveClient(this.#apolloClient);
-        const perspectives = await perspectiveClient.all();
-        let proxyPerspective = perspectives.find(p => p.name == "Agent Profile");
-        if (!proxyPerspective) {
-            proxyPerspective = await perspectiveClient.add("Agent Profile");
+        const agentClient = new AgentClient(this.#apolloClient);
+        
+        //Create the proxy perspective and load existing links
+        const proxyPerspective = await perspectiveClient.add("Agent Perspective Proxy");
+        const agentMe = await agentClient.me();
+
+        if (agentMe.perspective) {
+            await proxyPerspective.loadSnapshot(agentMe.perspective);
         }
 
         //Make the mutations on the proxy perspective
@@ -183,26 +209,10 @@ export default class AgentClient {
 
         //Get the snapshot of the proxy perspective
         const snapshot = await proxyPerspective.snapshot();
-        const perspective = JSON.parse(JSON.stringify(snapshot));
-        delete perspective.__typename;
-        perspective.links.forEach(link => {
-           delete link.__typename;
-           delete link.data.__typename;
-           delete link.proof.__typename;
-        });
-
-        //Replace the agents public perspective
-        const { agentUpdatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentUpdatePublicPerspective($perspective: PerspectiveInput!) {
-                agentUpdatePublicPerspective(perspective: $perspective) {
-                    ${AGENT_SUBITEMS}
-                }
-            }`,
-            variables: { perspective: perspective }
-        }))
-        const a = agentUpdatePublicPerspective
-        const agent = new Agent(a.did, a.perspective)
-        agent.directMessageLanguage = a.directMessageLanguage
+        //Update the users public perspective
+        const agent = await this.updatePublicPerspective(snapshot);
+        //Cleanup and return
+        await perspectiveClient.remove(proxyPerspective.uuid);
         return agent
     }
 

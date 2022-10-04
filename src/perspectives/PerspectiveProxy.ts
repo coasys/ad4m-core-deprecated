@@ -116,7 +116,14 @@ export class PerspectiveProxy {
     }
 
     async loadSnapshot(snapshot: Perspective) {
-        for(const link of snapshot.links) {
+        //Clean the input data from __typename
+        const cleanedSnapshot = JSON.parse(JSON.stringify(snapshot));
+        delete cleanedSnapshot.__typename;
+        cleanedSnapshot.links.forEach(link => {
+           delete link.data.__typename;
+        });
+
+        for(const link of cleanedSnapshot.links) {
             await this.add(link.data)
         }
     }

@@ -158,6 +158,22 @@ describe('Ad4mClient', () => {
             expect(agent.did).toBe('did:method:12345')
         })
 
+        it('updatePublicPerspective() smoke test', async () => {
+            const perspective = new Perspective()
+            const link = new LinkExpression()
+            link.author = 'did:method:12345'
+            link.timestamp = new Date().toString()
+            link.data = new Link({source: 'root', target: 'perspective://Qm34589a3ccc0'})
+            link.proof = { signature: 'asdfasdf', key: 'asdfasdf' }
+            perspective.links.push(link)
+
+            const agent = await ad4mClient.agent.updatePublicPerspective(perspective)
+            expect(agent.did).toBe('did:ad4m:test')
+            expect(agent.perspective.links.length).toBe(1)
+            expect(agent.perspective.links[0].data.source).toBe('root')
+            expect(agent.perspective.links[0].data.target).toBe('perspective://Qm34589a3ccc0')
+        })
+
         it('mutatePublicPerspective() smoke test', async () => {
             let additionLink = new Link({source: 'root', target: 'perspective://Qm34589a3ccc0'})
             const removalLink = new LinkExpression()
