@@ -15,7 +15,7 @@ import express from 'express';
 import AgentResolver from "./agent/AgentResolver"
 import { Ad4mClient } from "./Ad4mClient";
 import { Perspective } from "./perspectives/Perspective";
-import { Link, LinkExpression, LinkExpressionInput, LinkInput } from "./links/Links";
+import { Link, LinkExpression, LinkExpressionInput, LinkInput, LinkMutations } from "./links/Links";
 import LanguageResolver from "./language/LanguageResolver";
 import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 import PerspectiveResolver from "./perspectives/PerspectiveResolver";
@@ -172,6 +172,30 @@ describe('Ad4mClient', () => {
             expect(agent.perspective.links.length).toBe(1)
             expect(agent.perspective.links[0].data.source).toBe('root')
             expect(agent.perspective.links[0].data.target).toBe('perspective://Qm34589a3ccc0')
+        })
+
+        it('mutatePublicPerspective() smoke test', async () => {
+            let additionLink = new Link({source: 'root', target: 'perspective://Qm34589a3ccc0'})
+            const removalLink = new LinkExpression()
+            removalLink.author = "did:ad4m:test"
+            removalLink.timestamp = Date.now().toString()
+            removalLink.data = {
+                source: 'root2',
+                target: 'perspective://Qm34589a3ccc0'
+            }
+            removalLink.proof = {
+                signature: '',
+                key: '',
+                valid: true
+            }
+
+
+            //Note; here we dont get the links above since mutatePublicPerspective relies on a snapshot which returns the default test link for perspectives
+            const agent = await ad4mClient.agent.mutatePublicPerspective({additions: [additionLink], removals: [removalLink]} as LinkMutations)
+            expect(agent.did).toBe('did:ad4m:test')
+            expect(agent.perspective.links.length).toBe(1)
+            expect(agent.perspective.links[0].data.source).toBe('root')
+            expect(agent.perspective.links[0].data.target).toBe('neighbourhood://Qm12345')
         })
 
         it('updateDirectMessageLanguage() smoke test', async () => {
@@ -369,6 +393,11 @@ describe('Ad4mClient', () => {
         it('source() smoke test', async () => {
             const source = await ad4mClient.languages.source("Qm12345")
             expect(source).toBe("var test = 'language source code'")
+        })
+
+        it('remove() smoke test', async () => {
+            const result = await ad4mClient.languages.remove("Qm12345");
+            expect(result).toBe(true);
         })
     })
 

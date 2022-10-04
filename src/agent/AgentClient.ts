@@ -3,6 +3,8 @@ import { PerspectiveInput } from "../perspectives/Perspective";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
+import { LinkMutations } from "../links/Links";
+import PerspectiveClient from "../perspectives/PerspectiveClient";
 
 const AGENT_SUBITEMS = `
     did
@@ -163,17 +165,54 @@ export default class AgentClient {
     }
 
     async updatePublicPerspective(perspective: PerspectiveInput): Promise<Agent> {
+        const cleanedPerspective = JSON.parse(JSON.stringify(perspective));
+        delete cleanedPerspective.__typename;
+        cleanedPerspective.links.forEach(link => {
+           delete link.__typename;
+           delete link.data.__typename;
+           delete link.proof.__typename;
+        });
+
         const { agentUpdatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentUpdatePublicPerspective($perspective: PerspectiveInput!) {
                 agentUpdatePublicPerspective(perspective: $perspective) {
                     ${AGENT_SUBITEMS}
                 }
             }`,
-            variables: { perspective: perspective }
+            variables: { perspective: cleanedPerspective }
         }))
         const a = agentUpdatePublicPerspective
         const agent = new Agent(a.did, a.perspective)
         agent.directMessageLanguage = a.directMessageLanguage
+        return agent
+    }
+
+    async mutatePublicPerspective(mutations: LinkMutations): Promise<Agent> {
+        const perspectiveClient = new PerspectiveClient(this.#apolloClient);
+        const agentClient = new AgentClient(this.#apolloClient);
+        
+        //Create the proxy perspective and load existing links
+        const proxyPerspective = await perspectiveClient.add("Agent Perspective Proxy");
+        const agentMe = await agentClient.me();
+
+        if (agentMe.perspective) {
+            await proxyPerspective.loadSnapshot(agentMe.perspective);
+        }
+
+        //Make the mutations on the proxy perspective
+        for (const addition of mutations.additions) {
+            await proxyPerspective.add(addition);
+        }
+        for (const removal of mutations.removals) {
+            await proxyPerspective.remove(removal);
+        }
+
+        //Get the snapshot of the proxy perspective
+        const snapshot = await proxyPerspective.snapshot();
+        //Update the users public perspective
+        const agent = await this.updatePublicPerspective(snapshot);
+        //Cleanup and return
+        await perspectiveClient.remove(proxyPerspective.uuid);
         return agent
     }
 
