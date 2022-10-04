@@ -91,5 +91,8 @@ export default class LanguageResolver {
     languageSource(@Arg('address') address: string): string {
         return "var test = 'language source code'"
     }
+
+    @Mutation()
+    languageDelete(@Arg('address') address: string): Boolean { return true }
 }
 

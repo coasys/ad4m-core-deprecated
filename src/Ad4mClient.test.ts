@@ -370,6 +370,11 @@ describe('Ad4mClient', () => {
             const source = await ad4mClient.languages.source("Qm12345")
             expect(source).toBe("var test = 'language source code'")
         })
+
+        it('delete() smoke test', async () => {
+            const result = await ad4mClient.languages.delete("Qm12345");
+            expect(result).toBe(true);
+        })
     })
 
     describe('.neighbourhood', () => {
