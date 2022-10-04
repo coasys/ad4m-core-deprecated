@@ -3,7 +3,6 @@ import { Perspective, PerspectiveInput } from "../perspectives/Perspective";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 import { AGENT_STATUS_CHANGED, AGENT_UPDATED } from "../PubSub";
-import { LinkExpression, LinkMutations } from "../links/Links";
 
 const TEST_AGENT_DID = "did:ad4m:test"
 
