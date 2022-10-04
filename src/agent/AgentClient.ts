@@ -4,6 +4,7 @@ import unwrapApolloResult from "../unwrapApolloResult";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 import { LinkMutations } from "../links/Links";
+import PerspectiveClient from "../perspectives/PerspectiveClient";
 
 const AGENT_SUBITEMS = `
     did
@@ -164,15 +165,42 @@ export default class AgentClient {
     }
 
     async mutatePublicPerspective(mutations: LinkMutations): Promise<Agent> {
-        const { agentMutatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
-            mutation: gql`mutation agentMutatePublicPerspective($mutations: LinkMutations!) {
-                agentMutatePublicPerspective(mutations: $mutations) {
+        //Get the proxy perspective
+        const perspectiveClient = new PerspectiveClient(this.#apolloClient);
+        const perspectives = await perspectiveClient.all();
+        let proxyPerspective = perspectives.find(p => p.name == "Agent Profile");
+        if (!proxyPerspective) {
+            proxyPerspective = await perspectiveClient.add("Agent Profile");
+        }
+
+        //Make the mutations on the proxy perspective
+        for (const addition of mutations.additions) {
+            await proxyPerspective.add(addition);
+        }
+        for (const removal of mutations.removals) {
+            await proxyPerspective.remove(removal);
+        }
+
+        //Get the snapshot of the proxy perspective
+        const snapshot = await proxyPerspective.snapshot();
+        const perspective = JSON.parse(JSON.stringify(snapshot));
+        delete perspective.__typename;
+        perspective.links.forEach(link => {
+           delete link.__typename;
+           delete link.data.__typename;
+           delete link.proof.__typename;
+        });
+
+        //Replace the agents public perspective
+        const { agentUpdatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentUpdatePublicPerspective($perspective: PerspectiveInput!) {
+                agentUpdatePublicPerspective(perspective: $perspective) {
                     ${AGENT_SUBITEMS}
                 }
             }`,
-            variables: { mutations: mutations }
+            variables: { perspective: perspective }
         }))
-        const a = agentMutatePublicPerspective
+        const a = agentUpdatePublicPerspective
         const agent = new Agent(a.did, a.perspective)
         agent.directMessageLanguage = a.directMessageLanguage
         return agent

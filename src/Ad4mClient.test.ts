@@ -159,14 +159,27 @@ describe('Ad4mClient', () => {
         })
 
         it('mutatePublicPerspective() smoke test', async () => {
-            let link = new Link({source: 'root', target: 'perspective://Qm34589a3ccc0'})
-            let link2 = new Link({source: 'root2', target: 'perspective://Qm34589a3ccc0'})
+            let additionLink = new Link({source: 'root', target: 'perspective://Qm34589a3ccc0'})
+            const removalLink = new LinkExpression()
+            removalLink.author = "did:ad4m:test"
+            removalLink.timestamp = Date.now().toString()
+            removalLink.data = {
+                source: 'root2',
+                target: 'perspective://Qm34589a3ccc0'
+            }
+            removalLink.proof = {
+                signature: '',
+                key: '',
+                valid: true
+            }
 
-            const agent = await ad4mClient.agent.mutatePublicPerspective({additions: [link], removals: [link2]} as LinkMutations)
+
+            //Note; here we dont get the links above since mutatePublicPerspective relies on a snapshot which returns the default test link for perspectives
+            const agent = await ad4mClient.agent.mutatePublicPerspective({additions: [additionLink], removals: [removalLink]} as LinkMutations)
             expect(agent.did).toBe('did:ad4m:test')
             expect(agent.perspective.links.length).toBe(1)
             expect(agent.perspective.links[0].data.source).toBe('root')
-            expect(agent.perspective.links[0].data.target).toBe('perspective://Qm34589a3ccc0')
+            expect(agent.perspective.links[0].data.target).toBe('neighbourhood://Qm12345')
         })
 
         it('updateDirectMessageLanguage() smoke test', async () => {
