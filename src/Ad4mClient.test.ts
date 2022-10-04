@@ -15,7 +15,7 @@ import express from 'express';
 import AgentResolver from "./agent/AgentResolver"
 import { Ad4mClient } from "./Ad4mClient";
 import { Perspective } from "./perspectives/Perspective";
-import { Link, LinkExpression, LinkExpressionInput, LinkInput } from "./links/Links";
+import { Link, LinkExpression, LinkExpressionInput, LinkInput, LinkMutations } from "./links/Links";
 import LanguageResolver from "./language/LanguageResolver";
 import NeighbourhoodResolver from "./neighbourhood/NeighbourhoodResolver";
 import PerspectiveResolver from "./perspectives/PerspectiveResolver";
@@ -168,6 +168,17 @@ describe('Ad4mClient', () => {
             perspective.links.push(link)
 
             const agent = await ad4mClient.agent.updatePublicPerspective(perspective)
+            expect(agent.did).toBe('did:ad4m:test')
+            expect(agent.perspective.links.length).toBe(1)
+            expect(agent.perspective.links[0].data.source).toBe('root')
+            expect(agent.perspective.links[0].data.target).toBe('perspective://Qm34589a3ccc0')
+        })
+
+        it('mutatePublicPerspective() smoke test', async () => {
+            let link = new Link({source: 'root', target: 'perspective://Qm34589a3ccc0'})
+            let link2 = new Link({source: 'root2', target: 'perspective://Qm34589a3ccc0'})
+
+            const agent = await ad4mClient.agent.mutatePublicPerspective({additions: [link], removals: [link2]} as LinkMutations)
             expect(agent.did).toBe('did:ad4m:test')
             expect(agent.perspective.links.length).toBe(1)
             expect(agent.perspective.links[0].data.source).toBe('root')

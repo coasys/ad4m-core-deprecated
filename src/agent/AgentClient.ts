@@ -3,6 +3,7 @@ import { PerspectiveInput } from "../perspectives/Perspective";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
+import { LinkMutations } from "../links/Links";
 
 const AGENT_SUBITEMS = `
     did
@@ -172,6 +173,21 @@ export default class AgentClient {
             variables: { perspective: perspective }
         }))
         const a = agentUpdatePublicPerspective
+        const agent = new Agent(a.did, a.perspective)
+        agent.directMessageLanguage = a.directMessageLanguage
+        return agent
+    }
+
+    async mutatePublicPerspective(mutations: LinkMutations): Promise<Agent> {
+        const { agentMutatePublicPerspective } = unwrapApolloResult(await this.#apolloClient.mutate({ 
+            mutation: gql`mutation agentMutatePublicPerspective($mutations: LinkMutations!) {
+                agentMutatePublicPerspective(mutations: $mutations) {
+                    ${AGENT_SUBITEMS}
+                }
+            }`,
+            variables: { mutations: mutations }
+        }))
+        const a = agentMutatePublicPerspective
         const agent = new Agent(a.did, a.perspective)
         agent.directMessageLanguage = a.directMessageLanguage
         return agent

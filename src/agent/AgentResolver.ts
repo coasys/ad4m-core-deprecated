@@ -3,6 +3,7 @@ import { Perspective, PerspectiveInput } from "../perspectives/Perspective";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 import { AGENT_STATUS_CHANGED, AGENT_UPDATED } from "../PubSub";
+import { LinkExpression, LinkMutations } from "../links/Links";
 
 const TEST_AGENT_DID = "did:ad4m:test"
 
@@ -67,6 +68,31 @@ export default class AgentResolver {
     @Mutation(returns => Agent)
     agentUpdatePublicPerspective(@Arg('perspective') perspective: PerspectiveInput, @PubSub() pubSub: any): Agent {
         const agent = new Agent(TEST_AGENT_DID, perspective as Perspective)
+        agent.directMessageLanguage = "lang://test";
+        pubSub.publish(AGENT_UPDATED, { agent })
+        return agent
+    }
+
+    @Mutation(returns => Agent)
+    agentMutatePublicPerspective(@Arg('mutations') mutations: LinkMutations, @PubSub() pubSub: any): Agent {
+        const perspective = new Perspective();
+        //@ts-ignore
+        perspective.links = mutations.additions.map(link => {
+            return {
+                data: {
+                    source: link.source,
+                    target: link.target,
+                    predicate: link.predicate
+                },
+                author: "did:ad4m:test",
+                timestamp: new Date().toISOString(),
+                proof: {
+                    signature: "sig",
+                    key: "key"
+                }
+            }
+        });
+        const agent = new Agent(TEST_AGENT_DID, perspective)
         agent.directMessageLanguage = "lang://test";
         pubSub.publish(AGENT_UPDATED, { agent })
         return agent
