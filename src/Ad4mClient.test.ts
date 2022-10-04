@@ -371,8 +371,8 @@ describe('Ad4mClient', () => {
             expect(source).toBe("var test = 'language source code'")
         })
 
-        it('delete() smoke test', async () => {
-            const result = await ad4mClient.languages.delete("Qm12345");
+        it('remove() smoke test', async () => {
+            const result = await ad4mClient.languages.remove("Qm12345");
             expect(result).toBe(true);
         })
     })

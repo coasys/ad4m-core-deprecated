@@ -93,6 +93,6 @@ export default class LanguageResolver {
     }
 
     @Mutation()
-    languageDelete(@Arg('address') address: string): Boolean { return true }
+    languageRemove(@Arg('address') address: string): Boolean { return true }
 }
 
