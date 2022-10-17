@@ -32,6 +32,8 @@ export interface Language {
     readonly expressionUI?: ExpressionUI;
     readonly settingsUI?: SettingsUI;
 
+    readonly intervals: ReturnType<typeof setInterval>[] | ReturnType<typeof setTimeout> | number[]
+
     // All available interactions this agent could execute on given expression
     interactions(expression: Address): Interaction[];
 }
