@@ -492,6 +492,27 @@ describe('Ad4mClient', () => {
             expect(link.data.target).toBe('lang://Qm123')
         })
 
+        it('addLinkExpression() smoke test', async () => {
+            const testLink = new LinkExpression()
+            testLink.author = "did:ad4m:test"
+            testLink.timestamp = Date.now().toString()
+            testLink.data = {
+                source: 'root',
+                target: 'lang://Qm123',
+                predicate: 'p'
+            }
+            testLink.proof = {
+                signature: '',
+                key: '',
+                valid: true
+            }
+            const link = await ad4mClient.perspective.addLinkExpression('00001', testLink);
+            expect(link.author).toBe('did:ad4m:test')
+            expect(link.data.source).toBe('root')
+            expect(link.data.predicate).toBe('p')
+            expect(link.data.target).toBe('lang://Qm123')
+        })
+
         it('addListener() smoke test', async () => {
             let perspective = await ad4mClient.perspective.byUUID('00004')
             
