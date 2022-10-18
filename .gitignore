@@ -3,5 +3,6 @@ Links.test.js
 lib/*
 coverage
 .DS_store
-docs/api.md
-docs/typedoc
+docs-src/api.md
+docs-src/typedoc
+

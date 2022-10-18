@@ -10,14 +10,15 @@
     "bundle": "rollup -c rollup.config.js",
     "test": "jest --forceExit",
     "docs": "jsdoc -c jsdoc.json",
-    "docs:api:jsdoc2md": "jsdoc2md --configure jsdoc.json --partial docs/header.hbs --global-index-format none --files src/**/* > docs/api.md",
-    "docs:api:tsconcat": "concat-md --decrease-title-levels --dir-name-as-title docs/typedoc > docs/api.md",
+    "docs:api:jsdoc2md": "jsdoc2md --configure jsdoc.json --partial docs/header.hbs --global-index-format none --files src/**/* > docs-src/api.md",
+    "docs:api:tsconcat": "concat-md --decrease-title-levels --dir-name-as-title docs-src/typedoc > docs-src/api.md",
     "docs:api:typedoc": "typedoc --plugin typedoc-plugin-markdown --options typedoc.json --tsconfig tsconfig.json --entryPointStrategy expand ./src",
     "docs:api": "npm run docs:api:typedoc && npm run docs:api:tsconcat",
-    "docs:prepare": "honkit init docs",
-    "docs:build": "npm run docs:api && honkit build docs",
-    "docs:serve": "honkit serve docs",
-    "docs:clean": "rimraf _book"
+    "docs:prepare": "honkit init docs-src",
+    "docs:build": "npm run docs:api && honkit build docs-src",
+    "docs:serve": "honkit serve docs-src",
+    "docs:clean": "rimraf docs-src/_book",
+    "docs:cp2docs": "cp -r docs-src/_book docs"
   },
   "repository": {
     "type": "git",
