@@ -34,7 +34,7 @@ neighbourhood {
 export type PerspectiveHandleCallback = (perspective: PerspectiveHandle) => null
 export type UuidCallback = (uuid: string) => null
 export type LinkCallback = (link: LinkExpression) => null
-export default class PerspectiveClient {
+export class PerspectiveClient {
     #apolloClient: ApolloClient<any>
     #perspectiveAddedCallbacks: PerspectiveHandleCallback[]
     #perspectiveUpdatedCallbacks: PerspectiveHandleCallback[]

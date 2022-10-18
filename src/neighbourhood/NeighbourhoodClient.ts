@@ -4,7 +4,7 @@ import { Perspective } from "../perspectives/Perspective"
 import { PerspectiveHandle } from "../perspectives/PerspectiveHandle"
 import unwrapApolloResult from "../unwrapApolloResult"
 
-export default class NeighbourhoodClient {
+export class NeighbourhoodClient {
     #apolloClient: ApolloClient<any>
 
     constructor(client: ApolloClient<any>) {

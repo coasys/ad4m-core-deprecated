@@ -1,4 +1,4 @@
-import PerspectiveClient, { LinkCallback, PerspectiveHandleCallback } from "./PerspectiveClient";
+import { LinkCallback, PerspectiveClient } from "./PerspectiveClient";
 import { Link, LinkExpression } from "../links/Links";
 import { LinkQuery } from "./LinkQuery";
 import { Neighbourhood } from "../neighbourhood/Neighbourhood";

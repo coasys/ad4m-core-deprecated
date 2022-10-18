@@ -20,7 +20,7 @@ proof { valid, invalid, signature, key }
 export type MessageCallback = (message: PerspectiveExpression) => null
 export type ExceptionCallback = (info: ExceptionInfo) => null
 
-export default class RuntimeClient {
+export class RuntimeClient {
     #apolloClient: ApolloClient<any>
     #messageReceivedCallbacks: MessageCallback[]
     #exceptionOccurredCallbacks: ExceptionCallback[]

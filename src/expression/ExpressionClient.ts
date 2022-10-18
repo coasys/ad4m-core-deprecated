@@ -3,7 +3,7 @@ import { InteractionCall, InteractionMeta } from "../language/Language";
 import unwrapApolloResult from "../unwrapApolloResult";
 import { ExpressionRendered } from "./Expression";
 
-export default class ExpressionClient {
+export class ExpressionClient {
     #apolloClient: ApolloClient<any>
 
     constructor(client: ApolloClient<any>) {
