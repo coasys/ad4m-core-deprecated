@@ -2,3 +2,7 @@ node_modules
 Links.test.js
 lib/*
 coverage
+_book
+.DS_store
+docs/api.md
+docs/typedoc

@@ -8,7 +8,16 @@
     "build": "tsc --build tsconfig-browser.json && npm run buildSchema && npm run bundle",
     "buildSchema": "tsc && node lib/buildSchema.js",
     "bundle": "rollup -c rollup.config.js",
-    "test": "jest --forceExit"
+    "test": "jest --forceExit",
+    "docs": "jsdoc -c jsdoc.json",
+    "docs:api:jsdoc2md": "jsdoc2md --configure jsdoc.json --partial docs/header.hbs --global-index-format none --files src/**/* > docs/api.md",
+    "docs:api:tsconcat": "concat-md --decrease-title-levels --dir-name-as-title docs/typedoc > docs/api.md",
+    "docs:api:typedoc": "typedoc --plugin typedoc-plugin-markdown --options typedoc.json --tsconfig tsconfig.json --entryPointStrategy expand ./src",
+    "docs:api": "npm run docs:api:typedoc && npm run docs:api:tsconcat",
+    "docs:prepare": "honkit init docs",
+    "docs:build": "npm run docs:prepare && npm run docs:api && honkit build docs",
+    "docs:serve": "npm run docs:prepare && npm run docs:api && honkit serve docs",
+    "docs:clean": "rimraf _book"
   },
   "repository": {
     "type": "git",
@@ -45,12 +54,17 @@
     "@rollup/plugin-node-resolve": "^13.0.4",
     "apollo-server-core": "^3.10.0",
     "apollo-server-express": "^3.10.0",
+    "concat-md": "^0.5.0",
     "cross-fetch": "^3.1.4",
     "graphql-ws": "^5.9.1",
+    "honkit": "^4.0.0",
     "ipfs-core-types": "0.10.1",
     "jest": "^27.0.4",
+    "jsdoc": "^3.6.11",
     "rollup": "^2.56.3",
     "ts-jest": "^27.0.3",
+    "typedoc": "^0.23.16",
+    "typedoc-plugin-markdown": "^3.13.6",
     "typescript": "^4.2.4",
     "ws": "^8.8.1"
   }
