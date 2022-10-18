@@ -25,9 +25,13 @@ const AGENT_SUBITEMS = `
 const AGENT_STATUS_FIELDS =`
     isInitialized
     isUnlocked
+`
+
+const AGENT_FIELDS =`
     did
+    isInitialized
+    isUnlocked
     didDocument
-    error
 `
 
 const ENTANGLEMENT_PROOF_FIELDS = `
@@ -101,7 +105,7 @@ export default class AgentClient {
                 $passphrase: String!
             ) {
                 agentGenerate(passphrase: $passphrase) {
-                    ${AGENT_STATUS_FIELDS}
+                    ${AGENT_FIELDS}
                 }
             }`,
             variables: { passphrase} 
@@ -119,7 +123,7 @@ export default class AgentClient {
                 $passphrase: String!
             ) {
                 agentImport(did: $did, didDocument: $didDocument, keystore: $keystore, passphrase: $passphrase) {
-                    ${AGENT_STATUS_FIELDS}
+                    ${AGENT_FIELDS}
                 }
             }`,
             variables: { did, didDocument, keystore, passphrase} 
@@ -131,7 +135,7 @@ export default class AgentClient {
         const { agentLock } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentLock($passphrase: String!) {
                 agentLock(passphrase: $passphrase) {
-                    ${AGENT_STATUS_FIELDS}
+                    ${AGENT_FIELDS}
                 }
             }`,
             variables: { passphrase }
@@ -143,7 +147,7 @@ export default class AgentClient {
         const { agentUnlock } = unwrapApolloResult(await this.#apolloClient.mutate({ 
             mutation: gql`mutation agentUnlock($passphrase: String!) {
                 agentUnlock(passphrase: $passphrase) {
-                    ${AGENT_STATUS_FIELDS}
+                    ${AGENT_FIELDS}
                 }
             }`,
             variables: { passphrase }
@@ -305,7 +309,7 @@ export default class AgentClient {
     subscribeAgentStatusChanged() {
         this.#apolloClient.subscribe({
             query: gql` subscription {
-                agentStatusChanged { ${AGENT_STATUS_FIELDS} }
+                agentStatusChanged { ${AGENT_FIELDS} }
             }   
         `}).subscribe({
             next: result => {
@@ -346,14 +350,5 @@ export default class AgentClient {
             variables: { requestId, rand }
         }))
         return agentGenerateJwt
-    }
-
-    async isLocked(): Promise<boolean> {
-        const { agentIsLocked } = unwrapApolloResult(await this.#apolloClient.mutate({
-            mutation: gql`query agentIsLocked {
-                agentIsLocked
-            }`,
-        }))
-        return agentIsLocked
     }
 }

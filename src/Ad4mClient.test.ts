@@ -115,8 +115,10 @@ describe('Ad4mClient', () => {
 
         it('status() smoke test', async () => {
             const agentStatus = await ad4mClient.agent.status()
-            expect(agentStatus.did).toBe('did:ad4m:test')
-            expect(agentStatus.isUnlocked).toBe(false)
+            expect(agentStatus.did).toBeUndefined();
+            expect(agentStatus.didDocument).toBeUndefined();
+            expect(agentStatus.isUnlocked).toBe(true);
+            expect(agentStatus.isInitialized).toBe(true);
         })
 
         it('import() smoke test', async () => {
@@ -250,11 +252,6 @@ describe('Ad4mClient', () => {
         it('agentGenerateJwt() smoke tests', async () => {
             const jwt = await ad4mClient.agent.generateJwt("test-request-id", "123")
             expect(jwt).toBe("test-jwt")
-        })
-
-        it('agentIsLocked() smoke tests', async () => {
-            const status = await ad4mClient.agent.isLocked()
-            expect(status).toBe(false)
         })
     })
 

@@ -15,7 +15,7 @@ export default class AgentResolver {
 
     @Query(returns => AgentStatus)
     agentStatus(): AgentStatus {
-        return new AgentStatus({did: TEST_AGENT_DID})
+        return new AgentStatus({isUnlocked: true, isInitialized: true})
     }
 
     @Mutation(returns => AgentStatus)
