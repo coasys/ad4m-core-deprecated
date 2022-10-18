@@ -15,8 +15,8 @@
     "docs:api:typedoc": "typedoc --plugin typedoc-plugin-markdown --options typedoc.json --tsconfig tsconfig.json --entryPointStrategy expand ./src",
     "docs:api": "npm run docs:api:typedoc && npm run docs:api:tsconcat",
     "docs:prepare": "honkit init docs",
-    "docs:build": "npm run docs:prepare && npm run docs:api && honkit build docs",
-    "docs:serve": "npm run docs:prepare && npm run docs:api && honkit serve docs",
+    "docs:build": "npm run docs:api && honkit build docs",
+    "docs:serve": "honkit serve docs",
     "docs:clean": "rimraf _book"
   },
   "repository": {
