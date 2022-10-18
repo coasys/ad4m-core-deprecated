@@ -74,6 +74,10 @@
 <div class="book honkit-cloak">
     <div class="book-summary">
         <img src="ad4mlogo_green_angle2_colouremblem.png" style="width: 100%;">
+        <div class="version-container" style="display: flex; justify-content: right; margin-top: -9px;">
+            <div class="version" style="padding-right: 12px">v{{book.ad4mVersion}}</div>
+        </div>
+        
         {% block book_sidebar %}
             {% block search_input %}{% endblock %}
             {% block book_summary %}
