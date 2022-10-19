@@ -58,7 +58,7 @@
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:28](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L28)
+[runtime/RuntimeClient.ts:28](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L28)
 
 ## Properties
 
@@ -68,7 +68,7 @@
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:24](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L24)
+[runtime/RuntimeClient.ts:24](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L24)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:26](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L26)
+[runtime/RuntimeClient.ts:26](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L26)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:25](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L25)
+[runtime/RuntimeClient.ts:25](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L25)
 
 ## Methods
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:258](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L258)
+[runtime/RuntimeClient.ts:258](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L258)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:126](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L126)
+[runtime/RuntimeClient.ts:126](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L126)
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:97](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L97)
+[runtime/RuntimeClient.ts:97](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L97)
 
 ___
 
@@ -168,7 +168,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:239](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L239)
+[runtime/RuntimeClient.ts:239](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L239)
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:68](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L68)
+[runtime/RuntimeClient.ts:68](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L68)
 
 ___
 
@@ -208,7 +208,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:78](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L78)
+[runtime/RuntimeClient.ts:78](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L78)
 
 ___
 
@@ -229,7 +229,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:204](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L204)
+[runtime/RuntimeClient.ts:204](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L204)
 
 ___
 
@@ -249,7 +249,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:194](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L194)
+[runtime/RuntimeClient.ts:194](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L194)
 
 ___
 
@@ -263,7 +263,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:146](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L146)
+[runtime/RuntimeClient.ts:146](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L146)
 
 ___
 
@@ -277,7 +277,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:88](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L88)
+[runtime/RuntimeClient.ts:88](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L88)
 
 ___
 
@@ -297,7 +297,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:164](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L164)
+[runtime/RuntimeClient.ts:164](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L164)
 
 ___
 
@@ -311,7 +311,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:155](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L155)
+[runtime/RuntimeClient.ts:155](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L155)
 
 ___
 
@@ -325,7 +325,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:39](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L39)
+[runtime/RuntimeClient.ts:39](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L39)
 
 ___
 
@@ -339,7 +339,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:117](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L117)
+[runtime/RuntimeClient.ts:117](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L117)
 
 ___
 
@@ -359,7 +359,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:214](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L214)
+[runtime/RuntimeClient.ts:214](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L214)
 
 ___
 
@@ -379,7 +379,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:224](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L224)
+[runtime/RuntimeClient.ts:224](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L224)
 
 ___
 
@@ -399,7 +399,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:58](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L58)
+[runtime/RuntimeClient.ts:58](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L58)
 
 ___
 
@@ -413,7 +413,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:50](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L50)
+[runtime/RuntimeClient.ts:50](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L50)
 
 ___
 
@@ -433,7 +433,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:136](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L136)
+[runtime/RuntimeClient.ts:136](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L136)
 
 ___
 
@@ -453,7 +453,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:107](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L107)
+[runtime/RuntimeClient.ts:107](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L107)
 
 ___
 
@@ -473,7 +473,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:184](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L184)
+[runtime/RuntimeClient.ts:184](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L184)
 
 ___
 
@@ -487,7 +487,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:262](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L262)
+[runtime/RuntimeClient.ts:262](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L262)
 
 ___
 
@@ -501,7 +501,7 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:243](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L243)
+[runtime/RuntimeClient.ts:243](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L243)
 
 ___
 
@@ -524,4 +524,4 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeClient.ts:174](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeClient.ts#L174)
+[runtime/RuntimeClient.ts:174](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeClient.ts#L174)

@@ -52,7 +52,7 @@ for the respective functionality.
 
 #### Defined in
 
-[Ad4mClient.ts:29](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L29)
+[Ad4mClient.ts:29](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L29)
 
 ## Properties
 
@@ -62,7 +62,7 @@ for the respective functionality.
 
 #### Defined in
 
-[Ad4mClient.ts:21](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L21)
+[Ad4mClient.ts:21](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L21)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:20](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L20)
+[Ad4mClient.ts:20](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L20)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:22](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L22)
+[Ad4mClient.ts:22](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L22)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:23](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L23)
+[Ad4mClient.ts:23](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L23)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:24](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L24)
+[Ad4mClient.ts:24](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L24)
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:25](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L25)
+[Ad4mClient.ts:25](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L25)
 
 ___
 
@@ -122,7 +122,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:26](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L26)
+[Ad4mClient.ts:26](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L26)
 
 ## Accessors
 
@@ -136,7 +136,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:39](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L39)
+[Ad4mClient.ts:39](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L39)
 
 ___
 
@@ -150,7 +150,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:43](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L43)
+[Ad4mClient.ts:43](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L43)
 
 ___
 
@@ -164,7 +164,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:47](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L47)
+[Ad4mClient.ts:47](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L47)
 
 ___
 
@@ -178,7 +178,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:51](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L51)
+[Ad4mClient.ts:51](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L51)
 
 ___
 
@@ -192,7 +192,7 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:55](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L55)
+[Ad4mClient.ts:55](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L55)
 
 ___
 
@@ -206,4 +206,4 @@ ___
 
 #### Defined in
 
-[Ad4mClient.ts:59](https://github.com/perspect3vism/ad4m/blob/2628235/src/Ad4mClient.ts#L59)
+[Ad4mClient.ts:59](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Ad4mClient.ts#L59)

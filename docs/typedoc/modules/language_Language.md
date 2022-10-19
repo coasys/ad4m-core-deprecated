@@ -57,7 +57,7 @@
 
 #### Defined in
 
-[language/Language.ts:141](https://github.com/perspect3vism/ad4m/blob/2628235/src/language/Language.ts#L141)
+[language/Language.ts:141](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L141)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[language/Language.ts:106](https://github.com/perspect3vism/ad4m/blob/2628235/src/language/Language.ts#L106)
+[language/Language.ts:106](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L106)
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 #### Defined in
 
-[language/Language.ts:142](https://github.com/perspect3vism/ad4m/blob/2628235/src/language/Language.ts#L142)
+[language/Language.ts:142](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L142)
 
 ___
 
@@ -129,4 +129,4 @@ ___
 
 #### Defined in
 
-[language/Language.ts:209](https://github.com/perspect3vism/ad4m/blob/2628235/src/language/Language.ts#L209)
+[language/Language.ts:209](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L209)

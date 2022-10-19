@@ -26,4 +26,4 @@
 
 #### Defined in
 
-[unwrapApolloResult.ts:3](https://github.com/perspect3vism/ad4m/blob/2628235/src/unwrapApolloResult.ts#L3)
+[unwrapApolloResult.ts:3](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/unwrapApolloResult.ts#L3)

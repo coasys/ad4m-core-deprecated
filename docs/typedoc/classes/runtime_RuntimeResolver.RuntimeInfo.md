@@ -28,4 +28,4 @@
 
 #### Defined in
 
-[runtime/RuntimeResolver.ts:39](https://github.com/perspect3vism/ad4m/blob/2628235/src/runtime/RuntimeResolver.ts#L39)
+[runtime/RuntimeResolver.ts:39](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeResolver.ts#L39)

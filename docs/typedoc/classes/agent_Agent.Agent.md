@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[agent/Agent.ts:28](https://github.com/perspect3vism/ad4m/blob/2628235/src/agent/Agent.ts#L28)
+[agent/Agent.ts:28](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L28)
 
 ## Properties
 
@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[agent/Agent.ts:20](https://github.com/perspect3vism/ad4m/blob/2628235/src/agent/Agent.ts#L20)
+[agent/Agent.ts:20](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L20)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-[agent/Agent.ts:26](https://github.com/perspect3vism/ad4m/blob/2628235/src/agent/Agent.ts#L26)
+[agent/Agent.ts:26](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L26)
 
 ___
 
@@ -61,4 +61,4 @@ ___
 
 #### Defined in
 
-[agent/Agent.ts:23](https://github.com/perspect3vism/ad4m/blob/2628235/src/agent/Agent.ts#L23)
+[agent/Agent.ts:23](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L23)

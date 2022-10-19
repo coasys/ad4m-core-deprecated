@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[language/Language.ts:158](https://github.com/perspect3vism/ad4m/blob/2628235/src/language/Language.ts#L158)
+[language/Language.ts:158](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L158)
 
 ___
 
@@ -39,4 +39,4 @@ ___
 
 #### Defined in
 
-[language/Language.ts:161](https://github.com/perspect3vism/ad4m/blob/2628235/src/language/Language.ts#L161)
+[language/Language.ts:161](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L161)

@@ -18,7 +18,7 @@
     "docs:build": "npm run docs:api && honkit build docs-src",
     "docs:serve": "honkit serve docs-src",
     "docs:clean": "rimraf docs-src/_book",
-    "docs:cp2docs": "cp -r docs-src/_book docs"
+    "docs:cp": "cp -r docs-src/_book/ docs/"
   },
   "repository": {
     "type": "git",

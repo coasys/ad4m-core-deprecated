@@ -28,4 +28,4 @@
 
 #### Defined in
 
-[perspectives/Perspective.ts:87](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/Perspective.ts#L87)
+[perspectives/Perspective.ts:87](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/Perspective.ts#L87)

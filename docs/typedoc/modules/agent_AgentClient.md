@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[agent/AgentClient.ts:50](https://github.com/perspect3vism/ad4m/blob/2628235/src/agent/AgentClient.ts#L50)
+[agent/AgentClient.ts:50](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/AgentClient.ts#L50)
 
 ___
 
@@ -63,4 +63,4 @@ ___
 
 #### Defined in
 
-[agent/AgentClient.ts:49](https://github.com/perspect3vism/ad4m/blob/2628235/src/agent/AgentClient.ts#L49)
+[agent/AgentClient.ts:49](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/AgentClient.ts#L49)

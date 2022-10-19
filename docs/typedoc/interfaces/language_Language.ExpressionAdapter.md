@@ -22,7 +22,7 @@
 
 #### Defined in
 
-[language/Language.ts:65](https://github.com/perspect3vism/ad4m/blob/2628235/src/language/Language.ts#L65)
+[language/Language.ts:65](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L65)
 
 ## Methods
 
@@ -42,4 +42,4 @@
 
 #### Defined in
 
-[language/Language.ts:53](https://github.com/perspect3vism/ad4m/blob/2628235/src/language/Language.ts#L53)
+[language/Language.ts:53](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L53)

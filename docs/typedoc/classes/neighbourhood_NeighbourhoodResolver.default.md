@@ -44,7 +44,7 @@ For the latter, they return test fixtures.
 
 #### Defined in
 
-[neighbourhood/NeighbourhoodResolver.ts:24](https://github.com/perspect3vism/ad4m/blob/2628235/src/neighbourhood/NeighbourhoodResolver.ts#L24)
+[neighbourhood/NeighbourhoodResolver.ts:24](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/neighbourhood/NeighbourhoodResolver.ts#L24)
 
 ___
 
@@ -66,4 +66,4 @@ ___
 
 #### Defined in
 
-[neighbourhood/NeighbourhoodResolver.ts:15](https://github.com/perspect3vism/ad4m/blob/2628235/src/neighbourhood/NeighbourhoodResolver.ts#L15)
+[neighbourhood/NeighbourhoodResolver.ts:15](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/neighbourhood/NeighbourhoodResolver.ts#L15)

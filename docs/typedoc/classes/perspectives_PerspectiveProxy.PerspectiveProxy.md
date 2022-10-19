@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:17](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L17)
+[perspectives/PerspectiveProxy.ts:17](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L17)
 
 ## Properties
 
@@ -71,7 +71,7 @@
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:12](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L12)
+[perspectives/PerspectiveProxy.ts:12](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L12)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:15](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L15)
+[perspectives/PerspectiveProxy.ts:15](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L15)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:11](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L11)
+[perspectives/PerspectiveProxy.ts:11](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L11)
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:13](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L13)
+[perspectives/PerspectiveProxy.ts:13](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L13)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:14](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L14)
+[perspectives/PerspectiveProxy.ts:14](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L14)
 
 ## Accessors
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:62](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L62)
+[perspectives/PerspectiveProxy.ts:62](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L62)
 
 ___
 
@@ -139,7 +139,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:70](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L70)
+[perspectives/PerspectiveProxy.ts:70](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L70)
 
 ___
 
@@ -153,7 +153,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:66](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L66)
+[perspectives/PerspectiveProxy.ts:66](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L66)
 
 ___
 
@@ -167,7 +167,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:58](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L58)
+[perspectives/PerspectiveProxy.ts:58](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L58)
 
 ## Methods
 
@@ -187,7 +187,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:82](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L82)
+[perspectives/PerspectiveProxy.ts:82](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L82)
 
 ___
 
@@ -208,7 +208,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:94](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L94)
+[perspectives/PerspectiveProxy.ts:94](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L94)
 
 ___
 
@@ -228,7 +228,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:160](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L160)
+[perspectives/PerspectiveProxy.ts:160](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L160)
 
 ___
 
@@ -249,7 +249,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:174](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L174)
+[perspectives/PerspectiveProxy.ts:174](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L174)
 
 ___
 
@@ -270,7 +270,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:186](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L186)
+[perspectives/PerspectiveProxy.ts:186](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L186)
 
 ___
 
@@ -291,7 +291,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:180](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L180)
+[perspectives/PerspectiveProxy.ts:180](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L180)
 
 ___
 
@@ -311,7 +311,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:74](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L74)
+[perspectives/PerspectiveProxy.ts:74](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L74)
 
 ___
 
@@ -331,7 +331,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:131](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L131)
+[perspectives/PerspectiveProxy.ts:131](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L131)
 
 ___
 
@@ -351,7 +351,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:78](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L78)
+[perspectives/PerspectiveProxy.ts:78](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L78)
 
 ___
 
@@ -371,7 +371,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:118](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L118)
+[perspectives/PerspectiveProxy.ts:118](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L118)
 
 ___
 
@@ -391,7 +391,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:90](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L90)
+[perspectives/PerspectiveProxy.ts:90](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L90)
 
 ___
 
@@ -412,7 +412,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:102](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L102)
+[perspectives/PerspectiveProxy.ts:102](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L102)
 
 ___
 
@@ -434,7 +434,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:192](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L192)
+[perspectives/PerspectiveProxy.ts:192](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L192)
 
 ___
 
@@ -448,7 +448,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:154](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L154)
+[perspectives/PerspectiveProxy.ts:154](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L154)
 
 ___
 
@@ -468,7 +468,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:140](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L140)
+[perspectives/PerspectiveProxy.ts:140](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L140)
 
 ___
 
@@ -482,7 +482,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:114](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L114)
+[perspectives/PerspectiveProxy.ts:114](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L114)
 
 ___
 
@@ -503,7 +503,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:166](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L166)
+[perspectives/PerspectiveProxy.ts:166](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L166)
 
 ___
 
@@ -524,4 +524,4 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:86](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/PerspectiveProxy.ts#L86)
+[perspectives/PerspectiveProxy.ts:86](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L86)

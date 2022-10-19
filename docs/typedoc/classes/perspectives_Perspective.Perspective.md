@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[perspectives/Perspective.ts:21](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/Perspective.ts#L21)
+[perspectives/Perspective.ts:21](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/Perspective.ts#L21)
 
 ## Properties
 
@@ -43,7 +43,7 @@
 
 #### Defined in
 
-[perspectives/Perspective.ts:19](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/Perspective.ts#L19)
+[perspectives/Perspective.ts:19](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/Perspective.ts#L19)
 
 ## Methods
 
@@ -63,7 +63,7 @@
 
 #### Defined in
 
-[perspectives/Perspective.ts:29](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/Perspective.ts#L29)
+[perspectives/Perspective.ts:29](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/Perspective.ts#L29)
 
 ___
 
@@ -83,4 +83,4 @@ ___
 
 #### Defined in
 
-[perspectives/Perspective.ts:73](https://github.com/perspect3vism/ad4m/blob/2628235/src/perspectives/Perspective.ts#L73)
+[perspectives/Perspective.ts:73](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/Perspective.ts#L73)

@@ -435,7 +435,80 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="introduction">Introduction</h1>
-<p>COMING SOON</p>
+<p>The name AD4M is an ackronym for
+<em>The <strong>A</strong>gent-Centric <strong>D</strong>istributed <strong>A</strong>pplication <strong>M</strong>eta-ontology</em> 
+or just: 
+<strong>A</strong>gent-Centric <strong>DA</strong>pp <strong>M</strong>eta-ontology.</p>
+<p>AD4M is a meta-ontology and a spanning layer - an upper extension to the TCP/IP stack.
+But AD4M is also a framework for building apps - mainly social apps,
+which renders it an engine (like a game engine) for social networks and collaboration apps.
+With its ability to bootstrap specific ontologies from its meta-ontology,
+it is a malleable social network itself.
+It could be the last one.</p>
+<p>At its core, AD4M is just an idea, 
+a formalization of a different approach, 
+a complete set of basic concepts that together span a new paradigm of (distributed) software architecture.</p>
+<p>It tries to capture the quintessence of what <em>really</em> goes on in human communication networks,
+in order to shape the digital space around that reality - instead of having the technology dictate how we communicate.</p>
+<p>Putting the human first and starting from a pure agent-centric approach,
+AD4M deconstructs the concept of applications and suggests a different principle 
+for the creation and maintenance of coherence in communication networks:
+social contexts (who am I talking to?) and shared subjective meaning, 
+instead of assumed objectivity implied by monolithic apps that don&apos;t differentiate
+between agents&apos; different renderings and associations of the same data or event or subject.</p>
+<h2 id="meta-ontology">Meta-Ontology</h2>
+<p>What <em>really goes on</em> is that agents/humans exchange expressions of various (and evolving) languages
+in order to share their partial perspectives/associations with each other and thus convey meaning, 
+build meaning, make sense of things together.</p>
+<p><img src="ad4m-ontology.png" alt="AD4M ontology"></p>
+<p>In order to suggest a minimal assumption for maximum buy-in,
+AD4M carves out this quintessence of what human networks and the internet have in common,
+by postulating an ontology of three basic and irreducible concepts:</p>
+<ul>
+<li><strong>Agents</strong></li>
+<li><strong>Languages</strong>, and</li>
+<li><strong>Perspectives</strong>.</li>
+</ul>
+<p><strong>Languages</strong> include <strong>Expressions</strong> in their definition, and <strong>Perspectives</strong> include <strong>Links</strong> (Link Expressions, to be precise).</p>
+<p>Through combination of these basic principles, two important derived concepts
+are constructed:</p>
+<ul>
+<li><strong>Neighbourhoods</strong> (i.e. shared Perspectives)</li>
+<li><strong>Social Organisms</strong> (i.e. fractal, super agents, defined through shared perspectives and shared interaction patterns/social DNA).</li>
+</ul>
+<p>All these are discussed in detail in the <a href="concepts.html">Concepts section</a>.</p>
+<h2 id="spanning-layer">Spanning Layer</h2>
+<p>Similar to how the IP layer decouples application protocols from physical links
+and allows many-to-many combinations between them by capturing the quintessence
+of computer networks through the assignment of a unique address to each and
+every node,
+AD4M integrates DID to assume a unique and independent/sovereign address per human/agent
+and decouple application specific semantics from data storage and integrity layers.</p>
+<p><img src="ad4m-spanning-layer.png" alt="spanning layer"></p>
+<p>AD4M is an interoperability layer that sits between an app&apos;s UI and the
+(centralized or decentralized) back-end components or p2p networks.
+Using AD4M, an app can be built without being coupled to a specific storage
+technology.
+Both app developers and users are able to switch Languages and with them storage
+layers while keeping the other components of their running app.</p>
+<p>The sections <a href="start.html">Getting started</a> and <a href="sdna.html">Writing and using Social DNA</a>
+cover the uper parts of the stack,
+<a href="languages.md">Creating AD4M Languages</a> shows how to wrap existing storage layers
+and create new ones as Languages.</p>
+<h2 id="why">Why?</h2>
+<p>The goal is to arrive at scalable and interoparable communication infrastructure 
+that enables <strong>group agency</strong>, i.e. <strong>super agents</strong> (here called Social Organisms)
+<strong>without imposing a bias on how a group manages itself</strong> 
+(and how it defines its coherence) to have agency 
+and which technological details or semantic slaings they have chosen.</p>
+<p><em>This is the real problem we&apos;re facing when trying to provide a
+technological solution to the web&apos;s fractured sense-making.</em></p>
+<p>AD4M is a sense-making network disguised as app development framework.
+AD4M apps don&apos;t have to leak any of the AD4M concepts at all,
+and they would still be interoperable with each other to the degree
+of just being different views/portals into the same agent-centric semantic web.</p>
+<p>AD4M brings Game B qualities to web3.</p>
+<p>It&apos;s <strong>web B</strong>.</p>
 
                                 
                                 </section>
@@ -459,7 +532,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Getting Started","level":"1.2","depth":1,"path":"start.md","ref":"start.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Nicolas Luck","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"ad4mVersion":"0.1.37"},"title":"AD4M Documentation","gitbook":"*"},"file":{"path":"README.md","mtime":"2022-10-18T11:46:26.022Z","type":"markdown"},"gitbook":{"version":"4.0.0","time":"2022-10-18T11:55:48.075Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Getting Started","level":"1.2","depth":1,"path":"start.md","ref":"start.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Nicolas Luck","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"ad4mVersion":"0.1.37"},"title":"AD4M Documentation","gitbook":"*"},"file":{"path":"README.md","mtime":"2022-10-18T20:44:16.407Z","type":"markdown"},"gitbook":{"version":"4.0.0","time":"2022-10-19T11:28:37.230Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
