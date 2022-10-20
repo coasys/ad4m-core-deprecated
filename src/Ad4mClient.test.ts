@@ -523,7 +523,7 @@ describe('Ad4mClient', () => {
             perspective = await ad4mClient.perspective.byUUID('00004')
 
             await perspective.addListener('link-removed', linkRemoved)
-            await perspective.remove(testLink)  
+            await perspective.remove(testLink.hash.toString())  
 
             expect(linkAdded).toBeCalledTimes(1)
             expect(linkRemoved).toBeCalledTimes(1)
@@ -550,9 +550,21 @@ describe('Ad4mClient', () => {
         })
 
         it('updateLink() smoke test', async () => {
+            const sourceLink = new LinkExpression();
+            sourceLink.author = "did:ad4m:test"
+            sourceLink.timestamp = Date.now().toString()
+            sourceLink.data = {
+                source: 'root',
+                target: 'neighbourhood://Qm12345'
+            }
+            sourceLink.proof = {
+                signature: '',
+                key: '',
+                valid: true
+            }
             const link = await ad4mClient.perspective.updateLink(
                 '00001', 
-                {author: '', timestamp: '', proof: {signature: '', key: ''}, data:{source: 'root', target: 'none'}},
+                sourceLink.hash.toString(),
                 {source: 'root', target: 'lang://Qm123', predicate: 'p'})
             expect(link.author).toBe('did:ad4m:test')
             expect(link.data.source).toBe('root')
@@ -561,7 +573,19 @@ describe('Ad4mClient', () => {
         })
 
         it('removeLink() smoke test', async () => {
-            const r = await ad4mClient.perspective.removeLink('00001', {author: '', timestamp: '', proof: {signature: '', key: ''}, data:{source: 'root', target: 'none'}})
+            const sourceLink = new LinkExpression();
+            sourceLink.author = "did:ad4m:test"
+            sourceLink.timestamp = Date.now().toString()
+            sourceLink.data = {
+                source: 'root',
+                target: 'neighbourhood://Qm12345'
+            }
+            sourceLink.proof = {
+                signature: '',
+                key: '',
+                valid: true
+            }
+            const r = await ad4mClient.perspective.removeLink('00001', sourceLink.hash.toString())
             expect(r).toBeTruthy()
         })
     })
