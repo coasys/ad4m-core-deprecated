@@ -166,6 +166,18 @@ export default class PerspectiveClient {
         }))
         return perspectiveAddLink
     }
+
+    async addLinkExpression(uuid: string, link: LinkExpressionInput): Promise<LinkExpression> {
+        const { perspectiveAddLinkExpression } = unwrapApolloResult(await this.#apolloClient.mutate({
+            mutation: gql`mutation perspectiveAddLinkExpression($uuid: String!, $link: LinkExpressionInput!){
+                perspectiveAddLinkExpression(link: $link, uuid: $uuid) {
+                    ${LINK_EXPRESSION_FIELDS}
+                }
+            }`,
+            variables: { uuid, link }
+        }))
+        return perspectiveAddLinkExpression
+    }
  
     async updateLink(uuid: string, oldLink: LinkExpressionInput, newLink: LinkInput): Promise<LinkExpression> {
         delete oldLink.__typename

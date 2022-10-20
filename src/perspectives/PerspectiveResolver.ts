@@ -97,6 +97,12 @@ export default class PerspectiveResolver {
         pubSub.publish(LINK_ADDED_TOPIC, { link: l })
         return l
     }
+
+    @Mutation(returns => LinkExpression)
+    perspectiveAddLinkExpression(@Arg('uuid') uuid: string, @Arg('link') link: LinkExpressionInput, @PubSub() pubSub: any): LinkExpression {
+        pubSub.publish(LINK_ADDED_TOPIC, { link })
+        return link as LinkExpression
+    }
  
     @Mutation(returns => LinkExpression)
     perspectiveUpdateLink(@Arg('uuid') uuid: string, @Arg('oldLink') oldlink: LinkExpressionInput, @Arg('newLink') newlink: LinkInput, @PubSub() pubSub: any): LinkExpression {
