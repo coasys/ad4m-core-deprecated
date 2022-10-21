@@ -40,7 +40,9 @@ export default class RuntimeClient {
         const { runtimeInfo } = unwrapApolloResult(await this.#apolloClient.query({
             query: gql`query runtimeInfo {
                 runtimeInfo {
-                    ad4mExecutorVersion
+                    ad4mExecutorVersion,
+                    isInitialized,
+                    isUnlocked
                 }
             }`,
         }));
