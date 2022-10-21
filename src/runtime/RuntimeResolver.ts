@@ -37,6 +37,10 @@ export class SentMessage {
 export class RuntimeInfo {
     @Field()
     ad4mExecutorVersion: string;
+    @Field()
+    isInitialized: Boolean;
+    @Field()
+    isUnlocked: Boolean;
 }
 
 @ObjectType()
@@ -73,6 +77,8 @@ export default class RuntimeResolver {
     runtimeInfo(): RuntimeInfo {
         return {
             ad4mExecutorVersion: "x.x.x",
+            isInitialized: true,
+            isUnlocked: true
         } as RuntimeInfo
     }
 
