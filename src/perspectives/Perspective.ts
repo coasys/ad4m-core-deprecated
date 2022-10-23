@@ -3,18 +3,21 @@ import { ExpressionGeneric } from "../expression/Expression";
 import { LinkExpression, LinkExpressionInput } from "../links/Links";
 import { LinkQuery } from "./LinkQuery";
 
-// A Perspective represents subjective meaning, encoded through
-// associations between expressions, a.k.a. Links, that is a graph
-// over the objective Expressions of any subset of Languages.
-//
-// This type represents the clean onotological concept of a Perspective.
-// An instance of this class can be regarded as an immutable snapshot of 
-// a mutable perspective.
-//
-// The other type PerspectiveHandle is used when dealing with an instantiated
-// mutable perspective as is done through most of the GraphQL mutations.
+/** A Perspective represents subjective meaning, encoded through
+* associations between expressions, a.k.a. Links, that is a graph
+* over the objective Expressions of any subset of Languages.
+*
+* This type represents the clean onotological concept of a Perspective.
+* An instance of this class can be regarded as an immutable snapshot of 
+* a mutable perspective.
+*
+* The types PerspectiveProxy and PerspectiveHandle are used when dealing 
+* with an instantiated mutable perspective as is done through most of 
+* the GraphQL mutations.
+*/
 @ObjectType()
 export class Perspective {
+    /** The content of the perspective, a list/graph of links */
     @Field(type => [LinkExpression])
     links: LinkExpression[]
 
@@ -26,6 +29,7 @@ export class Perspective {
         }
     }
     
+    /** Convenience function for filtering links just like with PerspectiveProxy */
     get(query: LinkQuery): LinkExpression[] {
         if(!query || !query.source && !query.predicate && !query.target) {
             return this.links
@@ -70,6 +74,10 @@ export class Perspective {
         return result
     }
 
+    /** Convenience function to get the target of the first link that matches the given query
+     * This makes sense when the query is expected to return only one link
+     * and the target of that link is what you are looking for.
+     */
     getSingleTarget(query: LinkQuery): string|void {
         delete query.target
         const foundLinks = this.get(query)
