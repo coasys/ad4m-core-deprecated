@@ -14,6 +14,9 @@
 * [Writing and using Social DNA](sdna.md) 
 ---
 * [API Reference](api.md)
+  * [Agent](api.md#class-agent)
+  * [Language](api.md#interface-language)
+  * [Perspective](api.md#class-perspective)
   * [PerspectiveProxy](api.md#class-perspectiveproxy)
   * [Ad4mClient](api.md#class-ad4mclient)
     * [AgentClient](api.md#class-agentclient)
@@ -22,5 +25,5 @@
     * [PerspectiveClient](api.md#class-perspectiveclient)
     * [NeighbourhoodClient](api.md#class-neighbourhoodclient)
     * [RuntimeClient](api.md#class-runtimeclient)
-  * [Agent](api.md#class-agent)
+  
 
