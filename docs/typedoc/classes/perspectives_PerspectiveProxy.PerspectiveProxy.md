@@ -4,6 +4,12 @@
 
 [perspectives/PerspectiveProxy](../modules/perspectives_PerspectiveProxy.md).PerspectiveProxy
 
+Perspective UI proxy object
+
+Convenience object for UIs to interact with a perspective.
+It is created by some of the methods in the PerspectiveClient class and includes
+a reference to the PerspectiveClient object that created it.
+
 ## Table of contents
 
 ### Constructors
@@ -61,7 +67,7 @@
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:17](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L17)
+[perspectives/PerspectiveProxy.ts:23](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L23)
 
 ## Properties
 
@@ -71,7 +77,7 @@
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:12](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L12)
+[perspectives/PerspectiveProxy.ts:18](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L18)
 
 ___
 
@@ -81,7 +87,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:15](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L15)
+[perspectives/PerspectiveProxy.ts:21](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L21)
 
 ___
 
@@ -91,7 +97,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:11](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L11)
+[perspectives/PerspectiveProxy.ts:17](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L17)
 
 ___
 
@@ -101,7 +107,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:13](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L13)
+[perspectives/PerspectiveProxy.ts:19](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L19)
 
 ___
 
@@ -111,7 +117,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:14](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L14)
+[perspectives/PerspectiveProxy.ts:20](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L20)
 
 ## Accessors
 
@@ -119,13 +125,15 @@ ___
 
 • `get` **name**(): `string`
 
+Given name of the perspective
+
 #### Returns
 
 `string`
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:62](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L62)
+[perspectives/PerspectiveProxy.ts:70](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L70)
 
 ___
 
@@ -133,13 +141,15 @@ ___
 
 • `get` **neighbourhood**(): `void` \| [`Neighbourhood`](neighbourhood_Neighbourhood.Neighbourhood.md)
 
+If the perspective is shared as a Neighbourhood, this is the Neighbourhood Expression
+
 #### Returns
 
 `void` \| [`Neighbourhood`](neighbourhood_Neighbourhood.Neighbourhood.md)
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:70](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L70)
+[perspectives/PerspectiveProxy.ts:80](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L80)
 
 ___
 
@@ -147,13 +157,15 @@ ___
 
 • `get` **sharedUrl**(): `string` \| `void`
 
+If the perspective is shared as a Neighbourhood, this is the Neighbourhood URL
+
 #### Returns
 
 `string` \| `void`
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:66](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L66)
+[perspectives/PerspectiveProxy.ts:75](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L75)
 
 ___
 
@@ -161,19 +173,23 @@ ___
 
 • `get` **uuid**(): `string`
 
+Unique ID of the perspective
+
 #### Returns
 
 `string`
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:58](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L58)
+[perspectives/PerspectiveProxy.ts:65](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L65)
 
 ## Methods
 
 ### add
 
 ▸ **add**(`link`): `Promise`<[`LinkExpression`](links_Links.LinkExpression.md)\>
+
+Adds a link to this perspective
 
 #### Parameters
 
@@ -187,7 +203,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:82](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L82)
+[perspectives/PerspectiveProxy.ts:95](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L95)
 
 ___
 
@@ -195,12 +211,14 @@ ___
 
 ▸ **addListener**(`type`, `cb`): `Promise`<`void`\>
 
+Adds a link listener
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `type` | `PerspectiveListenerTypes` |
-| `cb` | [`LinkCallback`](../modules/perspectives_PerspectiveClient.md#linkcallback) |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `type` | `PerspectiveListenerTypes` | Can be 'link-added' or 'link-removed' |
+| `cb` | [`LinkCallback`](../modules/perspectives_PerspectiveClient.md#linkcallback) | Callback function that is called when a link is added to the perspective |
 
 #### Returns
 
@@ -208,13 +226,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:94](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L94)
+[perspectives/PerspectiveProxy.ts:113](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L113)
 
 ___
 
 ### availableFlows
 
 ▸ **availableFlows**(`exprAddr`): `Promise`<`string`[]\>
+
+Returns all Social DNA flows that can be started from the given expression
 
 #### Parameters
 
@@ -228,13 +248,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:160](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L160)
+[perspectives/PerspectiveProxy.ts:201](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L201)
 
 ___
 
 ### expressionsInFlowState
 
 ▸ **expressionsInFlowState**(`flowName`, `flowState`): `Promise`<`string`[]\>
+
+Returns all expressions in the given state of given Social DNA flow
 
 #### Parameters
 
@@ -249,13 +271,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:174](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L174)
+[perspectives/PerspectiveProxy.ts:215](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L215)
 
 ___
 
 ### flowActions
 
 ▸ **flowActions**(`flowName`, `exprAddr`): `Promise`<`string`[]\>
+
+Returns available action names, with regard to Social DNA flow and expression's flow state
 
 #### Parameters
 
@@ -270,13 +294,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:186](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L186)
+[perspectives/PerspectiveProxy.ts:227](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L227)
 
 ___
 
 ### flowState
 
 ▸ **flowState**(`flowName`, `exprAddr`): `Promise`<`number`\>
+
+Returns the given expression's flow state with regard to given Social DNA flow
 
 #### Parameters
 
@@ -291,13 +317,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:180](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L180)
+[perspectives/PerspectiveProxy.ts:221](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L221)
 
 ___
 
 ### get
 
 ▸ **get**(`query`): `Promise`<[`LinkExpression`](links_Links.LinkExpression.md)[]\>
+
+Returns all the links of this perspective that matches the LinkQuery
 
 #### Parameters
 
@@ -311,13 +339,23 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:74](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L74)
+[perspectives/PerspectiveProxy.ts:85](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L85)
 
 ___
 
 ### getSingleTarget
 
 ▸ **getSingleTarget**(`query`): `Promise`<`string` \| `void`\>
+
+Convenience function to get the target of the first link that matches the given query
+This makes sense when the query is expected to return only one link
+and the target of that link is what you are looking for.
+
+Works best together with
+
+**`Member`**
+
+setSingelTarget()
 
 #### Parameters
 
@@ -331,13 +369,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:131](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L131)
+[perspectives/PerspectiveProxy.ts:165](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L165)
 
 ___
 
 ### infer
 
 ▸ **infer**(`query`): `Promise`<`any`\>
+
+Runs a Prolog query on the perspective's Prolog engine
 
 #### Parameters
 
@@ -351,13 +391,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:78](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L78)
+[perspectives/PerspectiveProxy.ts:90](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L90)
 
 ___
 
 ### loadSnapshot
 
 ▸ **loadSnapshot**(`snapshot`): `Promise`<`void`\>
+
+Take and load all the links from the given snapshot
 
 #### Parameters
 
@@ -371,13 +413,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:118](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L118)
+[perspectives/PerspectiveProxy.ts:146](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L146)
 
 ___
 
 ### remove
 
 ▸ **remove**(`link`): `Promise`<{ `perspectiveRemoveLink`: `boolean`  }\>
+
+Removes a link from this perspective
 
 #### Parameters
 
@@ -391,7 +435,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:90](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L90)
+[perspectives/PerspectiveProxy.ts:105](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L105)
 
 ___
 
@@ -399,12 +443,14 @@ ___
 
 ▸ **removeListener**(`type`, `cb`): `Promise`<`void`\>
 
+Removes a previously added link listener
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `type` | `PerspectiveListenerTypes` |
-| `cb` | [`LinkCallback`](../modules/perspectives_PerspectiveClient.md#linkcallback) |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `type` | `PerspectiveListenerTypes` | Can be 'link-added' or 'link-removed' |
+| `cb` | [`LinkCallback`](../modules/perspectives_PerspectiveClient.md#linkcallback) | Callback function that is called when a link is added to the perspective |
 
 #### Returns
 
@@ -412,13 +458,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:102](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L102)
+[perspectives/PerspectiveProxy.ts:125](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L125)
 
 ___
 
 ### runFlowAction
 
 ▸ **runFlowAction**(`flowName`, `exprAddr`, `actionName`): `Promise`<`void`\>
+
+Runs given Social DNA flow action
 
 #### Parameters
 
@@ -434,7 +482,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:192](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L192)
+[perspectives/PerspectiveProxy.ts:233](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L233)
 
 ___
 
@@ -442,19 +490,32 @@ ___
 
 ▸ **sdnaFlows**(): `Promise`<`string`[]\>
 
+Returns all the Social DNA flows defined in this perspective
+
 #### Returns
 
 `Promise`<`string`[]\>
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:154](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L154)
+[perspectives/PerspectiveProxy.ts:195](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L195)
 
 ___
 
 ### setSingleTarget
 
 ▸ **setSingleTarget**(`link`): `Promise`<`void`\>
+
+Convenience function to ensure there is only one link with given source and predicate
+This function will remove all links with the same source and predicate as the given link,
+and then add the given link.
+This ensures there is only one target for the given source and predicate.
+
+Works best together with
+
+**`Member`**
+
+getSingleTarget()
 
 #### Parameters
 
@@ -468,7 +529,7 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:140](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L140)
+[perspectives/PerspectiveProxy.ts:181](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L181)
 
 ___
 
@@ -476,13 +537,16 @@ ___
 
 ▸ **snapshot**(): `Promise`<[`Perspective`](perspectives_Perspective.Perspective.md)\>
 
+Create and return a snapshot of this perspective
+A snapshot is a rendered Perspectie object that contains all the links of the perspective.
+
 #### Returns
 
 `Promise`<[`Perspective`](perspectives_Perspective.Perspective.md)\>
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:114](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L114)
+[perspectives/PerspectiveProxy.ts:141](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L141)
 
 ___
 
@@ -490,12 +554,14 @@ ___
 
 ▸ **startFlow**(`flowName`, `exprAddr`): `Promise`<`void`\>
 
+Starts the Social DNA flow
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `flowName` | `string` |
-| `exprAddr` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `flowName` | `string` | on the expression |
+| `exprAddr` | `string` |  |
 
 #### Returns
 
@@ -503,13 +569,15 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:166](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L166)
+[perspectives/PerspectiveProxy.ts:207](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L207)
 
 ___
 
 ### update
 
 ▸ **update**(`oldLink`, `newLink`): `Promise`<[`LinkExpression`](links_Links.LinkExpression.md)\>
+
+Changes a link in this perspective
 
 #### Parameters
 
@@ -524,4 +592,4 @@ ___
 
 #### Defined in
 
-[perspectives/PerspectiveProxy.ts:86](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/perspectives/PerspectiveProxy.ts#L86)
+[perspectives/PerspectiveProxy.ts:100](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/perspectives/PerspectiveProxy.ts#L100)

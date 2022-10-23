@@ -4,6 +4,9 @@
 
 [language/Language](../modules/language_Language.md).ReadOnlyLanguage
 
+Implement this interface if your Language is defined over a static
+set of pre-defined Expressions.
+
 ## Table of contents
 
 ### Methods
@@ -16,11 +19,13 @@
 
 ▸ **addressOf**(`content`): `Promise`<`string`\>
 
+This just calculates the address of an object
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `content` | `object` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `content` | `object` | is the object created by the constructorIcon component |
 
 #### Returns
 
@@ -28,4 +33,4 @@
 
 #### Defined in
 
-[language/Language.ts:83](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L83)
+[language/Language.ts:115](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L115)

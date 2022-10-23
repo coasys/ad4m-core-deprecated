@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[Address.ts:1](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/Address.ts#L1)
+[Address.ts:1](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/Address.ts#L1)

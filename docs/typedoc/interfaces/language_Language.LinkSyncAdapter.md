@@ -4,6 +4,15 @@
 
 [language/Language](../modules/language_Language.md).LinkSyncAdapter
 
+Interface for "Link Languages" that facilitate the synchronization
+between agents' local Perspectives inside a Neighbourhood.
+The assumption is that every version of the shared Perspective
+is labeled with a unique revision string.
+Changes are committed and retrieved through diffs.
+Think of a LinkSyncAdapter as a git branch to which agents commit
+their changes to and pull diffs from their current revision
+to the latest one.
+
 ## Table of contents
 
 ### Methods
@@ -24,6 +33,8 @@
 
 ▸ **addCallback**(`callback`): `any`
 
+Get push notification when a diff got published
+
 #### Parameters
 
 | Name | Type |
@@ -36,13 +47,15 @@
 
 #### Defined in
 
-[language/Language.ts:138](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L138)
+[language/Language.ts:172](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L172)
 
 ___
 
 ### commit
 
 ▸ **commit**(`diff`): `Promise`<`string`\>
+
+Publish changes
 
 #### Parameters
 
@@ -56,7 +69,7 @@ ___
 
 #### Defined in
 
-[language/Language.ts:135](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L135)
+[language/Language.ts:169](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L169)
 
 ___
 
@@ -64,13 +77,15 @@ ___
 
 ▸ **currentRevision**(): `Promise`<`string`\>
 
+What revision are we on now -> what changes are included in output of render()
+
 #### Returns
 
 `Promise`<`string`\>
 
 #### Defined in
 
-[language/Language.ts:126](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L126)
+[language/Language.ts:160](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L160)
 
 ___
 
@@ -78,13 +93,16 @@ ___
 
 ▸ **latestRevision**(): `Promise`<`string`\>
 
+Call this to check if there are new changes
+(compare returned revision with last one that was pulled)
+
 #### Returns
 
 `Promise`<`string`\>
 
 #### Defined in
 
-[language/Language.ts:123](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L123)
+[language/Language.ts:157](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L157)
 
 ___
 
@@ -98,7 +116,7 @@ ___
 
 #### Defined in
 
-[language/Language.ts:119](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L119)
+[language/Language.ts:152](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L152)
 
 ___
 
@@ -112,7 +130,7 @@ ___
 
 #### Defined in
 
-[language/Language.ts:118](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L118)
+[language/Language.ts:151](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L151)
 
 ___
 
@@ -120,13 +138,15 @@ ___
 
 ▸ **pull**(): `Promise`<[`PerspectiveDiff`](../classes/perspectives_PerspectiveDiff.PerspectiveDiff.md)\>
 
+Check for and get new changes
+
 #### Returns
 
 `Promise`<[`PerspectiveDiff`](../classes/perspectives_PerspectiveDiff.PerspectiveDiff.md)\>
 
 #### Defined in
 
-[language/Language.ts:129](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L129)
+[language/Language.ts:163](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L163)
 
 ___
 
@@ -134,13 +154,15 @@ ___
 
 ▸ **render**(): `Promise`<[`Perspective`](../classes/perspectives_Perspective.Perspective.md)\>
 
+Returns the full, rendered Perspective at currentRevision
+
 #### Returns
 
 `Promise`<[`Perspective`](../classes/perspectives_Perspective.Perspective.md)\>
 
 #### Defined in
 
-[language/Language.ts:132](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L132)
+[language/Language.ts:166](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L166)
 
 ___
 
@@ -154,4 +176,4 @@ ___
 
 #### Defined in
 
-[language/Language.ts:117](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L117)
+[language/Language.ts:150](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L150)

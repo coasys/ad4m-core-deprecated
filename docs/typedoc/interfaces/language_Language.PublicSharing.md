@@ -4,6 +4,10 @@
 
 [language/Language](../modules/language_Language.md).PublicSharing
 
+Implement this interface if your Language supports creation of sharing
+of Expressions.
+See ExpressionAdapter
+
 ## Table of contents
 
 ### Methods
@@ -16,11 +20,14 @@
 
 ▸ **createPublic**(`content`): `Promise`<`string`\>
 
+Create an Expression and shares it.
+Return the Expression's address.
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `content` | `object` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `content` | `object` | is the object created by the constructorIcon component |
 
 #### Returns
 
@@ -28,4 +35,4 @@
 
 #### Defined in
 
-[language/Language.ts:75](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L75)
+[language/Language.ts:105](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L105)

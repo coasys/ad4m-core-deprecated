@@ -38,7 +38,7 @@
 
 #### Defined in
 
-[agent/Agent.ts:91](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L91)
+[agent/Agent.ts:105](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/agent/Agent.ts#L105)
 
 ## Properties
 
@@ -48,7 +48,7 @@
 
 #### Defined in
 
-[agent/Agent.ts:83](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L83)
+[agent/Agent.ts:97](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/agent/Agent.ts#L97)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[agent/Agent.ts:86](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L86)
+[agent/Agent.ts:100](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/agent/Agent.ts#L100)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[agent/Agent.ts:80](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L80)
+[agent/Agent.ts:94](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/agent/Agent.ts#L94)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[agent/Agent.ts:74](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L74)
+[agent/Agent.ts:88](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/agent/Agent.ts#L88)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[agent/Agent.ts:89](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L89)
+[agent/Agent.ts:103](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/agent/Agent.ts#L103)
 
 ___
 
@@ -98,4 +98,4 @@ ___
 
 #### Defined in
 
-[agent/Agent.ts:77](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/agent/Agent.ts#L77)
+[agent/Agent.ts:91](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/agent/Agent.ts#L91)

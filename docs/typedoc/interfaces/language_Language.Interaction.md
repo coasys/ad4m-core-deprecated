@@ -24,7 +24,7 @@
 
 #### Defined in
 
-[language/Language.ts:176](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L176)
+[language/Language.ts:210](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L210)
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 #### Defined in
 
-[language/Language.ts:177](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L177)
+[language/Language.ts:211](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L211)
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-[language/Language.ts:178](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L178)
+[language/Language.ts:212](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L212)
 
 ## Methods
 
@@ -64,4 +64,4 @@ ___
 
 #### Defined in
 
-[language/Language.ts:179](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L179)
+[language/Language.ts:213](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L213)

@@ -35,7 +35,7 @@
 
 #### Defined in
 
-[links/Links.ts:69](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/links/Links.ts#L69)
+[links/Links.ts:69](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/links/Links.ts#L69)
 
 ___
 
@@ -56,4 +56,4 @@ ___
 
 #### Defined in
 
-[links/Links.ts:61](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/links/Links.ts#L61)
+[links/Links.ts:61](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/links/Links.ts#L61)

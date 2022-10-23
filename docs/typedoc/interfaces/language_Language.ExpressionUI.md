@@ -4,6 +4,8 @@
 
 [language/Language](../modules/language_Language.md).ExpressionUI
 
+UI factories returning web components
+
 ## Table of contents
 
 ### Methods
@@ -17,13 +19,15 @@
 
 ▸ **constructorIcon**(): `string`
 
+Returns JS code of a web component used to create new expressions
+
 #### Returns
 
 `string`
 
 #### Defined in
 
-[language/Language.ts:42](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L42)
+[language/Language.ts:69](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L69)
 
 ___
 
@@ -31,10 +35,12 @@ ___
 
 ▸ **icon**(): `string`
 
+Returns JS code of a web component that renders the given expression
+
 #### Returns
 
 `string`
 
 #### Defined in
 
-[language/Language.ts:41](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/language/Language.ts#L41)
+[language/Language.ts:67](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/language/Language.ts#L67)

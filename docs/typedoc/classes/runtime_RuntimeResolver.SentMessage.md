@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[runtime/RuntimeResolver.ts:33](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeResolver.ts#L33)
+[runtime/RuntimeResolver.ts:33](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/runtime/RuntimeResolver.ts#L33)
 
 ___
 
@@ -39,4 +39,4 @@ ___
 
 #### Defined in
 
-[runtime/RuntimeResolver.ts:31](https://github.com/perspect3vism/ad4m/blob/cbcbd30/src/runtime/RuntimeResolver.ts#L31)
+[runtime/RuntimeResolver.ts:31](https://github.com/perspect3vism/ad4m/blob/6c5aaad/src/runtime/RuntimeResolver.ts#L31)
