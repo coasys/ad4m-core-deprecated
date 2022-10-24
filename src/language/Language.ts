@@ -32,7 +32,8 @@ export interface Language {
     readonly expressionUI?: ExpressionUI;
     readonly settingsUI?: SettingsUI;
 
-    readonly intervals: ReturnType<typeof setInterval>[] | ReturnType<typeof setTimeout> | number[]
+    //Optional function to make any cleanup/teardown if your language gets deleting in the ad4m-executor
+    readonly teardown?: () => void;
 
     // All available interactions this agent could execute on given expression
     interactions(expression: Address): Interaction[];
