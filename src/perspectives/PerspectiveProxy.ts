@@ -1,5 +1,5 @@
 import PerspectiveClient, { LinkCallback } from "./PerspectiveClient";
-import { Link, LinkExpression } from "../links/Links";
+import { Link, LinkExpression, LinkExpressionInput } from "../links/Links";
 import { LinkQuery } from "./LinkQuery";
 import { Neighbourhood } from "../neighbourhood/Neighbourhood";
 import { PerspectiveHandle } from './PerspectiveHandle'
@@ -91,7 +91,7 @@ export class PerspectiveProxy {
         return await this.#client.updateLink(this.#handle.uuid, oldLink, newLink)
     }
 
-    async remove(link: LinkExpression) {
+    async remove(link: LinkExpressionInput) {
         return await this.#client.removeLink(this.#handle.uuid, link)
     }
 
@@ -128,7 +128,7 @@ export class PerspectiveProxy {
         });
 
         for(const link of cleanedSnapshot.links) {
-            await this.addLinkExpression(link.data)
+            await this.addLinkExpression(link)
         }
     }
 
