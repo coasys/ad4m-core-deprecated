@@ -4,7 +4,7 @@ import unwrapApolloResult from "../unwrapApolloResult";
 import { Agent, EntanglementProof, EntanglementProofInput } from "./Agent";
 import { AgentStatus } from "./AgentStatus"
 import { LinkMutations } from "../links/Links";
-import PerspectiveClient from "../perspectives/PerspectiveClient";
+import { PerspectiveClient } from "../perspectives/PerspectiveClient";
 
 const AGENT_SUBITEMS = `
     did
@@ -53,7 +53,7 @@ export type AgentStatusChangedCallback = (agent: Agent) => null
  * such as generating, locking, unlocking, importing the DID keystore,
  * as well as updating the publicly shared Agent expression.
  */
-export default class AgentClient {
+export class AgentClient {
     #apolloClient: ApolloClient<any>
     #updatedCallbacks: AgentUpdatedCallback[]
     #agentStatusChangedCallbacks: AgentStatusChangedCallback[]

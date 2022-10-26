@@ -1,11 +1,11 @@
 import 'reflect-metadata'
 import { ApolloClient } from '@apollo/client/core'
-import AgentClient from './agent/AgentClient'
+import { AgentClient } from './agent/AgentClient'
 import { LanguageClient } from './language/LanguageClient'
-import NeighbourhoodClient from './neighbourhood/NeighbourhoodClient'
-import PerspectiveClient from './perspectives/PerspectiveClient'
-import RuntimeClient from './runtime/RuntimeClient'
-import ExpressionClient from './expression/ExpressionClient'
+import { NeighbourhoodClient } from './neighbourhood/NeighbourhoodClient'
+import { PerspectiveClient } from './perspectives/PerspectiveClient'
+import { RuntimeClient } from './runtime/RuntimeClient'
+import { ExpressionClient } from './expression/ExpressionClient'
 
 /**
  * Client for the Ad4m interface wrapping GraphQL queryies

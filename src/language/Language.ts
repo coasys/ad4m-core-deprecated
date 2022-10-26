@@ -5,84 +5,116 @@ import { Perspective, PerspectiveExpression } from '../perspectives/Perspective'
 import { PerspectiveDiff } from '../perspectives/PerspectiveDiff';
 import { InputType, Field, ObjectType } from "type-graphql";
 
+/** Interface of AD4M Languages
+ * 
+ * Any JavaScript module that implements a create() function that returns an object that implements this interface
+ * is a valid AD4M language.
+ * So the AD4M-internal representation of a language is an object that implements this interface.
+ * 
+ * Since there are a few different kinds of languages, this interface is split into optional sub-interfaces.
+ * The only required property is the name of the language.
+ * 
+ * The most usual kind of language is the "Expression Language", which is a language that can be used to create
+ * and share Expressions.
+ * For that, implement the expressionsAdapter and expressionUI interface.
+ * 
+ * The second most common kind of language is the "Link Language", which is a language that builds the core
+ * of AD4M Neighbourhoods.
+ * For that, implement the linksAdapter interface.
+ */
 export interface Language {
     readonly name: string;
 
-    // Flagging expressions as immutable to enable
-    // expression caching in the ad4m-executor
+    /** Flagging expressions as immutable to enable
+     * expression caching in the ad4m-executor
+     */
     isImmutableExpression?(expression: Address): boolean;
 
     // Adapter implementations:
-    // ExpressionAdapter implements means of getting an Expression
-    // by address and putting an expression
+
+    /** ExpressionAdapter implements means of getting an Expression
+     * by address and putting an expression
+     */
     readonly expressionAdapter?: ExpressionAdapter;
 
-    // Implementation of a Language that defines and stores Languages
-    readonly languageAdapter?: LanguageAdapter;
+    /** Interface for getting UI/web components for rendering Expressions of this Language */
+    readonly expressionUI?: ExpressionUI;
 
-    // Optional adapter for getting Expressions by author
-    readonly getByAuthorAdapter?: GetByAuthorAdapter;
-    // Optional adapter for getting all Expressions
-    readonly getAllAdapter?: GetAllAdapter;
-    // Optional adapter for direct messaging between agents
-    readonly directMessageAdapter?: DirectMessageAdapter;
-    // Optional adpater for sharing links
+    /** Interface of LinkLanguages for the core implementation of Neighbourhoods */
     readonly linksAdapter?: LinkSyncAdapter;
 
-    readonly expressionUI?: ExpressionUI;
+    /** Implementation of a Language that defines and stores Languages*/
+    readonly languageAdapter?: LanguageAdapter;
+
+    /** Optional adapter for getting Expressions by author */
+    readonly getByAuthorAdapter?: GetByAuthorAdapter;
+    /** Optional adapter for getting all Expressions */
+    readonly getAllAdapter?: GetAllAdapter;
+
+    /** Optional adapter for direct messaging between agents */
+    readonly directMessageAdapter?: DirectMessageAdapter;
+    
+    /** Interface for providing UI components for the settings of this Language */
     readonly settingsUI?: SettingsUI;
 
-    //Optional function to make any cleanup/teardown if your language gets deleting in the ad4m-executor
+    /** Optional function to make any cleanup/teardown if your language gets deleting in the ad4m-executor */
     readonly teardown?: () => void;
 
-    // All available interactions this agent could execute on given expression
+    /** All available interactions this agent could execute on given expression */
     interactions(expression: Address): Interaction[];
 }
 
+/** UI factories returning web components */
 export interface ExpressionUI {
-    // UI factories returning web components:
-    icon(): string; // returns JS code that implements this Language's web component
+    /** Returns JS code of a web component that renders the given expression */
+    icon(): string; 
+    /** Returns JS code of a web component used to create new expressions */
     constructorIcon(): string;
 }
 
 export interface SettingsUI {
     settingsIcon(): string;
 }
-
-// This interface has to implementend by every language
+/** Interface for the most common Expression Languages */
 export interface ExpressionAdapter {
-    // Returns an Expression by address, or null if there is no Expression
-    // with that given address
+    /** Returns an Expression by address, or null if there is no Expression
+     * with that given address
+     */
     get(address: Address): Promise<Expression | null>;
 
-    // Strategy for putting an expression with needs to be different
-    // for those two cases:
-    // 1. PublicSharing means that this language supports the creation
-    //    and sharing of Expressions, which is the common use-case
-    // 2. ReadOnlyLanguage means that the Language implements a pre-defined
-    //    set of expressions (which can be infinite or finite).
-    //    For example the url-iframe Language which directly maps URLs to
-    //    addresses - meaning every well formed URL is an address in this
-    //    Language. Or a potential Language implementing the verbs/predicates
-    //    of a spec like FOAF.
+    /** Strategy for putting an expression with needs to be different
+     * for those two cases:
+     * 1. PublicSharing means that this language supports the creation
+     *    and sharing of Expressions, which is the common use-case
+     * 2. ReadOnlyLanguage means that the Language implements a pre-defined
+     *    set of expressions (which can be infinite or finite).
+     *    For example the url-iframe Language which directly maps URLs to
+     *    addresses - meaning every well formed URL is an address in this
+     *    Language. Or a potential Language implementing the verbs/predicates
+     *    of a spec like FOAF.
+     */
     putAdapter: PublicSharing | ReadOnlyLanguage;
 }
 
-// Implement this interface if your Language supports creation of sharing
-// of Expressions.
-// See ExpressionAdapter
+/** Implement this interface if your Language supports creation of sharing
+ * of Expressions.
+ * See ExpressionAdapter
+ */
 export interface PublicSharing {
-    // Create an Expression and shares it.
-    // Return the Expression's address.
-    // * content is the object created by the constructorIcon component
+    /** Create an Expression and shares it.
+     * Return the Expression's address.
+     * @param content is the object created by the constructorIcon component
+     */
     createPublic(content: object): Promise<Address>;
 }
 
-// Implement this interface if your Language is defined over a static
-// set of pre-defined Expressions.
+/** Implement this interface if your Language is defined over a static
+ * set of pre-defined Expressions.
+ */
 export interface ReadOnlyLanguage {
-    // This just calculates the address of an object
-    // * content is the object created by the constructorIcon component
+    /** This just calculates the address of an object
+     * @param content is the object created by the constructorIcon component
+     */
     addressOf(content: object): Promise<Address>;
 }
 
@@ -108,36 +140,38 @@ export interface GetAllAdapter {
 
 export type PerspectiveDiffObserver = (diff: PerspectiveDiff)=>void;
 
-// Interface for "Link Languages" that facilitate the synchronization
-// between agents' local Perspectives inside a Neighbourhood.
-// The assumption is that every version of the shared Perspective
-// is labeled with a unique revision string.
-// Changes are committed and retrieved through diffs.
-// Think of a LinkSyncAdapter as a git branch to which agents commit
-// their changes to and pull diffs from their current revision
-// to the latest one.
+/** Interface for "Link Languages" that facilitate the synchronization
+ * between agents' local Perspectives inside a Neighbourhood.
+ * The assumption is that every version of the shared Perspective
+ * is labeled with a unique revision string.
+ * Changes are committed and retrieved through diffs.
+ * Think of a LinkSyncAdapter as a git branch to which agents commit
+ * their changes to and pull diffs from their current revision
+ * to the latest one.
+ */
 export interface LinkSyncAdapter {
     writable(): boolean;
     public(): boolean;
     others(): Promise<DID[]>;
 
-    // Call this to check if there are new changes
-    // (compare returned revision with last one that was pulled)
+    /** Call this to check if there are new changes
+     * (compare returned revision with last one that was pulled)
+     */
     latestRevision(): Promise<string>;
 
-    // What revision are we on now -> what changes are included in output of render()
+    /** What revision are we on now -> what changes are included in output of render() */
     currentRevision(): Promise<string>;
 
-    // Check for and get new changes.
+    /** Check for and get new changes */
     pull(): Promise<PerspectiveDiff>;
 
-    // Returns the full, rendered Perspective at currentRevision,
+    /** Returns the full, rendered Perspective at currentRevision */
     render(): Promise<Perspective>;
 
-    // Publish changes.
+    /** Publish changes */
     commit(diff: PerspectiveDiff): Promise<string>;
 
-    // Get push notification when a diff got published
+    /** Get push notification when a diff got published */
     addCallback(callback: PerspectiveDiffObserver);
 }
 
